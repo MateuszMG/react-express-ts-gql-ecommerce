@@ -1,0 +1,5 @@
+mutation DeleteCategory($input: IdInput!) {
+  deleteCategory(input: $input) {
+    ...ResMessage
+  }
+}

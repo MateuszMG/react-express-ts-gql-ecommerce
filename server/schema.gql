@@ -27,11 +27,17 @@ type Product {
   active: Boolean!
 }
 
+type Category {
+  id: ID!
+  category: String!
+}
+
 type Query {
   logout: ResMessage!
   profile: DecodedUser!
   getProducts: [Product!]!
   getHighlightedProduct: Product!
+  getCategories: [Category!]!
 }
 
 type Mutation {
@@ -41,6 +47,9 @@ type Mutation {
   editProduct(input: EditProductInput!): ResMessage!
   deleteProduct(input: IdInput!): ResMessage!
   changeActiveProduct(input: IdInput!): ResMessage!
+  addCategory(input: CategoryInput!): Category!
+  editCategory(input: EditCategoryInput!): ResMessage!
+  deleteCategory(input: IdInput!): ResMessage!
 }
 
 input LoginInput {
@@ -75,6 +84,15 @@ input EditProductInput {
 }
 
 input IdInput {
+  id: String!
+}
+
+input CategoryInput {
+  category: String!
+}
+
+input EditCategoryInput {
+  category: String!
   id: String!
 }
 

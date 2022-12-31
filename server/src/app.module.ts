@@ -11,6 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 import { configuration } from './config/configruration';
 import { ProductModule } from './features/product/product.module';
 import { ProductSchema } from './features/product/product.model';
+import { CategoryModule } from './features/category/category.module';
+import { CategorySchema } from './features/category/category.model';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { ProductSchema } from './features/product/product.model';
     MongooseModule.forFeature([
       { name: 'user', schema: UserSchema },
       { name: 'product', schema: ProductSchema },
+      { name: 'category', schema: CategorySchema },
     ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -55,6 +58,7 @@ import { ProductSchema } from './features/product/product.model';
     }),
     UsersModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
 

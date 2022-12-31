@@ -6,6 +6,7 @@ export const paths = {
   profile: '/profile',
 
   products: '/products',
+  categories: '/categories',
 
   all: '*',
 };

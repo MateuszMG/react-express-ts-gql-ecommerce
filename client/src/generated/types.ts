@@ -21,6 +21,16 @@ export type AccessToken = {
   accessToken: Scalars['String'];
 };
 
+export type Category = {
+  __typename?: 'Category';
+  category: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+export type CategoryInput = {
+  category: Scalars['String'];
+};
+
 export type DecodedUser = {
   __typename?: 'DecodedUser';
   email: Scalars['String'];
@@ -28,6 +38,11 @@ export type DecodedUser = {
   logged: Scalars['Boolean'];
   roles: Array<Scalars['String']>;
   username: Scalars['String'];
+};
+
+export type EditCategoryInput = {
+  category: Scalars['String'];
+  id: Scalars['String'];
 };
 
 export type EditProductInput = {
@@ -51,12 +66,20 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addCategory: Category;
   addProduct: Product;
   changeActiveProduct: ResMessage;
+  deleteCategory: ResMessage;
   deleteProduct: ResMessage;
+  editCategory: ResMessage;
   editProduct: ResMessage;
   login: AccessToken;
   register: AccessToken;
+};
+
+
+export type MutationAddCategoryArgs = {
+  input: CategoryInput;
 };
 
 
@@ -70,8 +93,18 @@ export type MutationChangeActiveProductArgs = {
 };
 
 
+export type MutationDeleteCategoryArgs = {
+  input: IdInput;
+};
+
+
 export type MutationDeleteProductArgs = {
   input: IdInput;
+};
+
+
+export type MutationEditCategoryArgs = {
+  input: EditCategoryInput;
 };
 
 
@@ -112,6 +145,7 @@ export type ProductInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getCategories: Array<Category>;
   getHighlightedProduct: Product;
   getProducts: Array<Product>;
   logout: ResMessage;
@@ -137,6 +171,8 @@ export type Subscription = {
 
 export type AccessTokenFragment = { __typename?: 'AccessToken', accessToken: string };
 
+export type CategoryFragment = { __typename?: 'Category', id: string, category: string };
+
 export type DecodedUserFragment = { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean };
 
 export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean };
@@ -156,6 +192,27 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AccessToken', accessToken: string } };
+
+export type AddCategoryMutationVariables = Exact<{
+  input: CategoryInput;
+}>;
+
+
+export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'Category', id: string, category: string } };
+
+export type DeleteCategoryMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'ResMessage', message: string } };
+
+export type EditCategoryMutationVariables = Exact<{
+  input: EditCategoryInput;
+}>;
+
+
+export type EditCategoryMutation = { __typename?: 'Mutation', editCategory: { __typename?: 'ResMessage', message: string } };
 
 export type AddProductMutationVariables = Exact<{
   input: ProductInput;
@@ -185,6 +242,11 @@ export type EditProductMutationVariables = Exact<{
 
 export type EditProductMutation = { __typename?: 'Mutation', editProduct: { __typename?: 'ResMessage', message: string } };
 
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ __typename?: 'Category', id: string, category: string }> };
+
 export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -213,6 +275,12 @@ export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription
 export const AccessTokenFragmentDoc = gql`
     fragment AccessToken on AccessToken {
   accessToken
+}
+    `;
+export const CategoryFragmentDoc = gql`
+    fragment Category on Category {
+  id
+  category
 }
     `;
 export const DecodedUserFragmentDoc = gql`
@@ -307,6 +375,105 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const AddCategoryDocument = gql`
+    mutation AddCategory($input: CategoryInput!) {
+  addCategory(input: $input) {
+    ...Category
+  }
+}
+    ${CategoryFragmentDoc}`;
+export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation, AddCategoryMutationVariables>;
+
+/**
+ * __useAddCategoryMutation__
+ *
+ * To run a mutation, you first call `useAddCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCategoryMutation, { data, loading, error }] = useAddCategoryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddCategoryMutation(baseOptions?: Apollo.MutationHookOptions<AddCategoryMutation, AddCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument, options);
+      }
+export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMutation>;
+export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
+export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
+export const DeleteCategoryDocument = gql`
+    mutation DeleteCategory($input: IdInput!) {
+  deleteCategory(input: $input) {
+    ...ResMessage
+  }
+}
+    ${ResMessageFragmentDoc}`;
+export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+
+/**
+ * __useDeleteCategoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCategoryMutation, { data, loading, error }] = useDeleteCategoryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCategoryMutation, DeleteCategoryMutationVariables>(DeleteCategoryDocument, options);
+      }
+export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
+export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
+export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const EditCategoryDocument = gql`
+    mutation EditCategory($input: EditCategoryInput!) {
+  editCategory(input: $input) {
+    ...ResMessage
+  }
+}
+    ${ResMessageFragmentDoc}`;
+export type EditCategoryMutationFn = Apollo.MutationFunction<EditCategoryMutation, EditCategoryMutationVariables>;
+
+/**
+ * __useEditCategoryMutation__
+ *
+ * To run a mutation, you first call `useEditCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editCategoryMutation, { data, loading, error }] = useEditCategoryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditCategoryMutation(baseOptions?: Apollo.MutationHookOptions<EditCategoryMutation, EditCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditCategoryMutation, EditCategoryMutationVariables>(EditCategoryDocument, options);
+      }
+export type EditCategoryMutationHookResult = ReturnType<typeof useEditCategoryMutation>;
+export type EditCategoryMutationResult = Apollo.MutationResult<EditCategoryMutation>;
+export type EditCategoryMutationOptions = Apollo.BaseMutationOptions<EditCategoryMutation, EditCategoryMutationVariables>;
 export const AddProductDocument = gql`
     mutation AddProduct($input: ProductInput!) {
   addProduct(input: $input) {
@@ -439,6 +606,40 @@ export function useEditProductMutation(baseOptions?: Apollo.MutationHookOptions<
 export type EditProductMutationHookResult = ReturnType<typeof useEditProductMutation>;
 export type EditProductMutationResult = Apollo.MutationResult<EditProductMutation>;
 export type EditProductMutationOptions = Apollo.BaseMutationOptions<EditProductMutation, EditProductMutationVariables>;
+export const GetCategoriesDocument = gql`
+    query GetCategories {
+  getCategories {
+    ...Category
+  }
+}
+    ${CategoryFragmentDoc}`;
+
+/**
+ * __useGetCategoriesQuery__
+ *
+ * To run a query within a React component, call `useGetCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(GetCategoriesDocument, options);
+      }
+export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(GetCategoriesDocument, options);
+        }
+export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
+export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
+export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
 export const GetHighlightedProductDocument = gql`
     query GetHighlightedProduct {
   getHighlightedProduct {
@@ -608,6 +809,11 @@ export type AccessTokenKeySpecifier = ('accessToken' | AccessTokenKeySpecifier)[
 export type AccessTokenFieldPolicy = {
 	accessToken?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CategoryKeySpecifier = ('category' | 'id' | CategoryKeySpecifier)[];
+export type CategoryFieldPolicy = {
+	category?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DecodedUserKeySpecifier = ('email' | 'id' | 'logged' | 'roles' | 'username' | DecodedUserKeySpecifier)[];
 export type DecodedUserFieldPolicy = {
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -616,11 +822,14 @@ export type DecodedUserFieldPolicy = {
 	roles?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addProduct' | 'changeActiveProduct' | 'deleteProduct' | 'editProduct' | 'login' | 'register' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'editCategory' | 'editProduct' | 'login' | 'register' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	editCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	editProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	register?: FieldPolicy<any> | FieldReadFunction<any>
@@ -636,8 +845,9 @@ export type ProductFieldPolicy = {
 	quantity?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getHighlightedProduct' | 'getProducts' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getCategories' | 'getHighlightedProduct' | 'getProducts' | 'logout' | 'profile' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
+	getCategories?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -655,6 +865,10 @@ export type StrictTypedTypePolicies = {
 	AccessToken?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AccessTokenKeySpecifier | (() => undefined | AccessTokenKeySpecifier),
 		fields?: AccessTokenFieldPolicy,
+	},
+	Category?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CategoryKeySpecifier | (() => undefined | CategoryKeySpecifier),
+		fields?: CategoryFieldPolicy,
 	},
 	DecodedUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DecodedUserKeySpecifier | (() => undefined | DecodedUserKeySpecifier),

@@ -31,6 +31,7 @@ export const Navigation = () => {
 
         <LinksWrapper>
           {user.id && <NavigationLink path={paths.products} />}
+          {user.id && <NavigationLink path={paths.categories} />}
         </LinksWrapper>
 
         <AuthLinksWrapper>

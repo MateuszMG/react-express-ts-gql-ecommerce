@@ -1,0 +1,5 @@
+mutation AddCategory($input: CategoryInput!) {
+  addCategory(input: $input) {
+    ...Category
+  }
+}

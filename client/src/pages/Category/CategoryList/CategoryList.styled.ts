@@ -1,0 +1,23 @@
+import styled from 'styled-components';
+
+export const Wrapper = styled.div``;
+
+export const Section = styled.section`
+  display: flex;
+  margin: 12px;
+`;
+
+export const DataWrapper = styled.div`
+  flex: 1;
+`;
+
+export const ProductTitle = styled.h2``;
+
+export const Text = styled.p``;
+
+export const ButtonsWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;

@@ -34,3 +34,99 @@ export class Product {
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
 export type ProductDocument = Product & Document;
+
+// title;
+// subtitle;
+// category;
+// model;
+// description;
+// content;
+// quantity;
+// price: {
+//   wholesale,
+//   retail,
+// },
+// size: {
+//   weight,
+//   length,
+//   width,
+//   height,
+// },
+// images: {
+//   type: Array,
+//   required: true,
+// },
+
+// distinction: {
+//   active,
+//   startTime,
+//   endTime,
+// },
+// sale: {
+//   active
+//   priceBeforeSale,
+//   priceAfterSale,
+//   percentageDiscount,
+//   startTime,
+//   endTime,
+// },
+// ratings: {
+//   activeFake,
+//   details: [{
+//       ratingId,
+//       userId,
+//       rating,
+//       date,
+//   }],
+//   fakeTotal,
+//   fakeQuantity,
+//   originalTotal,
+//   originalQuantity,
+//   totalOriginalAndFake,
+//   quantityOriginalAndFake,
+// },
+// views: {
+//   activeFake,
+//   fakeTotal,
+//   details: [{
+//       guestIP,
+//       date,
+//   }],
+//   originalTotal,
+//   originalAndSetTotal,
+//   originalTotalViewsWithoutDuplicateIPAddresses,
+// },
+// sold: {
+//   activeFake,
+//   fakeTotal,
+//   details: [{
+//       soldId,
+//       userId,
+//       quantity,
+
+//       wholesale,
+//       retail,
+
+//       activeSale,
+//       activeCoupon,
+//       activeDistinction,
+
+//       purchasePriceBeforeDiscount,
+//       purchasePrice,
+//       profit,
+
+//       amountDiscount,
+//       percentageDiscount,
+
+//       date,
+//   }],
+//   originalTotal,
+//   originalAndFakeTotal,
+// },
+// comments: [{
+//   commentId,
+//   userId,
+//   username,
+//   comment,
+//   date,
+// }],
