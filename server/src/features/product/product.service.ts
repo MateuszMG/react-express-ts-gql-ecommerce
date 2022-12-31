@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { Product, ProductDocument } from './product.model';
 import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
+import { timeoutService } from 'src/utils/services/timeout.service';
 
 @Injectable()
 export class ProductService {
@@ -71,12 +72,12 @@ export class ProductService {
       return await this.addProduct(defaultProduct);
     };
 
-    setTimeout(() => {
+    timeoutService.setGlobalTimeout('highlightedProduct', 5000, () => {
       this.getHighlightedProduct();
       pubSub.publish(triggerNames.highlightedProductUpdated, {
         highlightedProductUpdated: randomProduct(),
       });
-    }, 5000);
+    });
 
     return randomProduct();
   }

@@ -1,3 +1,4 @@
+import { Loader } from '../../../components/Global/Loader/Loader';
 import {
   useGetHighlightedProductQuery,
   useHighlightedProductUpdatedSubscription,
@@ -13,15 +14,17 @@ import {
 } from './HighlightedProduct.styled';
 
 export const HighlightedProduct = () => {
-  const { data } = useGetHighlightedProductQuery();
+  const { data, loading } = useGetHighlightedProductQuery();
   const product = data?.getHighlightedProduct;
 
   const { data: updatedData } = useHighlightedProductUpdatedSubscription();
   const updatedProduct = updatedData?.highlightedProductUpdated;
 
-  if (!product || !updatedProduct) return null;
+  if (loading) return <Loader />;
 
   const productToShow = updatedProduct || product;
+
+  if (!productToShow) return null;
 
   return (
     <Wrapper>

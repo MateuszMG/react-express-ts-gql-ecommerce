@@ -1,9 +1,22 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Wrapper = styled.div``;
 
 export const Section = styled.section`
-  padding: 12px;
+  display: flex;
+  margin: 12px;
 `;
+
+export const Img = styled.img`
+  height: 100px;
+  margin-right: 20px;
+  width: 100px;
+`;
+
+export const DataWrapper = styled.div`
+  flex: 1;
+`;
+
+export const ProductTitle = styled.h2``;
 
 export const Text = styled.p``;
