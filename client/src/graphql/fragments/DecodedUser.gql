@@ -1,0 +1,7 @@
+fragment DecodedUser on DecodedUser {
+  id
+  username
+  email
+  roles
+  logged @client
+}
