@@ -8,6 +8,10 @@ import { useLogoutLazyQuery } from '../../generated/types';
 
 const initialState: AuthState = {
   user: handleAccessToken(getFromTheLS('accessToken')),
+  isLogged: false,
+  isUser: false,
+  isMod: false,
+  isAdmin: false,
 };
 
 interface AuthProviderProps {
@@ -27,6 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     client.clearStore();
     localStorage.clear();
     dispatch({ type: 'logout' });
+    window.location.href = '/';
   };
 
   return (

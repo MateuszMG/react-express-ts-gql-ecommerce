@@ -2,7 +2,6 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum UserRoles {
-  GUEST = 'GUEST',
   USER = 'USER',
   MODERATOR = 'MODERATOR',
   ADMINISTRATOR = 'ADMINISTRATOR',
@@ -34,7 +33,7 @@ export class User {
   refreshToken: string;
 
   @Prop({
-    default: [UserRoles.GUEST],
+    default: [UserRoles.USER],
     enum: UserRoles,
     required: true,
     type: [String],

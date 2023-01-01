@@ -21,7 +21,7 @@ const NavigationLink = ({ path }: NavigationLinkProps) => (
 );
 
 export const Navigation = () => {
-  const { logout, user } = useAuth();
+  const { logout, user, isLogged, isMod } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -30,12 +30,12 @@ export const Navigation = () => {
         <NavigationLink path={paths.home} />
 
         <LinksWrapper>
-          {user.id && <NavigationLink path={paths.products} />}
-          {user.id && <NavigationLink path={paths.categories} />}
+          {isMod && <NavigationLink path={paths.products} />}
+          {isMod && <NavigationLink path={paths.categories} />}
         </LinksWrapper>
 
         <AuthLinksWrapper>
-          {user.id ? (
+          {isLogged ? (
             <>
               <PersonIcon onClick={() => navigate(paths.profile)} />
               <LogoutIcon onClick={() => logout()} />

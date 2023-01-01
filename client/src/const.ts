@@ -5,7 +5,7 @@ export enum UserRoles {
   ADMINISTRATOR = 'ADMINISTRATOR',
 }
 
-export enum Roles {
+export enum AppRoles {
   GUEST = 'GUEST',
   USER = 'USER',
   MODERATOR = 'MODERATOR',

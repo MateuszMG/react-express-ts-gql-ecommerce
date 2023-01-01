@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { Layout } from '../components/Layout/Layout';
-import { paths } from './paths';
-import { Roles } from '../const';
+import { PrivateRoute } from '../hocs/PrivateRoute';
 import { routesConfig } from './routesConfig';
 import { useAuth } from '../hooks/useAuth';
 import {
@@ -16,20 +14,28 @@ export const Routes = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const pathname = location.pathname.replaceAll('%20', ' ');
-    const roles =
-      routesConfig.find((item) => item.path === pathname)?.roles || [];
+  // useEffect(() => {
+  //   const pathname = location.pathname.replaceAll('%20', ' ');
+  //   const roles =
+  //     routesConfig.find((item) => item.path === pathname)?.roles || [];
 
-    !user?.id && roles?.includes(Roles.USER) && navigate(paths.login);
-    user?.id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
-  }, [location.pathname]);
+  //   !user?.id && roles?.includes(Roles.USER) && navigate(paths.login);
+  //   user?.id && roles?.includes(Roles.NOT_LOGGED) && navigate(paths.profile);
+  // }, [location.pathname]);
 
   return (
     <Layout>
       <Switch>
-        {routesConfig.map(({ component: Component, path }) => (
-          <Route key={path} path={path} element={<Component />} />
+        {routesConfig.map(({ component: Component, path, roles }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <PrivateRoute roles={roles}>
+                <Component />
+              </PrivateRoute>
+            }
+          />
         ))}
       </Switch>
     </Layout>
