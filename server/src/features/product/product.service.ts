@@ -7,10 +7,13 @@ import { Product, ProductDocument } from './product.model';
 import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
 import { timeoutService } from 'src/utils/services/timeout.service';
+import { CategoryDocument } from '../category/category.model';
+import { dataRangeValidation } from 'src/validations/dataRangeValidation';
 
 @Injectable()
 export class ProductService {
   constructor(
+    @InjectModel('category') private categoryModel: Model<CategoryDocument>,
     @InjectModel('product') private productModel: Model<ProductDocument>,
   ) {}
 
@@ -21,6 +24,14 @@ export class ProductService {
 
   async addProduct(input: ProductInput): Promise<Product> {
     console.log('input', input);
+
+    dataRangeValidation(input.distinction);
+    dataRangeValidation(input.sale);
+
+    const category = await this.categoryModel.findOne({
+      category: input.category,
+    });
+    if (!category) throw 'Category Error';
 
     const newProduct = await new this.productModel(input).save();
     console.log('newProduct', newProduct);
@@ -60,11 +71,16 @@ export class ProductService {
       if (products?.length)
         return products[(Math.random() * products.length).toFixed()];
 
-      const defaultProduct: ProductInput = {
+      const defaultProduct: any = {
+        //ProductInput
         title: `title -- ${Date.now()}`,
         description: `description -- ${Date.now()}`,
+
         image: `image -- ${Date.now()}`,
-        price: +Date.now().toString().slice(-4),
+        price: {
+          retail: +Date.now().toString().slice(-4),
+          wholesale: +Date.now().toString().slice(-4),
+        },
         quantity: +Date.now().toString().slice(-4),
         active: true,
       };
@@ -81,4 +97,8 @@ export class ProductService {
 
     return randomProduct();
   }
+
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
 }

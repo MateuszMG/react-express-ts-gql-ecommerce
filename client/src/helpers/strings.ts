@@ -3,3 +3,6 @@ export const firstLetterToUpperCase = (text: string) =>
 
 export const separateString = (text: string) =>
   firstLetterToUpperCase(text?.replace(/[A-Z]/g, (l) => ` ${l.toLowerCase()}`));
+
+export const separateStringOnDots = (text: string) =>
+  firstLetterToUpperCase(text.replaceAll('.', ' '));

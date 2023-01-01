@@ -3,37 +3,47 @@ import { productFormHelpers } from './productFormHelpers';
 import { Reference, useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import {
+  productResolver,
+  ProductSchema,
+} from '../../../validations/resolvers/productResolver';
 import {
   GetProductsDocument,
   useAddProductMutation,
   GetProductsQuery,
   ProductFragmentDoc,
   useEditProductMutation,
+  useGetCategoriesQuery,
 } from '../../../generated/types';
 
 export const useProductForm = () => {
+  const { createCategoriesOptions, createImageSrc, createDefaultValues } =
+    productFormHelpers();
+
   const [editProduct] = useEditProductMutation();
+  const { data } = useGetCategoriesQuery();
   const [addProduct, { client, loading }] = useAddProductMutation();
   const { cache } = client;
+  const categoriesOptions = createCategoriesOptions(data?.getCategories || []);
 
   const editedProduct = useReactiveVar(editedProductVar);
 
-  const { createImageSrc, createDefaultValues } = productFormHelpers();
-
   const {
+    control,
     formState: { errors, isValid, isDirty },
     handleSubmit,
     register,
     reset,
   } = useForm<ProductSchema>({
     mode: 'onChange',
-    resolver: yupResolver(productValidation),
+    resolver: productResolver,
     defaultValues: createDefaultValues(),
   });
 
   const onSubmit = handleSubmit((input) => {
+    console.log('input', input.distinction);
+    console.log('input', input);
+
     if (editedProduct) {
       editProduct({
         variables: {
@@ -41,6 +51,7 @@ export const useProductForm = () => {
             id: editedProduct.id,
             image: editedProduct.image,
             ...input,
+            // category: input.category.value || '',
           },
         },
         onCompleted: () => {
@@ -59,9 +70,12 @@ export const useProductForm = () => {
               quantity() {
                 return input.quantity;
               },
-              price() {
-                return input.price;
-              },
+              // wholesale() {
+              //   return input.wholesale;
+              // },
+              // retail() {
+              //   return input.retail;
+              // },
             },
           });
         },
@@ -71,7 +85,13 @@ export const useProductForm = () => {
       editedProductVar(null);
     } else {
       addProduct({
-        variables: { input: { ...input, image: createImageSrc() } },
+        variables: {
+          input: {
+            ...input,
+            image: createImageSrc(),
+            // category: input.category.value || '',
+          },
+        },
         onCompleted: (data) => {
           const newProduct = data.addProduct;
 
@@ -107,31 +127,19 @@ export const useProductForm = () => {
 
   useEffect(() => {
     if (!editedProduct) return;
-    const { __typename, fromBackend, ...product } = editedProduct;
-    reset(product);
+    const { __typename, ...product } = editedProduct;
+    // reset(product);
   }, [editedProduct]);
 
-  return { errors, isDirty, isValid, loading, onSubmit, register, reset };
+  return {
+    control,
+    categoriesOptions,
+    errors,
+    isDirty,
+    isValid,
+    loading,
+    onSubmit,
+    register,
+    reset,
+  };
 };
-
-const productValidation = yup.object({
-  title: yup
-    .string()
-    .required('Title is required')
-    .max(128, 'Title cannot exceed 128 characters'),
-  description: yup
-    .string()
-    .required('Description is required')
-    .max(5000, 'Description cannot exceed 5000 characters'),
-  price: yup
-    .number()
-    .required('Price is required')
-    .max(1_000_000, 'Max 1 000 000'),
-  quantity: yup
-    .number()
-    .required('Quantity is required')
-    .max(1_000_000, 'Max 1 000 000'),
-  active: yup.boolean().required(),
-});
-
-type ProductSchema = yup.InferType<typeof productValidation>;

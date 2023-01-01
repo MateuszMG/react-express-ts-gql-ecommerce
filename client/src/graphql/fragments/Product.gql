@@ -1,10 +1,150 @@
+fragment Price on Price {
+  wholesale
+  retail
+}
+
+fragment Size on Size {
+  weight
+  length
+  width
+  height
+}
+
+fragment Distinction on Distinction {
+  active
+  startTime
+  endTime
+}
+
+fragment Sale on Sale {
+  active
+  startTime
+  endTime
+
+  priceBeforeSale
+  priceAfterSale
+  percentageDiscount
+}
+
+fragment RatingsDetails on RatingsDetails {
+  ratingId
+  userId
+  rating
+  date
+}
+
+fragment Ratings on Ratings {
+  activeFake
+  details {
+    ...RatingsDetails
+  }
+  fakeTotal
+  fakeQuantity
+  originalTotal
+  originalQuantity
+  totalOriginalAndFake
+  quantityOriginalAndFake
+}
+
+fragment ViewsDetails on ViewsDetails {
+  guestIP
+  date
+}
+
+fragment Views on Views {
+  activeFake
+  details {
+    ...ViewsDetails
+  }
+  fakeTotal
+  originalTotal
+  originalAndFakeTotal
+  originalTotalViewsWithoutDuplicateIPAddresses
+}
+
+# fragment SoldDetails on SoldDetails {
+#   guestIP
+#   soldId
+#   userId
+
+#   quantity
+#   price {
+#     ...Price
+#   }
+
+#   activeSale
+#   activeCoupon
+#   activeDistinction
+
+#   purchasePriceBeforeDiscount
+#   purchasePrice
+#   profit
+#   amountDiscount
+#   percentageDiscount
+
+#   date
+# }
+
+# fragment Sold on Sold {
+#   activeFake
+#   details {
+#     ...SoldDetails
+#   }
+#   fakeTotal
+#   originalTotal
+#   originalAndFakeTotal
+# }
+
+# fragment Comments on Comments {
+#   commentId
+#   userId
+#   username
+#   comment
+#   date
+# }
+
 fragment Product on Product {
   id
   title
   description
-  image
-  price
-  quantity
+  subtitle
+  model
+  category
   active
-  fromBackend @client
+
+  quantity
+
+  image
+
+  price {
+    ...Price
+  }
+
+  size {
+    ...Size
+  }
+
+  distinction {
+    ...Distinction
+  }
+
+  sale {
+    ...Sale
+  }
+
+  # ratings {
+  #   ...Ratings
+  # }
+
+  # views {
+  #   ...Views
+  # }
+
+  # sold {
+  #   ...Sold
+  # }
+
+  # comments {
+  #   ...Comments
+  # }
 }

@@ -13,7 +13,7 @@ export const useProductList = () => {
   const products = data?.getProducts;
   const { cache } = client;
 
-  const handleChange = (item: Product) => {
+  const handleChange = (item: any) => {
     changeActive({
       variables: { input: { id: item.id } },
       onCompleted: () => {
@@ -30,11 +30,11 @@ export const useProductList = () => {
     });
   };
 
-  const handleEdit = (item: Product) => {
+  const handleEdit = (item: any) => {
     editedProductVar(item);
   };
 
-  const handleDelete = (item: Product) => {
+  const handleDelete = (item: any) => {
     deleteProduct({
       variables: { input: { id: item.id } },
       onCompleted: () => {

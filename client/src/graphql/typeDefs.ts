@@ -5,7 +5,7 @@ export const typeDefs = gql`
     logged: Boolean!
   }
 
-  extend type Product {
-    fromBackend: Boolean!
-  }
+  # extend type Product {
+  #   fromBackend: Boolean!
+  # }
 `;

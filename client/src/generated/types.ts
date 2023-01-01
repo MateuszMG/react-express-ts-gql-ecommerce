@@ -1,11 +1,22 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+import {
+  FieldPolicy,
+  FieldReadFunction,
+  TypePolicies,
+  TypePolicy,
+} from '@apollo/client/cache';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -14,6 +25,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string  at UTC,such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: any;
 };
 
 export type AccessToken = {
@@ -40,6 +53,13 @@ export type DecodedUser = {
   username: Scalars['String'];
 };
 
+export type Distinction = {
+  __typename?: 'Distinction';
+  active: Scalars['Boolean'];
+  endTime: Scalars['DateTime'];
+  startTime: Scalars['DateTime'];
+};
+
 export type EditCategoryInput = {
   category: Scalars['String'];
   id: Scalars['String'];
@@ -47,12 +67,20 @@ export type EditCategoryInput = {
 
 export type EditProductInput = {
   active: Scalars['Boolean'];
+  category: Scalars['String'];
   description: Scalars['String'];
+  distinction: ProductDistinctionInput;
   id: Scalars['String'];
   image: Scalars['String'];
-  price: Scalars['Float'];
+  model: Scalars['String'];
+  price: ProductPriceInput;
   quantity: Scalars['Float'];
+  ratings: ProductRatingsInput;
+  sale: ProductSaleInput;
+  size: ProductSizeInput;
+  subtitle: Scalars['String'];
   title: Scalars['String'];
+  views: ProductViewsInput;
 };
 
 export type IdInput = {
@@ -77,70 +105,120 @@ export type Mutation = {
   register: AccessToken;
 };
 
-
 export type MutationAddCategoryArgs = {
   input: CategoryInput;
 };
-
 
 export type MutationAddProductArgs = {
   input: ProductInput;
 };
 
-
 export type MutationChangeActiveProductArgs = {
   input: IdInput;
 };
-
 
 export type MutationDeleteCategoryArgs = {
   input: IdInput;
 };
 
-
 export type MutationDeleteProductArgs = {
   input: IdInput;
 };
-
 
 export type MutationEditCategoryArgs = {
   input: EditCategoryInput;
 };
 
-
 export type MutationEditProductArgs = {
   input: EditProductInput;
 };
-
 
 export type MutationLoginArgs = {
   loginInput: LoginInput;
 };
 
-
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+export type Price = {
+  __typename?: 'Price';
+  retail: Scalars['Float'];
+  wholesale: Scalars['Float'];
 };
 
 export type Product = {
   __typename?: 'Product';
   active: Scalars['Boolean'];
+  category: Scalars['String'];
   description: Scalars['String'];
-  fromBackend: Scalars['Boolean'];
+  distinction: Distinction;
   id: Scalars['ID'];
   image: Scalars['String'];
-  price: Scalars['Float'];
+  model: Scalars['String'];
+  price: Price;
   quantity: Scalars['Float'];
+  ratings: Ratings;
+  sale: Sale;
+  size: Size;
+  subtitle: Scalars['String'];
   title: Scalars['String'];
+  views: Views;
+};
+
+export type ProductDistinctionInput = {
+  active: Scalars['Boolean'];
+  endTime: Scalars['DateTime'];
+  startTime: Scalars['DateTime'];
 };
 
 export type ProductInput = {
   active: Scalars['Boolean'];
+  category: Scalars['String'];
   description: Scalars['String'];
+  distinction: ProductDistinctionInput;
   image: Scalars['String'];
-  price: Scalars['Float'];
+  model: Scalars['String'];
+  price: ProductPriceInput;
   quantity: Scalars['Float'];
+  ratings: ProductRatingsInput;
+  sale: ProductSaleInput;
+  size: ProductSizeInput;
+  subtitle: Scalars['String'];
   title: Scalars['String'];
+  views: ProductViewsInput;
+};
+
+export type ProductPriceInput = {
+  retail: Scalars['Float'];
+  wholesale: Scalars['Float'];
+};
+
+export type ProductRatingsInput = {
+  activeFake: Scalars['Boolean'];
+  fakeQuantity: Scalars['Float'];
+  fakeTotal: Scalars['Float'];
+};
+
+export type ProductSaleInput = {
+  active: Scalars['Boolean'];
+  endTime: Scalars['DateTime'];
+  percentageDiscount: Scalars['Float'];
+  priceAfterSale: Scalars['Float'];
+  priceBeforeSale: Scalars['Float'];
+  startTime: Scalars['DateTime'];
+};
+
+export type ProductSizeInput = {
+  height: Scalars['Float'];
+  length: Scalars['Float'];
+  weight: Scalars['Float'];
+  width: Scalars['Float'];
+};
+
+export type ProductViewsInput = {
+  activeFake: Scalars['Boolean'];
+  fakeTotal: Scalars['Float'];
 };
 
 export type Query = {
@@ -150,6 +228,26 @@ export type Query = {
   getProducts: Array<Product>;
   logout: ResMessage;
   profile: DecodedUser;
+};
+
+export type Ratings = {
+  __typename?: 'Ratings';
+  activeFake: Scalars['Boolean'];
+  details: Array<RatingsDetails>;
+  fakeQuantity: Scalars['Float'];
+  fakeTotal: Scalars['Float'];
+  originalQuantity: Scalars['Float'];
+  originalTotal: Scalars['Float'];
+  quantityOriginalAndFake: Scalars['Float'];
+  totalOriginalAndFake: Scalars['Float'];
+};
+
+export type RatingsDetails = {
+  __typename?: 'RatingsDetails';
+  date: Scalars['DateTime'];
+  rating: Scalars['Float'];
+  ratingId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -164,159 +262,607 @@ export type ResMessage = {
   message: Scalars['String'];
 };
 
+export type Sale = {
+  __typename?: 'Sale';
+  active: Scalars['Boolean'];
+  endTime: Scalars['DateTime'];
+  percentageDiscount: Scalars['Float'];
+  priceAfterSale: Scalars['Float'];
+  priceBeforeSale: Scalars['Float'];
+  startTime: Scalars['DateTime'];
+};
+
+export type Size = {
+  __typename?: 'Size';
+  height: Scalars['Float'];
+  length: Scalars['Float'];
+  weight: Scalars['Float'];
+  width: Scalars['Float'];
+};
+
+export type SoldDetails = {
+  __typename?: 'SoldDetails';
+  activeCoupon: Scalars['Boolean'];
+  activeDistinction: Scalars['Boolean'];
+  activeSale: Scalars['Boolean'];
+  amountDiscount: Scalars['Float'];
+  date: Scalars['DateTime'];
+  guestIP: Scalars['String'];
+  percentageDiscount: Scalars['Float'];
+  price: Price;
+  profit: Scalars['Float'];
+  purchasePrice: Scalars['Float'];
+  purchasePriceBeforeDiscount: Scalars['Float'];
+  quantity: Scalars['Float'];
+  soldId: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   highlightedProductUpdated?: Maybe<Product>;
 };
 
-export type AccessTokenFragment = { __typename?: 'AccessToken', accessToken: string };
+export type Views = {
+  __typename?: 'Views';
+  activeFake: Scalars['Boolean'];
+  details: Array<ViewsDetails>;
+  fakeTotal: Scalars['Float'];
+  originalAndFakeTotal: Scalars['Float'];
+  originalTotal: Scalars['Float'];
+  originalTotalViewsWithoutDuplicateIPAddresses: Scalars['Float'];
+};
 
-export type CategoryFragment = { __typename?: 'Category', id: string, category: string };
+export type ViewsDetails = {
+  __typename?: 'ViewsDetails';
+  date: Scalars['DateTime'];
+  guestIP: Scalars['String'];
+};
 
-export type DecodedUserFragment = { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean };
+export type AccessTokenFragment = {
+  __typename?: 'AccessToken';
+  accessToken: string;
+};
 
-export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean };
+export type CategoryFragment = {
+  __typename?: 'Category';
+  id: string;
+  category: string;
+};
 
-export type ResMessageFragment = { __typename?: 'ResMessage', message: string };
+export type DecodedUserFragment = {
+  __typename?: 'DecodedUser';
+  id: string;
+  username: string;
+  email: string;
+  roles: Array<string>;
+  logged: boolean;
+};
+
+export type PriceFragment = {
+  __typename?: 'Price';
+  wholesale: number;
+  retail: number;
+};
+
+export type SizeFragment = {
+  __typename?: 'Size';
+  weight: number;
+  length: number;
+  width: number;
+  height: number;
+};
+
+export type DistinctionFragment = {
+  __typename?: 'Distinction';
+  active: boolean;
+  startTime: any;
+  endTime: any;
+};
+
+export type SaleFragment = {
+  __typename?: 'Sale';
+  active: boolean;
+  startTime: any;
+  endTime: any;
+  priceBeforeSale: number;
+  priceAfterSale: number;
+  percentageDiscount: number;
+};
+
+export type RatingsDetailsFragment = {
+  __typename?: 'RatingsDetails';
+  ratingId: string;
+  userId: string;
+  rating: number;
+  date: any;
+};
+
+export type RatingsFragment = {
+  __typename?: 'Ratings';
+  activeFake: boolean;
+  fakeTotal: number;
+  fakeQuantity: number;
+  originalTotal: number;
+  originalQuantity: number;
+  totalOriginalAndFake: number;
+  quantityOriginalAndFake: number;
+  details: Array<{
+    __typename?: 'RatingsDetails';
+    ratingId: string;
+    userId: string;
+    rating: number;
+    date: any;
+  }>;
+};
+
+export type ViewsDetailsFragment = {
+  __typename?: 'ViewsDetails';
+  guestIP: string;
+  date: any;
+};
+
+export type ViewsFragment = {
+  __typename?: 'Views';
+  activeFake: boolean;
+  fakeTotal: number;
+  originalTotal: number;
+  originalAndFakeTotal: number;
+  originalTotalViewsWithoutDuplicateIPAddresses: number;
+  details: Array<{ __typename?: 'ViewsDetails'; guestIP: string; date: any }>;
+};
+
+export type ProductFragment = {
+  __typename?: 'Product';
+  id: string;
+  title: string;
+  description: string;
+  subtitle: string;
+  model: string;
+  category: string;
+  active: boolean;
+  quantity: number;
+  image: string;
+  price: { __typename?: 'Price'; wholesale: number; retail: number };
+  size: {
+    __typename?: 'Size';
+    weight: number;
+    length: number;
+    width: number;
+    height: number;
+  };
+  distinction: {
+    __typename?: 'Distinction';
+    active: boolean;
+    startTime: any;
+    endTime: any;
+  };
+  sale: {
+    __typename?: 'Sale';
+    active: boolean;
+    startTime: any;
+    endTime: any;
+    priceBeforeSale: number;
+    priceAfterSale: number;
+    percentageDiscount: number;
+  };
+};
+
+export type ResMessageFragment = { __typename?: 'ResMessage'; message: string };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AccessToken', accessToken: string } };
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login: { __typename?: 'AccessToken'; accessToken: string };
+};
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
 
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AccessToken', accessToken: string } };
+export type RegisterMutation = {
+  __typename?: 'Mutation';
+  register: { __typename?: 'AccessToken'; accessToken: string };
+};
 
 export type AddCategoryMutationVariables = Exact<{
   input: CategoryInput;
 }>;
 
-
-export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'Category', id: string, category: string } };
+export type AddCategoryMutation = {
+  __typename?: 'Mutation';
+  addCategory: { __typename?: 'Category'; id: string; category: string };
+};
 
 export type DeleteCategoryMutationVariables = Exact<{
   input: IdInput;
 }>;
 
-
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'ResMessage', message: string } };
+export type DeleteCategoryMutation = {
+  __typename?: 'Mutation';
+  deleteCategory: { __typename?: 'ResMessage'; message: string };
+};
 
 export type EditCategoryMutationVariables = Exact<{
   input: EditCategoryInput;
 }>;
 
-
-export type EditCategoryMutation = { __typename?: 'Mutation', editCategory: { __typename?: 'ResMessage', message: string } };
+export type EditCategoryMutation = {
+  __typename?: 'Mutation';
+  editCategory: { __typename?: 'ResMessage'; message: string };
+};
 
 export type AddProductMutationVariables = Exact<{
   input: ProductInput;
 }>;
 
-
-export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } };
+export type AddProductMutation = {
+  __typename?: 'Mutation';
+  addProduct: {
+    __typename?: 'Product';
+    id: string;
+    title: string;
+    description: string;
+    subtitle: string;
+    model: string;
+    category: string;
+    active: boolean;
+    quantity: number;
+    image: string;
+    price: { __typename?: 'Price'; wholesale: number; retail: number };
+    size: {
+      __typename?: 'Size';
+      weight: number;
+      length: number;
+      width: number;
+      height: number;
+    };
+    distinction: {
+      __typename?: 'Distinction';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+    };
+    sale: {
+      __typename?: 'Sale';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+      priceBeforeSale: number;
+      priceAfterSale: number;
+      percentageDiscount: number;
+    };
+  };
+};
 
 export type ChangeActiveProductMutationVariables = Exact<{
   input: IdInput;
 }>;
 
-
-export type ChangeActiveProductMutation = { __typename?: 'Mutation', changeActiveProduct: { __typename?: 'ResMessage', message: string } };
+export type ChangeActiveProductMutation = {
+  __typename?: 'Mutation';
+  changeActiveProduct: { __typename?: 'ResMessage'; message: string };
+};
 
 export type DeleteProductMutationVariables = Exact<{
   input: IdInput;
 }>;
 
-
-export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct: { __typename?: 'ResMessage', message: string } };
+export type DeleteProductMutation = {
+  __typename?: 'Mutation';
+  deleteProduct: { __typename?: 'ResMessage'; message: string };
+};
 
 export type EditProductMutationVariables = Exact<{
   input: EditProductInput;
 }>;
 
+export type EditProductMutation = {
+  __typename?: 'Mutation';
+  editProduct: { __typename?: 'ResMessage'; message: string };
+};
 
-export type EditProductMutation = { __typename?: 'Mutation', editProduct: { __typename?: 'ResMessage', message: string } };
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCategoriesQuery = {
+  __typename?: 'Query';
+  getCategories: Array<{
+    __typename?: 'Category';
+    id: string;
+    category: string;
+  }>;
+};
 
+export type GetHighlightedProductQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ __typename?: 'Category', id: string, category: string }> };
+export type GetHighlightedProductQuery = {
+  __typename?: 'Query';
+  getHighlightedProduct: {
+    __typename?: 'Product';
+    id: string;
+    title: string;
+    description: string;
+    subtitle: string;
+    model: string;
+    category: string;
+    active: boolean;
+    quantity: number;
+    image: string;
+    price: { __typename?: 'Price'; wholesale: number; retail: number };
+    size: {
+      __typename?: 'Size';
+      weight: number;
+      length: number;
+      width: number;
+      height: number;
+    };
+    distinction: {
+      __typename?: 'Distinction';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+    };
+    sale: {
+      __typename?: 'Sale';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+      priceBeforeSale: number;
+      priceAfterSale: number;
+      percentageDiscount: number;
+    };
+  };
+};
 
-export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetProductsQueryVariables = Exact<{ [key: string]: never }>;
 
+export type GetProductsQuery = {
+  __typename?: 'Query';
+  getProducts: Array<{
+    __typename?: 'Product';
+    id: string;
+    title: string;
+    description: string;
+    subtitle: string;
+    model: string;
+    category: string;
+    active: boolean;
+    quantity: number;
+    image: string;
+    price: { __typename?: 'Price'; wholesale: number; retail: number };
+    size: {
+      __typename?: 'Size';
+      weight: number;
+      length: number;
+      width: number;
+      height: number;
+    };
+    distinction: {
+      __typename?: 'Distinction';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+    };
+    sale: {
+      __typename?: 'Sale';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+      priceBeforeSale: number;
+      priceAfterSale: number;
+      percentageDiscount: number;
+    };
+  }>;
+};
 
-export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } };
+export type LogoutQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+export type LogoutQuery = {
+  __typename?: 'Query';
+  logout: { __typename?: 'ResMessage'; message: string };
+};
 
+export type ProfileQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean }> };
+export type ProfileQuery = {
+  __typename?: 'Query';
+  profile: {
+    __typename?: 'DecodedUser';
+    id: string;
+    username: string;
+    email: string;
+    roles: Array<string>;
+    logged: boolean;
+  };
+};
 
-export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
+export type HighlightedProductUpdatedSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-
-export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'ResMessage', message: string } };
-
-export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean } };
-
-export type HighlightedProductUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, image: string, price: number, quantity: number, active: boolean, fromBackend: boolean } | null };
+export type HighlightedProductUpdatedSubscription = {
+  __typename?: 'Subscription';
+  highlightedProductUpdated?: {
+    __typename?: 'Product';
+    id: string;
+    title: string;
+    description: string;
+    subtitle: string;
+    model: string;
+    category: string;
+    active: boolean;
+    quantity: number;
+    image: string;
+    price: { __typename?: 'Price'; wholesale: number; retail: number };
+    size: {
+      __typename?: 'Size';
+      weight: number;
+      length: number;
+      width: number;
+      height: number;
+    };
+    distinction: {
+      __typename?: 'Distinction';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+    };
+    sale: {
+      __typename?: 'Sale';
+      active: boolean;
+      startTime: any;
+      endTime: any;
+      priceBeforeSale: number;
+      priceAfterSale: number;
+      percentageDiscount: number;
+    };
+  } | null;
+};
 
 export const AccessTokenFragmentDoc = gql`
-    fragment AccessToken on AccessToken {
-  accessToken
-}
-    `;
-export const CategoryFragmentDoc = gql`
-    fragment Category on Category {
-  id
-  category
-}
-    `;
-export const DecodedUserFragmentDoc = gql`
-    fragment DecodedUser on DecodedUser {
-  id
-  username
-  email
-  roles
-  logged @client
-}
-    `;
-export const ProductFragmentDoc = gql`
-    fragment Product on Product {
-  id
-  title
-  description
-  image
-  price
-  quantity
-  active
-  fromBackend @client
-}
-    `;
-export const ResMessageFragmentDoc = gql`
-    fragment ResMessage on ResMessage {
-  message
-}
-    `;
-export const LoginDocument = gql`
-    mutation Login($loginInput: LoginInput!) {
-  login(loginInput: $loginInput) {
-    ...AccessToken
+  fragment AccessToken on AccessToken {
+    accessToken
   }
-}
-    ${AccessTokenFragmentDoc}`;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+`;
+export const CategoryFragmentDoc = gql`
+  fragment Category on Category {
+    id
+    category
+  }
+`;
+export const DecodedUserFragmentDoc = gql`
+  fragment DecodedUser on DecodedUser {
+    id
+    username
+    email
+    roles
+    logged @client
+  }
+`;
+export const RatingsDetailsFragmentDoc = gql`
+  fragment RatingsDetails on RatingsDetails {
+    ratingId
+    userId
+    rating
+    date
+  }
+`;
+export const RatingsFragmentDoc = gql`
+  fragment Ratings on Ratings {
+    activeFake
+    details {
+      ...RatingsDetails
+    }
+    fakeTotal
+    fakeQuantity
+    originalTotal
+    originalQuantity
+    totalOriginalAndFake
+    quantityOriginalAndFake
+  }
+  ${RatingsDetailsFragmentDoc}
+`;
+export const ViewsDetailsFragmentDoc = gql`
+  fragment ViewsDetails on ViewsDetails {
+    guestIP
+    date
+  }
+`;
+export const ViewsFragmentDoc = gql`
+  fragment Views on Views {
+    activeFake
+    details {
+      ...ViewsDetails
+    }
+    fakeTotal
+    originalTotal
+    originalAndFakeTotal
+    originalTotalViewsWithoutDuplicateIPAddresses
+  }
+  ${ViewsDetailsFragmentDoc}
+`;
+export const PriceFragmentDoc = gql`
+  fragment Price on Price {
+    wholesale
+    retail
+  }
+`;
+export const SizeFragmentDoc = gql`
+  fragment Size on Size {
+    weight
+    length
+    width
+    height
+  }
+`;
+export const DistinctionFragmentDoc = gql`
+  fragment Distinction on Distinction {
+    active
+    startTime
+    endTime
+  }
+`;
+export const SaleFragmentDoc = gql`
+  fragment Sale on Sale {
+    active
+    startTime
+    endTime
+    priceBeforeSale
+    priceAfterSale
+    percentageDiscount
+  }
+`;
+export const ProductFragmentDoc = gql`
+  fragment Product on Product {
+    id
+    title
+    description
+    subtitle
+    model
+    category
+    active
+    quantity
+    image
+    price {
+      ...Price
+    }
+    size {
+      ...Size
+    }
+    distinction {
+      ...Distinction
+    }
+    sale {
+      ...Sale
+    }
+  }
+  ${PriceFragmentDoc}
+  ${SizeFragmentDoc}
+  ${DistinctionFragmentDoc}
+  ${SaleFragmentDoc}
+`;
+export const ResMessageFragmentDoc = gql`
+  fragment ResMessage on ResMessage {
+    message
+  }
+`;
+export const LoginDocument = gql`
+  mutation Login($loginInput: LoginInput!) {
+    login(loginInput: $loginInput) {
+      ...AccessToken
+    }
+  }
+  ${AccessTokenFragmentDoc}
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -335,21 +881,36 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    options,
+  );
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const RegisterDocument = gql`
-    mutation Register($registerInput: RegisterInput!) {
-  register(registerInput: $registerInput) {
-    ...AccessToken
+  mutation Register($registerInput: RegisterInput!) {
+    register(registerInput: $registerInput) {
+      ...AccessToken
+    }
   }
-}
-    ${AccessTokenFragmentDoc}`;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+  ${AccessTokenFragmentDoc}
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 
 /**
  * __useRegisterMutation__
@@ -368,21 +929,36 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
+    options,
+  );
+}
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 export const AddCategoryDocument = gql`
-    mutation AddCategory($input: CategoryInput!) {
-  addCategory(input: $input) {
-    ...Category
+  mutation AddCategory($input: CategoryInput!) {
+    addCategory(input: $input) {
+      ...Category
+    }
   }
-}
-    ${CategoryFragmentDoc}`;
-export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation, AddCategoryMutationVariables>;
+  ${CategoryFragmentDoc}
+`;
+export type AddCategoryMutationFn = Apollo.MutationFunction<
+  AddCategoryMutation,
+  AddCategoryMutationVariables
+>;
 
 /**
  * __useAddCategoryMutation__
@@ -401,21 +977,39 @@ export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation,
  *   },
  * });
  */
-export function useAddCategoryMutation(baseOptions?: Apollo.MutationHookOptions<AddCategoryMutation, AddCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument, options);
-      }
-export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMutation>;
-export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
-export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
-export const DeleteCategoryDocument = gql`
-    mutation DeleteCategory($input: IdInput!) {
-  deleteCategory(input: $input) {
-    ...ResMessage
-  }
+export function useAddCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddCategoryMutation,
+    AddCategoryMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(
+    AddCategoryDocument,
+    options,
+  );
 }
-    ${ResMessageFragmentDoc}`;
-export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export type AddCategoryMutationHookResult = ReturnType<
+  typeof useAddCategoryMutation
+>;
+export type AddCategoryMutationResult =
+  Apollo.MutationResult<AddCategoryMutation>;
+export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<
+  AddCategoryMutation,
+  AddCategoryMutationVariables
+>;
+export const DeleteCategoryDocument = gql`
+  mutation DeleteCategory($input: IdInput!) {
+    deleteCategory(input: $input) {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
+export type DeleteCategoryMutationFn = Apollo.MutationFunction<
+  DeleteCategoryMutation,
+  DeleteCategoryMutationVariables
+>;
 
 /**
  * __useDeleteCategoryMutation__
@@ -434,21 +1028,39 @@ export type DeleteCategoryMutationFn = Apollo.MutationFunction<DeleteCategoryMut
  *   },
  * });
  */
-export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCategoryMutation, DeleteCategoryMutationVariables>(DeleteCategoryDocument, options);
-      }
-export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
-export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
-export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
-export const EditCategoryDocument = gql`
-    mutation EditCategory($input: EditCategoryInput!) {
-  editCategory(input: $input) {
-    ...ResMessage
-  }
+export function useDeleteCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCategoryMutation,
+    DeleteCategoryMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCategoryMutation,
+    DeleteCategoryMutationVariables
+  >(DeleteCategoryDocument, options);
 }
-    ${ResMessageFragmentDoc}`;
-export type EditCategoryMutationFn = Apollo.MutationFunction<EditCategoryMutation, EditCategoryMutationVariables>;
+export type DeleteCategoryMutationHookResult = ReturnType<
+  typeof useDeleteCategoryMutation
+>;
+export type DeleteCategoryMutationResult =
+  Apollo.MutationResult<DeleteCategoryMutation>;
+export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCategoryMutation,
+  DeleteCategoryMutationVariables
+>;
+export const EditCategoryDocument = gql`
+  mutation EditCategory($input: EditCategoryInput!) {
+    editCategory(input: $input) {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
+export type EditCategoryMutationFn = Apollo.MutationFunction<
+  EditCategoryMutation,
+  EditCategoryMutationVariables
+>;
 
 /**
  * __useEditCategoryMutation__
@@ -467,21 +1079,39 @@ export type EditCategoryMutationFn = Apollo.MutationFunction<EditCategoryMutatio
  *   },
  * });
  */
-export function useEditCategoryMutation(baseOptions?: Apollo.MutationHookOptions<EditCategoryMutation, EditCategoryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditCategoryMutation, EditCategoryMutationVariables>(EditCategoryDocument, options);
-      }
-export type EditCategoryMutationHookResult = ReturnType<typeof useEditCategoryMutation>;
-export type EditCategoryMutationResult = Apollo.MutationResult<EditCategoryMutation>;
-export type EditCategoryMutationOptions = Apollo.BaseMutationOptions<EditCategoryMutation, EditCategoryMutationVariables>;
-export const AddProductDocument = gql`
-    mutation AddProduct($input: ProductInput!) {
-  addProduct(input: $input) {
-    ...Product
-  }
+export function useEditCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditCategoryMutation,
+    EditCategoryMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EditCategoryMutation,
+    EditCategoryMutationVariables
+  >(EditCategoryDocument, options);
 }
-    ${ProductFragmentDoc}`;
-export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+export type EditCategoryMutationHookResult = ReturnType<
+  typeof useEditCategoryMutation
+>;
+export type EditCategoryMutationResult =
+  Apollo.MutationResult<EditCategoryMutation>;
+export type EditCategoryMutationOptions = Apollo.BaseMutationOptions<
+  EditCategoryMutation,
+  EditCategoryMutationVariables
+>;
+export const AddProductDocument = gql`
+  mutation AddProduct($input: ProductInput!) {
+    addProduct(input: $input) {
+      ...Product
+    }
+  }
+  ${ProductFragmentDoc}
+`;
+export type AddProductMutationFn = Apollo.MutationFunction<
+  AddProductMutation,
+  AddProductMutationVariables
+>;
 
 /**
  * __useAddProductMutation__
@@ -500,21 +1130,39 @@ export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, A
  *   },
  * });
  */
-export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, options);
-      }
-export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
-export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
-export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
-export const ChangeActiveProductDocument = gql`
-    mutation ChangeActiveProduct($input: IdInput!) {
-  changeActiveProduct(input: $input) {
-    ...ResMessage
-  }
+export function useAddProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddProductMutation,
+    AddProductMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(
+    AddProductDocument,
+    options,
+  );
 }
-    ${ResMessageFragmentDoc}`;
-export type ChangeActiveProductMutationFn = Apollo.MutationFunction<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>;
+export type AddProductMutationHookResult = ReturnType<
+  typeof useAddProductMutation
+>;
+export type AddProductMutationResult =
+  Apollo.MutationResult<AddProductMutation>;
+export type AddProductMutationOptions = Apollo.BaseMutationOptions<
+  AddProductMutation,
+  AddProductMutationVariables
+>;
+export const ChangeActiveProductDocument = gql`
+  mutation ChangeActiveProduct($input: IdInput!) {
+    changeActiveProduct(input: $input) {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
+export type ChangeActiveProductMutationFn = Apollo.MutationFunction<
+  ChangeActiveProductMutation,
+  ChangeActiveProductMutationVariables
+>;
 
 /**
  * __useChangeActiveProductMutation__
@@ -533,21 +1181,39 @@ export type ChangeActiveProductMutationFn = Apollo.MutationFunction<ChangeActive
  *   },
  * });
  */
-export function useChangeActiveProductMutation(baseOptions?: Apollo.MutationHookOptions<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>(ChangeActiveProductDocument, options);
-      }
-export type ChangeActiveProductMutationHookResult = ReturnType<typeof useChangeActiveProductMutation>;
-export type ChangeActiveProductMutationResult = Apollo.MutationResult<ChangeActiveProductMutation>;
-export type ChangeActiveProductMutationOptions = Apollo.BaseMutationOptions<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>;
-export const DeleteProductDocument = gql`
-    mutation DeleteProduct($input: IdInput!) {
-  deleteProduct(input: $input) {
-    ...ResMessage
-  }
+export function useChangeActiveProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ChangeActiveProductMutation,
+    ChangeActiveProductMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ChangeActiveProductMutation,
+    ChangeActiveProductMutationVariables
+  >(ChangeActiveProductDocument, options);
 }
-    ${ResMessageFragmentDoc}`;
-export type DeleteProductMutationFn = Apollo.MutationFunction<DeleteProductMutation, DeleteProductMutationVariables>;
+export type ChangeActiveProductMutationHookResult = ReturnType<
+  typeof useChangeActiveProductMutation
+>;
+export type ChangeActiveProductMutationResult =
+  Apollo.MutationResult<ChangeActiveProductMutation>;
+export type ChangeActiveProductMutationOptions = Apollo.BaseMutationOptions<
+  ChangeActiveProductMutation,
+  ChangeActiveProductMutationVariables
+>;
+export const DeleteProductDocument = gql`
+  mutation DeleteProduct($input: IdInput!) {
+    deleteProduct(input: $input) {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
+export type DeleteProductMutationFn = Apollo.MutationFunction<
+  DeleteProductMutation,
+  DeleteProductMutationVariables
+>;
 
 /**
  * __useDeleteProductMutation__
@@ -566,21 +1232,39 @@ export type DeleteProductMutationFn = Apollo.MutationFunction<DeleteProductMutat
  *   },
  * });
  */
-export function useDeleteProductMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProductMutation, DeleteProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteProductMutation, DeleteProductMutationVariables>(DeleteProductDocument, options);
-      }
-export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
-export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
-export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
-export const EditProductDocument = gql`
-    mutation EditProduct($input: EditProductInput!) {
-  editProduct(input: $input) {
-    ...ResMessage
-  }
+export function useDeleteProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteProductMutation,
+    DeleteProductMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteProductMutation,
+    DeleteProductMutationVariables
+  >(DeleteProductDocument, options);
 }
-    ${ResMessageFragmentDoc}`;
-export type EditProductMutationFn = Apollo.MutationFunction<EditProductMutation, EditProductMutationVariables>;
+export type DeleteProductMutationHookResult = ReturnType<
+  typeof useDeleteProductMutation
+>;
+export type DeleteProductMutationResult =
+  Apollo.MutationResult<DeleteProductMutation>;
+export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProductMutation,
+  DeleteProductMutationVariables
+>;
+export const EditProductDocument = gql`
+  mutation EditProduct($input: EditProductInput!) {
+    editProduct(input: $input) {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
+export type EditProductMutationFn = Apollo.MutationFunction<
+  EditProductMutation,
+  EditProductMutationVariables
+>;
 
 /**
  * __useEditProductMutation__
@@ -599,20 +1283,35 @@ export type EditProductMutationFn = Apollo.MutationFunction<EditProductMutation,
  *   },
  * });
  */
-export function useEditProductMutation(baseOptions?: Apollo.MutationHookOptions<EditProductMutation, EditProductMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditProductMutation, EditProductMutationVariables>(EditProductDocument, options);
-      }
-export type EditProductMutationHookResult = ReturnType<typeof useEditProductMutation>;
-export type EditProductMutationResult = Apollo.MutationResult<EditProductMutation>;
-export type EditProductMutationOptions = Apollo.BaseMutationOptions<EditProductMutation, EditProductMutationVariables>;
-export const GetCategoriesDocument = gql`
-    query GetCategories {
-  getCategories {
-    ...Category
-  }
+export function useEditProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditProductMutation,
+    EditProductMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<EditProductMutation, EditProductMutationVariables>(
+    EditProductDocument,
+    options,
+  );
 }
-    ${CategoryFragmentDoc}`;
+export type EditProductMutationHookResult = ReturnType<
+  typeof useEditProductMutation
+>;
+export type EditProductMutationResult =
+  Apollo.MutationResult<EditProductMutation>;
+export type EditProductMutationOptions = Apollo.BaseMutationOptions<
+  EditProductMutation,
+  EditProductMutationVariables
+>;
+export const GetCategoriesDocument = gql`
+  query GetCategories {
+    getCategories {
+      ...Category
+    }
+  }
+  ${CategoryFragmentDoc}
+`;
 
 /**
  * __useGetCategoriesQuery__
@@ -629,24 +1328,48 @@ export const GetCategoriesDocument = gql`
  *   },
  * });
  */
-export function useGetCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(GetCategoriesDocument, options);
-      }
-export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(GetCategoriesDocument, options);
-        }
-export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
-export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
-export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
-export const GetHighlightedProductDocument = gql`
-    query GetHighlightedProduct {
-  getHighlightedProduct {
-    ...Product
-  }
+export function useGetCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCategoriesQuery,
+    GetCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+    GetCategoriesDocument,
+    options,
+  );
 }
-    ${ProductFragmentDoc}`;
+export function useGetCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCategoriesQuery,
+    GetCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+    GetCategoriesDocument,
+    options,
+  );
+}
+export type GetCategoriesQueryHookResult = ReturnType<
+  typeof useGetCategoriesQuery
+>;
+export type GetCategoriesLazyQueryHookResult = ReturnType<
+  typeof useGetCategoriesLazyQuery
+>;
+export type GetCategoriesQueryResult = Apollo.QueryResult<
+  GetCategoriesQuery,
+  GetCategoriesQueryVariables
+>;
+export const GetHighlightedProductDocument = gql`
+  query GetHighlightedProduct {
+    getHighlightedProduct {
+      ...Product
+    }
+  }
+  ${ProductFragmentDoc}
+`;
 
 /**
  * __useGetHighlightedProductQuery__
@@ -663,24 +1386,48 @@ export const GetHighlightedProductDocument = gql`
  *   },
  * });
  */
-export function useGetHighlightedProductQuery(baseOptions?: Apollo.QueryHookOptions<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>(GetHighlightedProductDocument, options);
-      }
-export function useGetHighlightedProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>(GetHighlightedProductDocument, options);
-        }
-export type GetHighlightedProductQueryHookResult = ReturnType<typeof useGetHighlightedProductQuery>;
-export type GetHighlightedProductLazyQueryHookResult = ReturnType<typeof useGetHighlightedProductLazyQuery>;
-export type GetHighlightedProductQueryResult = Apollo.QueryResult<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>;
-export const GetProductsDocument = gql`
-    query GetProducts {
-  getProducts {
-    ...Product
-  }
+export function useGetHighlightedProductQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetHighlightedProductQuery,
+    GetHighlightedProductQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetHighlightedProductQuery,
+    GetHighlightedProductQueryVariables
+  >(GetHighlightedProductDocument, options);
 }
-    ${ProductFragmentDoc}`;
+export function useGetHighlightedProductLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetHighlightedProductQuery,
+    GetHighlightedProductQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetHighlightedProductQuery,
+    GetHighlightedProductQueryVariables
+  >(GetHighlightedProductDocument, options);
+}
+export type GetHighlightedProductQueryHookResult = ReturnType<
+  typeof useGetHighlightedProductQuery
+>;
+export type GetHighlightedProductLazyQueryHookResult = ReturnType<
+  typeof useGetHighlightedProductLazyQuery
+>;
+export type GetHighlightedProductQueryResult = Apollo.QueryResult<
+  GetHighlightedProductQuery,
+  GetHighlightedProductQueryVariables
+>;
+export const GetProductsDocument = gql`
+  query GetProducts {
+    getProducts {
+      ...Product
+    }
+  }
+  ${ProductFragmentDoc}
+`;
 
 /**
  * __useGetProductsQuery__
@@ -697,24 +1444,46 @@ export const GetProductsDocument = gql`
  *   },
  * });
  */
-export function useGetProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-      }
-export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-        }
-export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
-export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
-export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
-export const LogoutDocument = gql`
-    query Logout {
-  logout {
-    ...ResMessage
-  }
+export function useGetProductsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetProductsQuery,
+    GetProductsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(
+    GetProductsDocument,
+    options,
+  );
 }
-    ${ResMessageFragmentDoc}`;
+export function useGetProductsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetProductsQuery,
+    GetProductsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(
+    GetProductsDocument,
+    options,
+  );
+}
+export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
+export type GetProductsLazyQueryHookResult = ReturnType<
+  typeof useGetProductsLazyQuery
+>;
+export type GetProductsQueryResult = Apollo.QueryResult<
+  GetProductsQuery,
+  GetProductsQueryVariables
+>;
+export const LogoutDocument = gql`
+  query Logout {
+    logout {
+      ...ResMessage
+    }
+  }
+  ${ResMessageFragmentDoc}
+`;
 
 /**
  * __useLogoutQuery__
@@ -731,24 +1500,38 @@ export const LogoutDocument = gql`
  *   },
  * });
  */
-export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, options);
-      }
-export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, options);
-        }
+export function useLogoutQuery(
+  baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(
+    LogoutDocument,
+    options,
+  );
+}
+export function useLogoutLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(
+    LogoutDocument,
+    options,
+  );
+}
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
 export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
-export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
+export type LogoutQueryResult = Apollo.QueryResult<
+  LogoutQuery,
+  LogoutQueryVariables
+>;
 export const ProfileDocument = gql`
-    query Profile {
-  profile {
-    ...DecodedUser
+  query Profile {
+    profile {
+      ...DecodedUser
+    }
   }
-}
-    ${DecodedUserFragmentDoc}`;
+  ${DecodedUserFragmentDoc}
+`;
 
 /**
  * __useProfileQuery__
@@ -765,24 +1548,41 @@ export const ProfileDocument = gql`
  *   },
  * });
  */
-export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-      }
-export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-        }
+export function useProfileQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    options,
+  );
+}
+export function useProfileLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProfileQuery,
+    ProfileQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    options,
+  );
+}
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
-export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export type ProfileQueryResult = Apollo.QueryResult<
+  ProfileQuery,
+  ProfileQueryVariables
+>;
 export const HighlightedProductUpdatedDocument = gql`
-    subscription HighlightedProductUpdated {
-  highlightedProductUpdated {
-    ...Product
+  subscription HighlightedProductUpdated {
+    highlightedProductUpdated {
+      ...Product
+    }
   }
-}
-    ${ProductFragmentDoc}`;
+  ${ProductFragmentDoc}
+`;
 
 /**
  * __useHighlightedProductUpdatedSubscription__
@@ -799,100 +1599,388 @@ export const HighlightedProductUpdatedDocument = gql`
  *   },
  * });
  */
-export function useHighlightedProductUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<HighlightedProductUpdatedSubscription, HighlightedProductUpdatedSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<HighlightedProductUpdatedSubscription, HighlightedProductUpdatedSubscriptionVariables>(HighlightedProductUpdatedDocument, options);
-      }
-export type HighlightedProductUpdatedSubscriptionHookResult = ReturnType<typeof useHighlightedProductUpdatedSubscription>;
-export type HighlightedProductUpdatedSubscriptionResult = Apollo.SubscriptionResult<HighlightedProductUpdatedSubscription>;
-export type AccessTokenKeySpecifier = ('accessToken' | AccessTokenKeySpecifier)[];
+export function useHighlightedProductUpdatedSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    HighlightedProductUpdatedSubscription,
+    HighlightedProductUpdatedSubscriptionVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    HighlightedProductUpdatedSubscription,
+    HighlightedProductUpdatedSubscriptionVariables
+  >(HighlightedProductUpdatedDocument, options);
+}
+export type HighlightedProductUpdatedSubscriptionHookResult = ReturnType<
+  typeof useHighlightedProductUpdatedSubscription
+>;
+export type HighlightedProductUpdatedSubscriptionResult =
+  Apollo.SubscriptionResult<HighlightedProductUpdatedSubscription>;
+export type AccessTokenKeySpecifier = (
+  | 'accessToken'
+  | AccessTokenKeySpecifier
+)[];
 export type AccessTokenFieldPolicy = {
-	accessToken?: FieldPolicy<any> | FieldReadFunction<any>
+  accessToken?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type CategoryKeySpecifier = ('category' | 'id' | CategoryKeySpecifier)[];
 export type CategoryFieldPolicy = {
-	category?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>
+  category?: FieldPolicy<any> | FieldReadFunction<any>;
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type DecodedUserKeySpecifier = ('email' | 'id' | 'logged' | 'roles' | 'username' | DecodedUserKeySpecifier)[];
+export type DecodedUserKeySpecifier = (
+  | 'email'
+  | 'id'
+  | 'logged'
+  | 'roles'
+  | 'username'
+  | DecodedUserKeySpecifier
+)[];
 export type DecodedUserFieldPolicy = {
-	email?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	logged?: FieldPolicy<any> | FieldReadFunction<any>,
-	roles?: FieldPolicy<any> | FieldReadFunction<any>,
-	username?: FieldPolicy<any> | FieldReadFunction<any>
+  email?: FieldPolicy<any> | FieldReadFunction<any>;
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
+  logged?: FieldPolicy<any> | FieldReadFunction<any>;
+  roles?: FieldPolicy<any> | FieldReadFunction<any>;
+  username?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'editCategory' | 'editProduct' | 'login' | 'register' | MutationKeySpecifier)[];
+export type DistinctionKeySpecifier = (
+  | 'active'
+  | 'endTime'
+  | 'startTime'
+  | DistinctionKeySpecifier
+)[];
+export type DistinctionFieldPolicy = {
+  active?: FieldPolicy<any> | FieldReadFunction<any>;
+  endTime?: FieldPolicy<any> | FieldReadFunction<any>;
+  startTime?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type MutationKeySpecifier = (
+  | 'addCategory'
+  | 'addProduct'
+  | 'changeActiveProduct'
+  | 'deleteCategory'
+  | 'deleteProduct'
+  | 'editCategory'
+  | 'editProduct'
+  | 'login'
+  | 'register'
+  | MutationKeySpecifier
+)[];
 export type MutationFieldPolicy = {
-	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
-	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
-	editCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	editProduct?: FieldPolicy<any> | FieldReadFunction<any>,
-	login?: FieldPolicy<any> | FieldReadFunction<any>,
-	register?: FieldPolicy<any> | FieldReadFunction<any>
+  addCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+  addProduct?: FieldPolicy<any> | FieldReadFunction<any>;
+  changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>;
+  deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+  deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>;
+  editCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+  editProduct?: FieldPolicy<any> | FieldReadFunction<any>;
+  login?: FieldPolicy<any> | FieldReadFunction<any>;
+  register?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type ProductKeySpecifier = ('active' | 'description' | 'fromBackend' | 'id' | 'image' | 'price' | 'quantity' | 'title' | ProductKeySpecifier)[];
+export type PriceKeySpecifier = ('retail' | 'wholesale' | PriceKeySpecifier)[];
+export type PriceFieldPolicy = {
+  retail?: FieldPolicy<any> | FieldReadFunction<any>;
+  wholesale?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type ProductKeySpecifier = (
+  | 'active'
+  | 'category'
+  | 'description'
+  | 'distinction'
+  | 'id'
+  | 'image'
+  | 'model'
+  | 'price'
+  | 'quantity'
+  | 'ratings'
+  | 'sale'
+  | 'size'
+  | 'subtitle'
+  | 'title'
+  | 'views'
+  | ProductKeySpecifier
+)[];
 export type ProductFieldPolicy = {
-	active?: FieldPolicy<any> | FieldReadFunction<any>,
-	description?: FieldPolicy<any> | FieldReadFunction<any>,
-	fromBackend?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	image?: FieldPolicy<any> | FieldReadFunction<any>,
-	price?: FieldPolicy<any> | FieldReadFunction<any>,
-	quantity?: FieldPolicy<any> | FieldReadFunction<any>,
-	title?: FieldPolicy<any> | FieldReadFunction<any>
+  active?: FieldPolicy<any> | FieldReadFunction<any>;
+  category?: FieldPolicy<any> | FieldReadFunction<any>;
+  description?: FieldPolicy<any> | FieldReadFunction<any>;
+  distinction?: FieldPolicy<any> | FieldReadFunction<any>;
+  id?: FieldPolicy<any> | FieldReadFunction<any>;
+  image?: FieldPolicy<any> | FieldReadFunction<any>;
+  model?: FieldPolicy<any> | FieldReadFunction<any>;
+  price?: FieldPolicy<any> | FieldReadFunction<any>;
+  quantity?: FieldPolicy<any> | FieldReadFunction<any>;
+  ratings?: FieldPolicy<any> | FieldReadFunction<any>;
+  sale?: FieldPolicy<any> | FieldReadFunction<any>;
+  size?: FieldPolicy<any> | FieldReadFunction<any>;
+  subtitle?: FieldPolicy<any> | FieldReadFunction<any>;
+  title?: FieldPolicy<any> | FieldReadFunction<any>;
+  views?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type QueryKeySpecifier = ('getCategories' | 'getHighlightedProduct' | 'getProducts' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = (
+  | 'getCategories'
+  | 'getHighlightedProduct'
+  | 'getProducts'
+  | 'logout'
+  | 'profile'
+  | QueryKeySpecifier
+)[];
 export type QueryFieldPolicy = {
-	getCategories?: FieldPolicy<any> | FieldReadFunction<any>,
-	getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>,
-	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
-	logout?: FieldPolicy<any> | FieldReadFunction<any>,
-	profile?: FieldPolicy<any> | FieldReadFunction<any>
+  getCategories?: FieldPolicy<any> | FieldReadFunction<any>;
+  getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>;
+  getProducts?: FieldPolicy<any> | FieldReadFunction<any>;
+  logout?: FieldPolicy<any> | FieldReadFunction<any>;
+  profile?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type RatingsKeySpecifier = (
+  | 'activeFake'
+  | 'details'
+  | 'fakeQuantity'
+  | 'fakeTotal'
+  | 'originalQuantity'
+  | 'originalTotal'
+  | 'quantityOriginalAndFake'
+  | 'totalOriginalAndFake'
+  | RatingsKeySpecifier
+)[];
+export type RatingsFieldPolicy = {
+  activeFake?: FieldPolicy<any> | FieldReadFunction<any>;
+  details?: FieldPolicy<any> | FieldReadFunction<any>;
+  fakeQuantity?: FieldPolicy<any> | FieldReadFunction<any>;
+  fakeTotal?: FieldPolicy<any> | FieldReadFunction<any>;
+  originalQuantity?: FieldPolicy<any> | FieldReadFunction<any>;
+  originalTotal?: FieldPolicy<any> | FieldReadFunction<any>;
+  quantityOriginalAndFake?: FieldPolicy<any> | FieldReadFunction<any>;
+  totalOriginalAndFake?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type RatingsDetailsKeySpecifier = (
+  | 'date'
+  | 'rating'
+  | 'ratingId'
+  | 'userId'
+  | RatingsDetailsKeySpecifier
+)[];
+export type RatingsDetailsFieldPolicy = {
+  date?: FieldPolicy<any> | FieldReadFunction<any>;
+  rating?: FieldPolicy<any> | FieldReadFunction<any>;
+  ratingId?: FieldPolicy<any> | FieldReadFunction<any>;
+  userId?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type ResMessageKeySpecifier = ('message' | ResMessageKeySpecifier)[];
 export type ResMessageFieldPolicy = {
-	message?: FieldPolicy<any> | FieldReadFunction<any>
+  message?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type SubscriptionKeySpecifier = ('highlightedProductUpdated' | SubscriptionKeySpecifier)[];
+export type SaleKeySpecifier = (
+  | 'active'
+  | 'endTime'
+  | 'percentageDiscount'
+  | 'priceAfterSale'
+  | 'priceBeforeSale'
+  | 'startTime'
+  | SaleKeySpecifier
+)[];
+export type SaleFieldPolicy = {
+  active?: FieldPolicy<any> | FieldReadFunction<any>;
+  endTime?: FieldPolicy<any> | FieldReadFunction<any>;
+  percentageDiscount?: FieldPolicy<any> | FieldReadFunction<any>;
+  priceAfterSale?: FieldPolicy<any> | FieldReadFunction<any>;
+  priceBeforeSale?: FieldPolicy<any> | FieldReadFunction<any>;
+  startTime?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type SizeKeySpecifier = (
+  | 'height'
+  | 'length'
+  | 'weight'
+  | 'width'
+  | SizeKeySpecifier
+)[];
+export type SizeFieldPolicy = {
+  height?: FieldPolicy<any> | FieldReadFunction<any>;
+  length?: FieldPolicy<any> | FieldReadFunction<any>;
+  weight?: FieldPolicy<any> | FieldReadFunction<any>;
+  width?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type SoldDetailsKeySpecifier = (
+  | 'activeCoupon'
+  | 'activeDistinction'
+  | 'activeSale'
+  | 'amountDiscount'
+  | 'date'
+  | 'guestIP'
+  | 'percentageDiscount'
+  | 'price'
+  | 'profit'
+  | 'purchasePrice'
+  | 'purchasePriceBeforeDiscount'
+  | 'quantity'
+  | 'soldId'
+  | 'userId'
+  | SoldDetailsKeySpecifier
+)[];
+export type SoldDetailsFieldPolicy = {
+  activeCoupon?: FieldPolicy<any> | FieldReadFunction<any>;
+  activeDistinction?: FieldPolicy<any> | FieldReadFunction<any>;
+  activeSale?: FieldPolicy<any> | FieldReadFunction<any>;
+  amountDiscount?: FieldPolicy<any> | FieldReadFunction<any>;
+  date?: FieldPolicy<any> | FieldReadFunction<any>;
+  guestIP?: FieldPolicy<any> | FieldReadFunction<any>;
+  percentageDiscount?: FieldPolicy<any> | FieldReadFunction<any>;
+  price?: FieldPolicy<any> | FieldReadFunction<any>;
+  profit?: FieldPolicy<any> | FieldReadFunction<any>;
+  purchasePrice?: FieldPolicy<any> | FieldReadFunction<any>;
+  purchasePriceBeforeDiscount?: FieldPolicy<any> | FieldReadFunction<any>;
+  quantity?: FieldPolicy<any> | FieldReadFunction<any>;
+  soldId?: FieldPolicy<any> | FieldReadFunction<any>;
+  userId?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type SubscriptionKeySpecifier = (
+  | 'highlightedProductUpdated'
+  | SubscriptionKeySpecifier
+)[];
 export type SubscriptionFieldPolicy = {
-	highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>
+  highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type ViewsKeySpecifier = (
+  | 'activeFake'
+  | 'details'
+  | 'fakeTotal'
+  | 'originalAndFakeTotal'
+  | 'originalTotal'
+  | 'originalTotalViewsWithoutDuplicateIPAddresses'
+  | ViewsKeySpecifier
+)[];
+export type ViewsFieldPolicy = {
+  activeFake?: FieldPolicy<any> | FieldReadFunction<any>;
+  details?: FieldPolicy<any> | FieldReadFunction<any>;
+  fakeTotal?: FieldPolicy<any> | FieldReadFunction<any>;
+  originalAndFakeTotal?: FieldPolicy<any> | FieldReadFunction<any>;
+  originalTotal?: FieldPolicy<any> | FieldReadFunction<any>;
+  originalTotalViewsWithoutDuplicateIPAddresses?:
+    | FieldPolicy<any>
+    | FieldReadFunction<any>;
+};
+export type ViewsDetailsKeySpecifier = (
+  | 'date'
+  | 'guestIP'
+  | ViewsDetailsKeySpecifier
+)[];
+export type ViewsDetailsFieldPolicy = {
+  date?: FieldPolicy<any> | FieldReadFunction<any>;
+  guestIP?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type StrictTypedTypePolicies = {
-	AccessToken?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | AccessTokenKeySpecifier | (() => undefined | AccessTokenKeySpecifier),
-		fields?: AccessTokenFieldPolicy,
-	},
-	Category?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | CategoryKeySpecifier | (() => undefined | CategoryKeySpecifier),
-		fields?: CategoryFieldPolicy,
-	},
-	DecodedUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | DecodedUserKeySpecifier | (() => undefined | DecodedUserKeySpecifier),
-		fields?: DecodedUserFieldPolicy,
-	},
-	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
-		fields?: MutationFieldPolicy,
-	},
-	Product?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ProductKeySpecifier | (() => undefined | ProductKeySpecifier),
-		fields?: ProductFieldPolicy,
-	},
-	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
-		fields?: QueryFieldPolicy,
-	},
-	ResMessage?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ResMessageKeySpecifier | (() => undefined | ResMessageKeySpecifier),
-		fields?: ResMessageFieldPolicy,
-	},
-	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),
-		fields?: SubscriptionFieldPolicy,
-	}
+  AccessToken?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | AccessTokenKeySpecifier
+      | (() => undefined | AccessTokenKeySpecifier);
+    fields?: AccessTokenFieldPolicy;
+  };
+  Category?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | CategoryKeySpecifier
+      | (() => undefined | CategoryKeySpecifier);
+    fields?: CategoryFieldPolicy;
+  };
+  DecodedUser?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | DecodedUserKeySpecifier
+      | (() => undefined | DecodedUserKeySpecifier);
+    fields?: DecodedUserFieldPolicy;
+  };
+  Distinction?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | DistinctionKeySpecifier
+      | (() => undefined | DistinctionKeySpecifier);
+    fields?: DistinctionFieldPolicy;
+  };
+  Mutation?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | MutationKeySpecifier
+      | (() => undefined | MutationKeySpecifier);
+    fields?: MutationFieldPolicy;
+  };
+  Price?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | PriceKeySpecifier
+      | (() => undefined | PriceKeySpecifier);
+    fields?: PriceFieldPolicy;
+  };
+  Product?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | ProductKeySpecifier
+      | (() => undefined | ProductKeySpecifier);
+    fields?: ProductFieldPolicy;
+  };
+  Query?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | QueryKeySpecifier
+      | (() => undefined | QueryKeySpecifier);
+    fields?: QueryFieldPolicy;
+  };
+  Ratings?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | RatingsKeySpecifier
+      | (() => undefined | RatingsKeySpecifier);
+    fields?: RatingsFieldPolicy;
+  };
+  RatingsDetails?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | RatingsDetailsKeySpecifier
+      | (() => undefined | RatingsDetailsKeySpecifier);
+    fields?: RatingsDetailsFieldPolicy;
+  };
+  ResMessage?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | ResMessageKeySpecifier
+      | (() => undefined | ResMessageKeySpecifier);
+    fields?: ResMessageFieldPolicy;
+  };
+  Sale?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | SaleKeySpecifier | (() => undefined | SaleKeySpecifier);
+    fields?: SaleFieldPolicy;
+  };
+  Size?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?: false | SizeKeySpecifier | (() => undefined | SizeKeySpecifier);
+    fields?: SizeFieldPolicy;
+  };
+  SoldDetails?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | SoldDetailsKeySpecifier
+      | (() => undefined | SoldDetailsKeySpecifier);
+    fields?: SoldDetailsFieldPolicy;
+  };
+  Subscription?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | SubscriptionKeySpecifier
+      | (() => undefined | SubscriptionKeySpecifier);
+    fields?: SubscriptionFieldPolicy;
+  };
+  Views?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | ViewsKeySpecifier
+      | (() => undefined | ViewsKeySpecifier);
+    fields?: ViewsFieldPolicy;
+  };
+  ViewsDetails?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+    keyFields?:
+      | false
+      | ViewsDetailsKeySpecifier
+      | (() => undefined | ViewsDetailsKeySpecifier);
+    fields?: ViewsDetailsFieldPolicy;
+  };
 };
 export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;

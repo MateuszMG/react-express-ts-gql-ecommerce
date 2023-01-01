@@ -35,7 +35,7 @@ export const HighlightedProduct = () => {
         <DataWrapper>
           <ProductTitle>{productToShow.title}</ProductTitle>
           <Text>Description: {productToShow.description}</Text>
-          <Text>Price: {productToShow.price}</Text>
+          <Text>Price: {productToShow.price.retail}</Text>
           <Text>Quantity: {productToShow.quantity}</Text>
         </DataWrapper>
       </Section>

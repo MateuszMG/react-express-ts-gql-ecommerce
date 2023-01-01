@@ -23,7 +23,8 @@ export const ProductList = () => {
           <DataWrapper>
             <ProductTitle>{item.title}</ProductTitle>
             <Text>Description: {item.description}</Text>
-            <Text>Price: {item.price}</Text>
+            <Text>Wholesale price: {item.price.wholesale}</Text>
+            <Text>Retail price: {item.price.retail}</Text>
             <Text>Quantity: {item.quantity}</Text>
           </DataWrapper>
 

@@ -1,5 +1,5 @@
 import { FormHTMLAttributes, ReactNode } from 'react';
-import { Wrapper, ButtonsWrapper } from './Form.styled';
+import { Wrapper, ButtonsWrapper, FieldsDivided } from './Form.styled';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode;
@@ -14,4 +14,5 @@ export const Form = ({ children, className, ...rest }: FormProps) => {
   );
 };
 
+Form.FieldsDivided = FieldsDivided;
 Form.ButtonsWrapper = ButtonsWrapper;

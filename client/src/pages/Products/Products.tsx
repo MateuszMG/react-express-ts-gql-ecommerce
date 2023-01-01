@@ -7,8 +7,8 @@ export const Products = () => {
   return (
     <Container>
       <ProductForm />
-      <HighlightedProduct />
-      <ProductList />
+      {/* <HighlightedProduct /> */}
+      {/* <ProductList /> */}
     </Container>
   );
 };

@@ -6,9 +6,9 @@ export const FormWrapper = styled.div`
   justify-content: center;
   min-height: 100%;
 
-  > form {
-    width: 300px;
-  }
+  /* > form {
+    width: 800px;
+  } */
 `;
 
 export const Title = styled.h2`

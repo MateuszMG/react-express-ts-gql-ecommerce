@@ -1,17 +1,17 @@
 import { editedCategoryVar } from '../../../client/reactiveVariables';
+import { randomNumber } from '../../../helpers/number';
 import { Reference, useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
-  GetCategoriesDocument,
-  useAddCategoryMutation,
-  GetCategoriesQuery,
   CategoryFragmentDoc,
+  GetCategoriesDocument,
+  GetCategoriesQuery,
+  useAddCategoryMutation,
   useEditCategoryMutation,
 } from '../../../generated/types';
-import { randomNumber } from '../../../helpers/number';
 
 export const useCategoryForm = () => {
   const [editCategory] = useEditCategoryMutation();

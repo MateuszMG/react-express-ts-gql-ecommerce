@@ -11,7 +11,7 @@ export const CategoryForm = () => {
   return (
     <FormWrapper>
       <Form onReset={() => reset()} onSubmit={onSubmit}>
-        <Title>Add Product</Title>
+        <Title>Add category</Title>
 
         <TextInput
           {...register('category')}
