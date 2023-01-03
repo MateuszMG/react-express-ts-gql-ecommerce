@@ -62,46 +62,38 @@ fragment Views on Views {
   originalTotalViewsWithoutDuplicateIPAddresses
 }
 
-# fragment SoldDetails on SoldDetails {
-#   guestIP
-#   soldId
-#   userId
+fragment SoldDetails on SoldDetails {
+  guestIP
+  soldId
+  userId
 
-#   quantity
-#   price {
-#     ...Price
-#   }
+  quantity
+  price {
+    ...Price
+  }
 
-#   activeSale
-#   activeCoupon
-#   activeDistinction
+  activeSale
+  activeCoupon
+  activeDistinction
 
-#   purchasePriceBeforeDiscount
-#   purchasePrice
-#   profit
-#   amountDiscount
-#   percentageDiscount
+  purchasePriceBeforeDiscount
+  purchasePrice
+  profit
+  amountDiscount
+  percentageDiscount
 
-#   date
-# }
+  date
+}
 
-# fragment Sold on Sold {
-#   activeFake
-#   details {
-#     ...SoldDetails
-#   }
-#   fakeTotal
-#   originalTotal
-#   originalAndFakeTotal
-# }
-
-# fragment Comments on Comments {
-#   commentId
-#   userId
-#   username
-#   comment
-#   date
-# }
+fragment Sold on Sold {
+  activeFake
+  details {
+    ...SoldDetails
+  }
+  fakeTotal
+  originalTotal
+  originalAndFakeTotal
+}
 
 fragment Product on Product {
   id
@@ -132,19 +124,15 @@ fragment Product on Product {
     ...Sale
   }
 
-  # ratings {
-  #   ...Ratings
-  # }
+  ratings {
+    ...Ratings
+  }
 
-  # views {
-  #   ...Views
-  # }
+  views {
+    ...Views
+  }
 
-  # sold {
-  #   ...Sold
-  # }
-
-  # comments {
-  #   ...Comments
-  # }
+  sold {
+    ...Sold
+  }
 }

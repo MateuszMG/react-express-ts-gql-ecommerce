@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import {
   productResolver,
   ProductSchema,
-} from '../../../validations/resolvers/productResolver';
+} from '../../../validations/resolvers/product';
 import {
   GetProductsDocument,
   useAddProductMutation,

@@ -1,14 +1,17 @@
 import { InMemoryCache } from '@apollo/client';
 import { StrictTypedTypePolicies } from '../generated/types';
+import { handleAccessToken } from '../helpers/accessToken';
+import { getFromTheLS } from '../helpers/localStorage';
 
 const typePolicies: StrictTypedTypePolicies = {
-  // Product: {
-  //   fields: {
-  //     fromBackend(_, { readField }) {
-  //       return true;
-  //     },
-  //   },
-  // },
+  Comment: {
+    fields: {
+      isOwner(_, { readField, cache }) {
+        const user = handleAccessToken(getFromTheLS('accessToken'));
+        return user.id === readField('userId');
+      },
+    },
+  },
 };
 
 export const cache = new InMemoryCache({

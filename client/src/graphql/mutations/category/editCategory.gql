@@ -1,5 +1,0 @@
-mutation EditCategory($input: EditCategoryInput!) {
-  editCategory(input: $input) {
-    ...ResMessage
-  }
-}

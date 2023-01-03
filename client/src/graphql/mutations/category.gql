@@ -1,0 +1,17 @@
+mutation AddCategory($input: CategoryInput!) {
+  addCategory(input: $input) {
+    ...Category
+  }
+}
+
+mutation EditCategory($input: EditCategoryInput!) {
+  editCategory(input: $input) {
+    ...ResMessage
+  }
+}
+
+mutation DeleteCategory($input: IdInput!) {
+  deleteCategory(input: $input) {
+    ...ResMessage
+  }
+}

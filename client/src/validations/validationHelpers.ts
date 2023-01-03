@@ -5,8 +5,6 @@ export const dateTimeRangeValidation = (
   val: any,
   ctx: yup.TestContext<AnyObject>,
 ) => {
-  //   console.log('ctx.schema', ctx);
-
   if (!ctx.parent.active) return true;
   const startTime = new Date(ctx.parent.startTime).valueOf();
   const endTime = new Date(ctx.parent.endTime).valueOf();

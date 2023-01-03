@@ -1,0 +1,23 @@
+mutation AddProduct($input: ProductInput!) {
+  addProduct(input: $input) {
+    ...Product
+  }
+}
+
+mutation EditProduct($input: EditProductInput!) {
+  editProduct(input: $input) {
+    ...ResMessage
+  }
+}
+
+mutation DeleteProduct($input: IdInput!) {
+  deleteProduct(input: $input) {
+    ...ResMessage
+  }
+}
+
+mutation ChangeActiveProduct($input: IdInput!) {
+  changeActiveProduct(input: $input) {
+    ...ResMessage
+  }
+}

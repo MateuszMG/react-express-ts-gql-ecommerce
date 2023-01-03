@@ -1,0 +1,5 @@
+query GetProduct($input: IdInput!) {
+  getProduct(input: $input) {
+    ...Product
+  }
+}

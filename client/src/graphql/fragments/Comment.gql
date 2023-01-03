@@ -1,0 +1,10 @@
+fragment Comment on Comment {
+  id
+  productId
+  userId
+  username
+  comment
+  createdAt
+  updatedAt
+  isOwner @client
+}

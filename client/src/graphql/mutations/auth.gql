@@ -1,3 +1,9 @@
+mutation Login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    ...AccessToken
+  }
+}
+
 mutation Register($registerInput: RegisterInput!) {
   register(registerInput: $registerInput) {
     ...AccessToken

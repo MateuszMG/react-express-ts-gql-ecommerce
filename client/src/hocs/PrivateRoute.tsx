@@ -9,8 +9,20 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute = ({ children, roles }: PrivateRouteProps) => {
-  const { isAdmin, isLogged, isMod, isUser, user, logout } = useAuth();
-  console.log('user.roles', user.roles);
+  const { isAdmin, isLogged, isMod, isUser, logout } = useAuth();
+
+  // const reqRoles = [AppRoles.MODERATOR];
+  // const userRoles = [AppRoles.USER, AppRoles.MODERATOR];
+
+  // let canEnter = false;
+  // console.log('tu');
+
+  // reqRoles.forEach((role) => {
+  //   console.log('for');
+
+  //   userRoles.includes(role) && (canEnter = true);
+  // });
+  // console.log('canEnter', canEnter);
 
   const onlyNotLogged = roles.includes(AppRoles.NOT_LOGGED);
   const requireUser = roles.includes(AppRoles.USER);

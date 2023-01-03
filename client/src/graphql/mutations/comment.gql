@@ -1,0 +1,17 @@
+mutation AddComment($input: AddCommentInput!) {
+  addComment(input: $input) {
+    ...Comment
+  }
+}
+
+mutation EditComment($input: EditCommentInput!) {
+  editComment(input: $input) {
+    ...Comment
+  }
+}
+
+mutation DeleteComment($input: IdInput!) {
+  deleteComment(input: $input) {
+    ...ResMessage
+  }
+}

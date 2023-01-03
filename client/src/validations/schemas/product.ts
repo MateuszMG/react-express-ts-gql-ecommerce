@@ -36,18 +36,26 @@ export const productSchema = {
 
   distinction: yup.object({
     active: yup.boolean().required(),
-    startTime: yup.string().required(),
-    // .test('startTime', 'error', dateTimeRangeValidation),
-    endTime: yup.string().required(),
-    // .test('endTime', 'error', dateTimeRangeValidation),
+    startTime: yup
+      .string()
+      .required()
+      .test('startTime', 'error', dateTimeRangeValidation),
+    endTime: yup
+      .string()
+      .required()
+      .test('endTime', 'error', dateTimeRangeValidation),
   }),
 
   sale: yup.object({
     active: yup.boolean().required(),
-    startTime: yup.string().required(),
-    // .test('startTime', 'error', dateTimeRangeValidation),
-    endTime: yup.string().required(),
-    // .test('endTime', 'error', dateTimeRangeValidation),
+    startTime: yup
+      .string()
+      .required()
+      .test('startTime', 'error', dateTimeRangeValidation),
+    endTime: yup
+      .string()
+      .required()
+      .test('endTime', 'error', dateTimeRangeValidation),
 
     priceBeforeSale: yup.number().required(),
     priceAfterSale: yup.number().required(),
@@ -84,5 +92,10 @@ export const productSchema = {
     // originalTotal: yup.number().required(),
     // originalAndFakeTotal: yup.number().required(),
     // originalTotalViewsWithoutDuplicateIPAddresses: yup.number().required(),
+  }),
+
+  sold: yup.object({
+    activeFake: yup.boolean().required(),
+    fakeTotal: yup.number().required(),
   }),
 };

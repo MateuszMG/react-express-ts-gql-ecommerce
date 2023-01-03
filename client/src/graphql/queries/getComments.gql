@@ -1,0 +1,5 @@
+query GetComments($input: GetCommentsInput!) {
+  getComments(input: $input) {
+    ...Comment
+  }
+}

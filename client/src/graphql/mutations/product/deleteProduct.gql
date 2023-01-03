@@ -1,5 +1,0 @@
-mutation DeleteProduct($input: IdInput!) {
-  deleteProduct(input: $input) {
-    ...ResMessage
-  }
-}

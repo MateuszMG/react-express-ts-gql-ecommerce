@@ -1,5 +1,4 @@
 import { useHome } from './useHome';
-import { HighlightedProduct } from '../Products/HighlightedProduct/HighlightedProduct';
 import {
   DataWrapper,
   Img,
@@ -8,42 +7,44 @@ import {
   Text,
   Wrapper,
 } from './Home.styled';
-import { SelectInput } from '../../components/Global/inputs/SelectInput/SelectInput';
-import { useForm } from 'react-hook-form';
-import { DateTimeInput } from '../../components/Global/inputs/DateTimeInput/DateTimeInput';
+import { useNavigate } from 'react-router-dom';
+import { paths } from '../../routes/paths';
 
 export const Home = () => {
   const { products } = useHome();
+  const navigate = useNavigate();
 
-  const { control } = useForm();
+  console.log('products', products);
 
   return (
-    <>
-      {/* <SelectInput
-        control={control}
-        name='default'
-        options={[
-          {
-            label: 'text',
-            value: 'value',
-          },
-        ]}
-      /> */}
-      {/* <HighlightedProduct />
-      <Wrapper>
-        {products?.map((item) => (
-          <Section key={item.id}>
-            <Img src={item.image} alt={item.title} />
+    <Wrapper>
+      {products?.map(
+        ({
+          description,
+          distinction,
+          id,
+          image,
+          model,
+          price,
+          quantity,
+          sale,
+          size,
+          subtitle,
+          title,
+        }) => (
+          <Section key={id} onClick={() => navigate(paths.product(id))}>
+            <Img src={image} alt={title} />
 
             <DataWrapper>
-              <ProductTitle>{item.title}</ProductTitle>
-              <Text>Description: {item.description}</Text>
-              <Text>Price: {item.price.retail}</Text>
-              <Text>Quantity: {item.quantity}</Text>
+              <ProductTitle>{title}</ProductTitle>
+              <Text> {description.slice(0, 500)}</Text>
+              <Text> {model} </Text>
+              <Text>Price: {price.retail}</Text>
+              <Text>Quantity: {quantity}</Text>
             </DataWrapper>
           </Section>
-        ))}
-      </Wrapper> */}
-    </>
+        ),
+      )}
+    </Wrapper>
   );
 };

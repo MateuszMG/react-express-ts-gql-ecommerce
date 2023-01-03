@@ -6,13 +6,10 @@ import { Register } from '../pages/Auth/Register';
 import { AppRoles } from '../const';
 import { Home } from '../pages/Home/Home';
 import { Category } from '../pages/Category/Category';
+import { Product } from '../pages/Product/Product';
 
 export const routesConfig = [
-  {
-    component: Home,
-    path: paths.home,
-    roles: [AppRoles.GUEST],
-  },
+  // NOT_LOGGED
   {
     component: Login,
     path: paths.login,
@@ -23,11 +20,27 @@ export const routesConfig = [
     path: paths.register,
     roles: [AppRoles.NOT_LOGGED],
   },
+
+  // GUEST
+  {
+    component: Home,
+    path: paths.home,
+    roles: [AppRoles.GUEST],
+  },
+  {
+    component: Product,
+    path: paths.product(':productId'),
+    roles: [AppRoles.GUEST],
+  },
+
+  // USER
   {
     component: Profile,
     path: paths.profile,
     roles: [AppRoles.USER],
   },
+
+  // MODERATOR
   {
     component: Products,
     path: paths.products,

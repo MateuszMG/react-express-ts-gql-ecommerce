@@ -1,16 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div``;
 
-export const Section = styled.section`
-  display: flex;
-  margin: 12px;
-`;
+export const Section = styled.section(
+  ({ theme: { colors } }) => css`
+    border-bottom: 1px solid ${colors.primary};
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+  `,
+);
 
 export const Img = styled.img`
-  height: 100px;
-  margin-right: 20px;
-  width: 100px;
+  display: block;
+  height: 150px;
+  width: 150px;
 `;
 
 export const DataWrapper = styled.div`

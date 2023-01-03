@@ -11,13 +11,6 @@ export const productFormHelpers = () => {
     subtitle: 'subtitle --' + randomNumber(),
 
     category: 'Category --537399',
-    // category: 'category --' + randomNumber(),
-
-    // category: {
-    //   label: 'Category --537399',
-    //   value: 'Category --537399',
-    // },
-
     model: 'model --' + randomNumber(),
 
     quantity: randomNumber(),
@@ -36,13 +29,13 @@ export const productFormHelpers = () => {
     },
 
     distinction: {
-      active: true,
+      active: false,
       startTime: new Date().toISOString(),
       endTime: new Date().toISOString(),
     },
 
     sale: {
-      active: true,
+      active: false,
       startTime: new Date().toISOString(),
       endTime: new Date().toISOString(),
 
@@ -53,22 +46,18 @@ export const productFormHelpers = () => {
 
     ratings: {
       activeFake: true,
-      // details: [],
       fakeTotal: randomNumber(2),
       fakeQuantity: randomNumber(2),
-      // originalTotal: randomNumber(2),
-      // originalQuantity: randomNumber(2),
-      // totalOriginalAndFake: randomNumber(2),
-      // quantityOriginalAndFake: randomNumber(2),
     },
 
     views: {
       activeFake: true,
-      // details: [],
       fakeTotal: randomNumber(2),
-      // originalTotal: randomNumber(2),
-      // originalAndFakeTotal: randomNumber(2),
-      // originalTotalViewsWithoutDuplicateIPAddresses: randomNumber(2),
+    },
+
+    sold: {
+      activeFake: true,
+      fakeTotal: randomNumber(2),
     },
   });
 

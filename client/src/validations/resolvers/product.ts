@@ -1,6 +1,6 @@
+import { productSchema } from '../schemas/product';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { productSchema } from '../schemas/productSchema';
 
 const productValidation = yup.object({
   ...productSchema,

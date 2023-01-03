@@ -1,5 +1,0 @@
-mutation EditProduct($input: EditProductInput!) {
-  editProduct(input: $input) {
-    ...ResMessage
-  }
-}

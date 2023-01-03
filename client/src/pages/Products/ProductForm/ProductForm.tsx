@@ -160,47 +160,6 @@ export const ProductForm = () => {
           />
         </Form.FieldsDivided>
 
-        {/* //////////////////////////////////////////////// ratings */}
-
-        <Form.FieldsDivided>
-          <CheckboxInput
-            {...register('ratings.activeFake')}
-            error={errors?.ratings?.activeFake?.message}
-            label={'Active sale'}
-          />
-
-          <TextInput
-            {...register('ratings.fakeTotal')}
-            error={errors?.ratings?.fakeTotal?.message}
-            label={'Fake total'}
-            type={'number'}
-          />
-
-          <TextInput
-            {...register('ratings.fakeQuantity')}
-            error={errors?.ratings?.fakeQuantity?.message}
-            label={'Fake quantity'}
-            type={'number'}
-          />
-        </Form.FieldsDivided>
-
-        {/* //////////////////////////////////////////////// ratings */}
-
-        <Form.FieldsDivided>
-          <CheckboxInput
-            {...register('views.activeFake')}
-            error={errors?.views?.activeFake?.message}
-            label={'Active sale'}
-          />
-
-          <TextInput
-            {...register('views.fakeTotal')}
-            error={errors?.views?.fakeTotal?.message}
-            label={'Fake total'}
-            type={'number'}
-          />
-        </Form.FieldsDivided>
-
         <Form.FieldsDivided>
           <TextInput
             {...register('sale.priceBeforeSale')}
@@ -218,6 +177,64 @@ export const ProductForm = () => {
             {...register('sale.percentageDiscount')}
             error={errors?.sale?.percentageDiscount?.message}
             label={'Percentage discount'}
+            type={'number'}
+          />
+        </Form.FieldsDivided>
+
+        {/* //////////////////////////////////////////////// ratings */}
+
+        <Form.FieldsDivided>
+          <CheckboxInput
+            {...register('ratings.activeFake')}
+            error={errors?.ratings?.activeFake?.message}
+            label={'Active fake ratings'}
+          />
+
+          <TextInput
+            {...register('ratings.fakeTotal')}
+            error={errors?.ratings?.fakeTotal?.message}
+            label={'Fake total'}
+            type={'number'}
+          />
+
+          <TextInput
+            {...register('ratings.fakeQuantity')}
+            error={errors?.ratings?.fakeQuantity?.message}
+            label={'Fake quantity'}
+            type={'number'}
+          />
+        </Form.FieldsDivided>
+
+        {/* //////////////////////////////////////////////// views */}
+
+        <Form.FieldsDivided>
+          <CheckboxInput
+            {...register('views.activeFake')}
+            error={errors?.views?.activeFake?.message}
+            label={'Active fake views'}
+          />
+
+          <TextInput
+            {...register('views.fakeTotal')}
+            error={errors?.views?.fakeTotal?.message}
+            label={'Fake total'}
+            type={'number'}
+          />
+        </Form.FieldsDivided>
+
+        {/* //////////////////////////////////////////////// sold */}
+
+        <Form.FieldsDivided>
+          <CheckboxInput
+            {...register('sold.activeFake')}
+            error={errors?.sold?.activeFake?.message}
+            label={'Active fake sold'}
+          />
+
+          <TextInput
+            {...register('sold.fakeTotal')}
+            error={errors?.sold?.fakeTotal?.message}
+            label={'Fake total'}
             type={'number'}
           />
         </Form.FieldsDivided>
