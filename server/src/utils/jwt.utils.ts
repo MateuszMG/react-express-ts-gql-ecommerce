@@ -11,6 +11,11 @@ export interface DataToJWT {
   email: string;
 }
 
+export interface UserFromJWT extends DataToJWT {
+  iat: number;
+  exp: number;
+}
+
 export const createAccessToken = (payload: DataToJWT) =>
   jwt.sign(payload, accessTokenSecret, { expiresIn: '60m' });
 

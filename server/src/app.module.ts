@@ -44,7 +44,7 @@ import { CategorySchema } from './features/category/category.model';
       cors: { origin: true },
 
       context: ({ req, res }) => {
-        if (!req) return;
+        if (!req) return; // for subscription
         console.log('req', req?.body);
 
         if (!req.headers?.authorization) {

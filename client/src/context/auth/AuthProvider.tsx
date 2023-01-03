@@ -5,14 +5,25 @@ import { getFromTheLS } from '../../helpers/localStorage';
 import { handleAccessToken } from '../../helpers/accessToken';
 import { ReactNode, useReducer } from 'react';
 import { useLogoutLazyQuery } from '../../generated/types';
+import { UserRoles } from '../../const';
 
-const initialState: AuthState = {
-  user: handleAccessToken(getFromTheLS('accessToken')),
-  isLogged: false,
-  isUser: false,
-  isMod: false,
-  isAdmin: false,
+export const fillAuthState = (accessToken: string) => {
+  const user = handleAccessToken(accessToken);
+  const isLogged = !!user?.id;
+  const isUser = user.roles.includes(UserRoles.USER);
+  const isMod = user.roles.includes(UserRoles.MODERATOR);
+  const isAdmin = user.roles.includes(UserRoles.ADMINISTRATOR);
+
+  return {
+    user,
+    isLogged,
+    isUser,
+    isMod,
+    isAdmin,
+  };
 };
+
+const initialState: AuthState = fillAuthState(getFromTheLS('accessToken'));
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -23,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [logoutMutaton, { client }] = useLogoutLazyQuery();
 
   const setUser = (accessToken: string) => {
-    dispatch({ type: 'setUser', payload: handleAccessToken(accessToken) });
+    dispatch({ type: 'setUser', payload: accessToken });
   };
 
   const logout = () => {

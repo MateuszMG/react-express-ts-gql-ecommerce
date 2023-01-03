@@ -9,5 +9,5 @@ export interface AuthState {
 }
 
 export type AuthAction =
-  | { type: 'setUser'; payload: UserFromJWT }
+  | { type: 'setUser'; payload: string }
   | { type: 'logout' };

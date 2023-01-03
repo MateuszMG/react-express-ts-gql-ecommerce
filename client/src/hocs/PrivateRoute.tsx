@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { AppRoles, UserRoles } from '../const';
+import { AppRoles } from '../const';
 import { useAuth } from '../hooks/useAuth';
 import { paths } from '../routes/paths';
 
