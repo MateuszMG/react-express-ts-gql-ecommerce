@@ -117,25 +117,10 @@ export class Ratings {
 //////////////////////////////////////////////// Views
 
 @ObjectType()
-export class ViewsDetails {
-  @Prop()
-  @Field()
-  guestIP: string;
-
-  @Prop()
-  @Field()
-  date: Date;
-}
-
-@ObjectType()
 export class Views {
   @Prop()
   @Field()
   activeFake: boolean;
-
-  @Prop()
-  @Field(() => [ViewsDetails])
-  details: ViewsDetails[];
 
   @Prop()
   @Field()

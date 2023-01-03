@@ -59,6 +59,11 @@ export const Product = () => {
       </SoldWrapper> */}
 
       <h1>ratings: {ratings.originalAndFakeAmount}</h1>
+      <h1>originalTotal: {views.originalTotal}</h1>
+      <h1>
+        originalTotalViewsWithoutDuplicateIPAddresses:{' '}
+        {views.originalTotalViewsWithoutDuplicateIPAddresses}
+      </h1>
       <p> Product </p>
       <p> Product </p>
       <p> Product </p>

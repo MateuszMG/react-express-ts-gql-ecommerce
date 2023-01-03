@@ -16,6 +16,8 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** Without response */
+  GraphQLVoid: any;
 };
 
 export type AccessToken = {
@@ -103,6 +105,7 @@ export type Mutation = {
   addCategory: Category;
   addProduct: Product;
   addRating: Rating;
+  addView?: Maybe<Scalars['GraphQLVoid']>;
   changeActiveProduct: ResMessage;
   deleteCategory: ResMessage;
   deleteProduct: ResMessage;
@@ -127,6 +130,11 @@ export type MutationAddProductArgs = {
 
 export type MutationAddRatingArgs = {
   input: AddRatingInput;
+};
+
+
+export type MutationAddViewArgs = {
+  input: IdInput;
 };
 
 
@@ -371,17 +379,10 @@ export type Subscription = {
 export type Views = {
   __typename?: 'Views';
   activeFake: Scalars['Boolean'];
-  details: Array<ViewsDetails>;
   fakeTotal: Scalars['Float'];
   originalAndFakeTotal: Scalars['Float'];
   originalTotal: Scalars['Float'];
   originalTotalViewsWithoutDuplicateIPAddresses: Scalars['Float'];
-};
-
-export type ViewsDetails = {
-  __typename?: 'ViewsDetails';
-  date: Scalars['DateTime'];
-  guestIP: Scalars['String'];
 };
 
 export type AccessTokenFragment = { __typename?: 'AccessToken', accessToken: string };
@@ -400,15 +401,13 @@ export type SaleFragment = { __typename?: 'Sale', active: boolean, startTime: an
 
 export type RatingsFragment = { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number };
 
-export type ViewsDetailsFragment = { __typename?: 'ViewsDetails', guestIP: string, date: any };
-
-export type ViewsFragment = { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> };
+export type ViewsFragment = { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number };
 
 export type SoldDetailsFragment = { __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } };
 
 export type SoldFragment = { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> };
 
-export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } };
+export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } };
 
 export type RatingFragment = { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean };
 
@@ -454,7 +453,7 @@ export type AddProductMutationVariables = Exact<{
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type EditProductMutationVariables = Exact<{
   input: EditProductInput;
@@ -498,6 +497,13 @@ export type DeleteRatingMutationVariables = Exact<{
 
 export type DeleteRatingMutation = { __typename?: 'Mutation', deleteRating: { __typename?: 'ResMessage', message: string } };
 
+export type AddViewMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type AddViewMutation = { __typename?: 'Mutation', addView?: any | null };
+
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -506,19 +512,19 @@ export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ 
 export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type GetProductQueryVariables = Exact<{
   input: IdInput;
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } }> };
+export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } }> };
 
 export type GetRatingsQueryVariables = Exact<{
   input: GetRatingsInput;
@@ -540,7 +546,7 @@ export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'Deco
 export type HighlightedProductUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } | null };
+export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } | null };
 
 export const AccessTokenFragmentDoc = gql`
     fragment AccessToken on AccessToken {
@@ -604,24 +610,15 @@ export const RatingsFragmentDoc = gql`
   originalAndFakeAmount
 }
     `;
-export const ViewsDetailsFragmentDoc = gql`
-    fragment ViewsDetails on ViewsDetails {
-  guestIP
-  date
-}
-    `;
 export const ViewsFragmentDoc = gql`
     fragment Views on Views {
   activeFake
-  details {
-    ...ViewsDetails
-  }
   fakeTotal
   originalTotal
   originalAndFakeTotal
   originalTotalViewsWithoutDuplicateIPAddresses
 }
-    ${ViewsDetailsFragmentDoc}`;
+    `;
 export const SoldDetailsFragmentDoc = gql`
     fragment SoldDetails on SoldDetails {
   guestIP
@@ -1107,6 +1104,37 @@ export function useDeleteRatingMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteRatingMutationHookResult = ReturnType<typeof useDeleteRatingMutation>;
 export type DeleteRatingMutationResult = Apollo.MutationResult<DeleteRatingMutation>;
 export type DeleteRatingMutationOptions = Apollo.BaseMutationOptions<DeleteRatingMutation, DeleteRatingMutationVariables>;
+export const AddViewDocument = gql`
+    mutation AddView($input: IdInput!) {
+  addView(input: $input)
+}
+    `;
+export type AddViewMutationFn = Apollo.MutationFunction<AddViewMutation, AddViewMutationVariables>;
+
+/**
+ * __useAddViewMutation__
+ *
+ * To run a mutation, you first call `useAddViewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddViewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addViewMutation, { data, loading, error }] = useAddViewMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddViewMutation(baseOptions?: Apollo.MutationHookOptions<AddViewMutation, AddViewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddViewMutation, AddViewMutationVariables>(AddViewDocument, options);
+      }
+export type AddViewMutationHookResult = ReturnType<typeof useAddViewMutation>;
+export type AddViewMutationResult = Apollo.MutationResult<AddViewMutation>;
+export type AddViewMutationOptions = Apollo.BaseMutationOptions<AddViewMutation, AddViewMutationVariables>;
 export const GetCategoriesDocument = gql`
     query GetCategories {
   getCategories {
@@ -1399,11 +1427,12 @@ export type DistinctionFieldPolicy = {
 	endTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	startTime?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'addView' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRating?: FieldPolicy<any> | FieldReadFunction<any>,
+	addView?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1519,19 +1548,13 @@ export type SubscriptionKeySpecifier = ('highlightedProductUpdated' | Subscripti
 export type SubscriptionFieldPolicy = {
 	highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ViewsKeySpecifier = ('activeFake' | 'details' | 'fakeTotal' | 'originalAndFakeTotal' | 'originalTotal' | 'originalTotalViewsWithoutDuplicateIPAddresses' | ViewsKeySpecifier)[];
+export type ViewsKeySpecifier = ('activeFake' | 'fakeTotal' | 'originalAndFakeTotal' | 'originalTotal' | 'originalTotalViewsWithoutDuplicateIPAddresses' | ViewsKeySpecifier)[];
 export type ViewsFieldPolicy = {
 	activeFake?: FieldPolicy<any> | FieldReadFunction<any>,
-	details?: FieldPolicy<any> | FieldReadFunction<any>,
 	fakeTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalAndFakeTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalTotalViewsWithoutDuplicateIPAddresses?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type ViewsDetailsKeySpecifier = ('date' | 'guestIP' | ViewsDetailsKeySpecifier)[];
-export type ViewsDetailsFieldPolicy = {
-	date?: FieldPolicy<any> | FieldReadFunction<any>,
-	guestIP?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
 	AccessToken?: Omit<TypePolicy, "fields" | "keyFields"> & {
@@ -1601,10 +1624,6 @@ export type StrictTypedTypePolicies = {
 	Views?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ViewsKeySpecifier | (() => undefined | ViewsKeySpecifier),
 		fields?: ViewsFieldPolicy,
-	},
-	ViewsDetails?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ViewsDetailsKeySpecifier | (() => undefined | ViewsDetailsKeySpecifier),
-		fields?: ViewsDetailsFieldPolicy,
 	}
 };
 export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;

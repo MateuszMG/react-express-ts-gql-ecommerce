@@ -2,6 +2,7 @@ import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ProductDocument, Ratings } from '../product/product.model';
 import { Rating, RatingDocument } from './rating.model';
 import { ResMessage } from 'src/types/object.type';
 import Ctx from 'src/types/context.type';
@@ -10,11 +11,16 @@ import {
   EditRatingInput,
   GetRatingsInput,
 } from './rating.input';
-import { ProductDocument, Ratings } from '../product/product.model';
-import { calculateRatings } from 'src/utils/services/rating.utils';
 
 interface RatingObject {
   rating: number;
+}
+
+interface CalculateRating {
+  activeFake: boolean;
+  actualRatings: number[];
+  fakeAmount: number;
+  fakeTotal: number;
 }
 
 @Injectable()
@@ -41,7 +47,7 @@ export class RatingService {
       .find({ productId: product.id })
       .select(['rating', '-_id'])) as RatingObject[];
 
-    const ratings = calculateRatings({
+    const ratings = this.calculateRatings({
       ...product.ratings,
       actualRatings: [
         ...ratingsObjects.map((item) => item.rating),
@@ -96,7 +102,7 @@ export class RatingService {
       .find({ productId })
       .select(['rating', '-_id'])) as RatingObject[];
 
-    const ratings = calculateRatings({
+    const ratings = this.calculateRatings({
       ...productRatings,
       actualRatings: ratingsObjects.map((item) => item.rating),
     });
@@ -104,5 +110,35 @@ export class RatingService {
     await this.productModel.findByIdAndUpdate(productId, {
       ratings,
     });
+  }
+
+  private calculateRatings({
+    activeFake,
+    actualRatings,
+    fakeAmount,
+    fakeTotal,
+  }: CalculateRating): Ratings {
+    const originalTotal = actualRatings.length;
+    const originalAmount = +(
+      actualRatings.reduce((acc, val) => acc + val) / originalTotal
+    ).toFixed(2);
+
+    const fakeRatingArray = Array(fakeTotal).fill(fakeAmount);
+    const originalAndFakeTotal = originalTotal + fakeRatingArray.length;
+    const originalAndFakeAmount = +(
+      [...actualRatings, ...fakeRatingArray].reduce((acc, val) => acc + val) /
+      originalAndFakeTotal
+    ).toFixed(2);
+
+    return {
+      activeFake,
+      fakeAmount,
+      fakeTotal,
+
+      originalAmount,
+      originalTotal,
+      originalAndFakeAmount,
+      originalAndFakeTotal,
+    };
   }
 }

@@ -36,16 +36,8 @@ fragment Ratings on Ratings {
   originalAndFakeAmount
 }
 
-fragment ViewsDetails on ViewsDetails {
-  guestIP
-  date
-}
-
 fragment Views on Views {
   activeFake
-  details {
-    ...ViewsDetails
-  }
   fakeTotal
   originalTotal
   originalAndFakeTotal

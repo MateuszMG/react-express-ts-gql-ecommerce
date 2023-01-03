@@ -55,7 +55,6 @@ export class ProductService {
       },
       views: {
         ...input.views,
-        details: [],
         originalAndFakeTotal: input.views.fakeTotal,
         originalTotal: 0,
         originalTotalViewsWithoutDuplicateIPAddresses: 0,

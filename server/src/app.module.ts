@@ -15,6 +15,8 @@ import { RatingModule } from './features/rating/rating.module';
 import { RatingSchema } from './features/rating/rating.model';
 import { UserSchema } from './features/user/user.model';
 import { UsersModule } from './features/user/user.module';
+import { ViewModule } from './features/view/view.module';
+import { ViewSchema } from './features/view/view.model';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { UsersModule } from './features/user/user.module';
       { name: 'product', schema: ProductSchema },
       { name: 'category', schema: CategorySchema },
       { name: 'rating', schema: RatingSchema },
+      { name: 'view', schema: ViewSchema },
     ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -63,6 +66,7 @@ import { UsersModule } from './features/user/user.module';
     ProductModule,
     CategoryModule,
     RatingModule,
+    ViewModule,
   ],
   controllers: [AppController],
 
