@@ -1,0 +1,17 @@
+mutation AddRating($input: AddRatingInput!) {
+  addRating(input: $input) {
+    ...Rating
+  }
+}
+
+mutation EditRating($input: EditRatingInput!) {
+  editRating(input: $input) {
+    ...Rating
+  }
+}
+
+mutation DeleteRating($input: IdInput!) {
+  deleteRating(input: $input) {
+    ...ResMessage
+  }
+}

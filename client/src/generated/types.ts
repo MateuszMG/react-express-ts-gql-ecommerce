@@ -23,9 +23,10 @@ export type AccessToken = {
   accessToken: Scalars['String'];
 };
 
-export type AddCommentInput = {
+export type AddRatingInput = {
   comment: Scalars['String'];
   productId: Scalars['String'];
+  rating: Scalars['Float'];
 };
 
 export type Category = {
@@ -36,18 +37,6 @@ export type Category = {
 
 export type CategoryInput = {
   category: Scalars['String'];
-};
-
-export type Comment = {
-  __typename?: 'Comment';
-  comment: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  isOwner: Scalars['Boolean'];
-  productId: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  userId: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type DecodedUser = {
@@ -71,11 +60,6 @@ export type EditCategoryInput = {
   id: Scalars['String'];
 };
 
-export type EditCommentInput = {
-  comment: Scalars['String'];
-  id: Scalars['String'];
-};
-
 export type EditProductInput = {
   active: Scalars['Boolean'];
   category: Scalars['String'];
@@ -95,7 +79,13 @@ export type EditProductInput = {
   views: ProductViewsInput;
 };
 
-export type GetCommentsInput = {
+export type EditRatingInput = {
+  comment: Scalars['String'];
+  id: Scalars['String'];
+  rating: Scalars['Float'];
+};
+
+export type GetRatingsInput = {
   productId: Scalars['String'];
 };
 
@@ -111,15 +101,15 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addCategory: Category;
-  addComment: Comment;
   addProduct: Product;
+  addRating: Rating;
   changeActiveProduct: ResMessage;
   deleteCategory: ResMessage;
-  deleteComment: ResMessage;
   deleteProduct: ResMessage;
+  deleteRating: ResMessage;
   editCategory: ResMessage;
-  editComment: Comment;
   editProduct: ResMessage;
+  editRating: Rating;
   login: AccessToken;
   register: AccessToken;
 };
@@ -130,13 +120,13 @@ export type MutationAddCategoryArgs = {
 };
 
 
-export type MutationAddCommentArgs = {
-  input: AddCommentInput;
+export type MutationAddProductArgs = {
+  input: ProductInput;
 };
 
 
-export type MutationAddProductArgs = {
-  input: ProductInput;
+export type MutationAddRatingArgs = {
+  input: AddRatingInput;
 };
 
 
@@ -150,12 +140,12 @@ export type MutationDeleteCategoryArgs = {
 };
 
 
-export type MutationDeleteCommentArgs = {
+export type MutationDeleteProductArgs = {
   input: IdInput;
 };
 
 
-export type MutationDeleteProductArgs = {
+export type MutationDeleteRatingArgs = {
   input: IdInput;
 };
 
@@ -165,13 +155,13 @@ export type MutationEditCategoryArgs = {
 };
 
 
-export type MutationEditCommentArgs = {
-  input: EditCommentInput;
+export type MutationEditProductArgs = {
+  input: EditProductInput;
 };
 
 
-export type MutationEditProductArgs = {
-  input: EditProductInput;
+export type MutationEditRatingArgs = {
+  input: EditRatingInput;
 };
 
 
@@ -241,7 +231,7 @@ export type ProductPriceInput = {
 
 export type ProductRatingsInput = {
   activeFake: Scalars['Boolean'];
-  fakeQuantity: Scalars['Float'];
+  fakeAmount: Scalars['Float'];
   fakeTotal: Scalars['Float'];
 };
 
@@ -274,17 +264,12 @@ export type ProductViewsInput = {
 export type Query = {
   __typename?: 'Query';
   getCategories: Array<Category>;
-  getComments: Array<Comment>;
   getHighlightedProduct: Product;
   getProduct: Product;
   getProducts: Array<Product>;
+  getRatings: Array<Rating>;
   logout: ResMessage;
   profile: DecodedUser;
-};
-
-
-export type QueryGetCommentsArgs = {
-  input: GetCommentsInput;
 };
 
 
@@ -292,24 +277,33 @@ export type QueryGetProductArgs = {
   input: IdInput;
 };
 
+
+export type QueryGetRatingsArgs = {
+  input: GetRatingsInput;
+};
+
+export type Rating = {
+  __typename?: 'Rating';
+  comment: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  isOwner: Scalars['Boolean'];
+  productId: Scalars['String'];
+  rating: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type Ratings = {
   __typename?: 'Ratings';
   activeFake: Scalars['Boolean'];
-  details: Array<RatingsDetails>;
-  fakeQuantity: Scalars['Float'];
+  fakeAmount: Scalars['Float'];
   fakeTotal: Scalars['Float'];
-  originalQuantity: Scalars['Float'];
+  originalAmount: Scalars['Float'];
+  originalAndFakeAmount: Scalars['Float'];
+  originalAndFakeTotal: Scalars['Float'];
   originalTotal: Scalars['Float'];
-  quantityOriginalAndFake: Scalars['Float'];
-  totalOriginalAndFake: Scalars['Float'];
-};
-
-export type RatingsDetails = {
-  __typename?: 'RatingsDetails';
-  date: Scalars['DateTime'];
-  rating: Scalars['Float'];
-  ratingId: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -394,8 +388,6 @@ export type AccessTokenFragment = { __typename?: 'AccessToken', accessToken: str
 
 export type CategoryFragment = { __typename?: 'Category', id: string, category: string };
 
-export type CommentFragment = { __typename?: 'Comment', id: string, productId: string, userId: string, username: string, comment: string, createdAt: any, updatedAt: any, isOwner: boolean };
-
 export type DecodedUserFragment = { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean };
 
 export type PriceFragment = { __typename?: 'Price', wholesale: number, retail: number };
@@ -406,9 +398,7 @@ export type DistinctionFragment = { __typename?: 'Distinction', active: boolean,
 
 export type SaleFragment = { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number };
 
-export type RatingsDetailsFragment = { __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any };
-
-export type RatingsFragment = { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> };
+export type RatingsFragment = { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number };
 
 export type ViewsDetailsFragment = { __typename?: 'ViewsDetails', guestIP: string, date: any };
 
@@ -418,7 +408,9 @@ export type SoldDetailsFragment = { __typename?: 'SoldDetails', guestIP: string,
 
 export type SoldFragment = { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> };
 
-export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } };
+export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } };
+
+export type RatingFragment = { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean };
 
 export type ResMessageFragment = { __typename?: 'ResMessage', message: string };
 
@@ -457,33 +449,12 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'ResMessage', message: string } };
 
-export type AddCommentMutationVariables = Exact<{
-  input: AddCommentInput;
-}>;
-
-
-export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', id: string, productId: string, userId: string, username: string, comment: string, createdAt: any, updatedAt: any, isOwner: boolean } };
-
-export type EditCommentMutationVariables = Exact<{
-  input: EditCommentInput;
-}>;
-
-
-export type EditCommentMutation = { __typename?: 'Mutation', editComment: { __typename?: 'Comment', id: string, productId: string, userId: string, username: string, comment: string, createdAt: any, updatedAt: any, isOwner: boolean } };
-
-export type DeleteCommentMutationVariables = Exact<{
-  input: IdInput;
-}>;
-
-
-export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'ResMessage', message: string } };
-
 export type AddProductMutationVariables = Exact<{
   input: ProductInput;
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type AddProductMutation = { __typename?: 'Mutation', addProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type EditProductMutationVariables = Exact<{
   input: EditProductInput;
@@ -506,34 +477,55 @@ export type ChangeActiveProductMutationVariables = Exact<{
 
 export type ChangeActiveProductMutation = { __typename?: 'Mutation', changeActiveProduct: { __typename?: 'ResMessage', message: string } };
 
+export type AddRatingMutationVariables = Exact<{
+  input: AddRatingInput;
+}>;
+
+
+export type AddRatingMutation = { __typename?: 'Mutation', addRating: { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean } };
+
+export type EditRatingMutationVariables = Exact<{
+  input: EditRatingInput;
+}>;
+
+
+export type EditRatingMutation = { __typename?: 'Mutation', editRating: { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean } };
+
+export type DeleteRatingMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type DeleteRatingMutation = { __typename?: 'Mutation', deleteRating: { __typename?: 'ResMessage', message: string } };
+
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ __typename?: 'Category', id: string, category: string }> };
 
-export type GetCommentsQueryVariables = Exact<{
-  input: GetCommentsInput;
-}>;
-
-
-export type GetCommentsQuery = { __typename?: 'Query', getComments: Array<{ __typename?: 'Comment', id: string, productId: string, userId: string, username: string, comment: string, createdAt: any, updatedAt: any, isOwner: boolean }> };
-
 export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type GetProductQueryVariables = Exact<{
   input: IdInput;
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
+export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } }> };
+export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } }> };
+
+export type GetRatingsQueryVariables = Exact<{
+  input: GetRatingsInput;
+}>;
+
+
+export type GetRatingsQuery = { __typename?: 'Query', getRatings: Array<{ __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean }> };
 
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -548,7 +540,7 @@ export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'Deco
 export type HighlightedProductUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeQuantity: number, originalTotal: number, originalQuantity: number, totalOriginalAndFake: number, quantityOriginalAndFake: number, details: Array<{ __typename?: 'RatingsDetails', ratingId: string, userId: string, rating: number, date: any }> }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } | null };
+export type HighlightedProductUpdatedSubscription = { __typename?: 'Subscription', highlightedProductUpdated?: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number, details: Array<{ __typename?: 'ViewsDetails', guestIP: string, date: any }> }, sold: { __typename?: 'Sold', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, details: Array<{ __typename?: 'SoldDetails', guestIP: string, soldId: string, userId: string, quantity: number, activeSale: boolean, activeCoupon: boolean, activeDistinction: boolean, purchasePriceBeforeDiscount: number, purchasePrice: number, profit: number, amountDiscount: number, percentageDiscount: number, date: any, price: { __typename?: 'Price', wholesale: number, retail: number } }> } } | null };
 
 export const AccessTokenFragmentDoc = gql`
     fragment AccessToken on AccessToken {
@@ -559,18 +551,6 @@ export const CategoryFragmentDoc = gql`
     fragment Category on Category {
   id
   category
-}
-    `;
-export const CommentFragmentDoc = gql`
-    fragment Comment on Comment {
-  id
-  productId
-  userId
-  username
-  comment
-  createdAt
-  updatedAt
-  isOwner @client
 }
     `;
 export const DecodedUserFragmentDoc = gql`
@@ -613,28 +593,17 @@ export const SaleFragmentDoc = gql`
   percentageDiscount
 }
     `;
-export const RatingsDetailsFragmentDoc = gql`
-    fragment RatingsDetails on RatingsDetails {
-  ratingId
-  userId
-  rating
-  date
-}
-    `;
 export const RatingsFragmentDoc = gql`
     fragment Ratings on Ratings {
   activeFake
-  details {
-    ...RatingsDetails
-  }
   fakeTotal
-  fakeQuantity
+  fakeAmount
   originalTotal
-  originalQuantity
-  totalOriginalAndFake
-  quantityOriginalAndFake
+  originalAmount
+  originalAndFakeTotal
+  originalAndFakeAmount
 }
-    ${RatingsDetailsFragmentDoc}`;
+    `;
 export const ViewsDetailsFragmentDoc = gql`
     fragment ViewsDetails on ViewsDetails {
   guestIP
@@ -724,6 +693,19 @@ ${SaleFragmentDoc}
 ${RatingsFragmentDoc}
 ${ViewsFragmentDoc}
 ${SoldFragmentDoc}`;
+export const RatingFragmentDoc = gql`
+    fragment Rating on Rating {
+  id
+  productId
+  userId
+  username
+  comment
+  rating
+  createdAt
+  updatedAt
+  isOwner @client
+}
+    `;
 export const ResMessageFragmentDoc = gql`
     fragment ResMessage on ResMessage {
   message
@@ -894,105 +876,6 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
-export const AddCommentDocument = gql`
-    mutation AddComment($input: AddCommentInput!) {
-  addComment(input: $input) {
-    ...Comment
-  }
-}
-    ${CommentFragmentDoc}`;
-export type AddCommentMutationFn = Apollo.MutationFunction<AddCommentMutation, AddCommentMutationVariables>;
-
-/**
- * __useAddCommentMutation__
- *
- * To run a mutation, you first call `useAddCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addCommentMutation, { data, loading, error }] = useAddCommentMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useAddCommentMutation(baseOptions?: Apollo.MutationHookOptions<AddCommentMutation, AddCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCommentMutation, AddCommentMutationVariables>(AddCommentDocument, options);
-      }
-export type AddCommentMutationHookResult = ReturnType<typeof useAddCommentMutation>;
-export type AddCommentMutationResult = Apollo.MutationResult<AddCommentMutation>;
-export type AddCommentMutationOptions = Apollo.BaseMutationOptions<AddCommentMutation, AddCommentMutationVariables>;
-export const EditCommentDocument = gql`
-    mutation EditComment($input: EditCommentInput!) {
-  editComment(input: $input) {
-    ...Comment
-  }
-}
-    ${CommentFragmentDoc}`;
-export type EditCommentMutationFn = Apollo.MutationFunction<EditCommentMutation, EditCommentMutationVariables>;
-
-/**
- * __useEditCommentMutation__
- *
- * To run a mutation, you first call `useEditCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editCommentMutation, { data, loading, error }] = useEditCommentMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useEditCommentMutation(baseOptions?: Apollo.MutationHookOptions<EditCommentMutation, EditCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditCommentMutation, EditCommentMutationVariables>(EditCommentDocument, options);
-      }
-export type EditCommentMutationHookResult = ReturnType<typeof useEditCommentMutation>;
-export type EditCommentMutationResult = Apollo.MutationResult<EditCommentMutation>;
-export type EditCommentMutationOptions = Apollo.BaseMutationOptions<EditCommentMutation, EditCommentMutationVariables>;
-export const DeleteCommentDocument = gql`
-    mutation DeleteComment($input: IdInput!) {
-  deleteComment(input: $input) {
-    ...ResMessage
-  }
-}
-    ${ResMessageFragmentDoc}`;
-export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutation, DeleteCommentMutationVariables>;
-
-/**
- * __useDeleteCommentMutation__
- *
- * To run a mutation, you first call `useDeleteCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCommentMutation, { data, loading, error }] = useDeleteCommentMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
-      }
-export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
-export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
-export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
 export const AddProductDocument = gql`
     mutation AddProduct($input: ProductInput!) {
   addProduct(input: $input) {
@@ -1125,6 +1008,105 @@ export function useChangeActiveProductMutation(baseOptions?: Apollo.MutationHook
 export type ChangeActiveProductMutationHookResult = ReturnType<typeof useChangeActiveProductMutation>;
 export type ChangeActiveProductMutationResult = Apollo.MutationResult<ChangeActiveProductMutation>;
 export type ChangeActiveProductMutationOptions = Apollo.BaseMutationOptions<ChangeActiveProductMutation, ChangeActiveProductMutationVariables>;
+export const AddRatingDocument = gql`
+    mutation AddRating($input: AddRatingInput!) {
+  addRating(input: $input) {
+    ...Rating
+  }
+}
+    ${RatingFragmentDoc}`;
+export type AddRatingMutationFn = Apollo.MutationFunction<AddRatingMutation, AddRatingMutationVariables>;
+
+/**
+ * __useAddRatingMutation__
+ *
+ * To run a mutation, you first call `useAddRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addRatingMutation, { data, loading, error }] = useAddRatingMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddRatingMutation(baseOptions?: Apollo.MutationHookOptions<AddRatingMutation, AddRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddRatingMutation, AddRatingMutationVariables>(AddRatingDocument, options);
+      }
+export type AddRatingMutationHookResult = ReturnType<typeof useAddRatingMutation>;
+export type AddRatingMutationResult = Apollo.MutationResult<AddRatingMutation>;
+export type AddRatingMutationOptions = Apollo.BaseMutationOptions<AddRatingMutation, AddRatingMutationVariables>;
+export const EditRatingDocument = gql`
+    mutation EditRating($input: EditRatingInput!) {
+  editRating(input: $input) {
+    ...Rating
+  }
+}
+    ${RatingFragmentDoc}`;
+export type EditRatingMutationFn = Apollo.MutationFunction<EditRatingMutation, EditRatingMutationVariables>;
+
+/**
+ * __useEditRatingMutation__
+ *
+ * To run a mutation, you first call `useEditRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editRatingMutation, { data, loading, error }] = useEditRatingMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditRatingMutation(baseOptions?: Apollo.MutationHookOptions<EditRatingMutation, EditRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditRatingMutation, EditRatingMutationVariables>(EditRatingDocument, options);
+      }
+export type EditRatingMutationHookResult = ReturnType<typeof useEditRatingMutation>;
+export type EditRatingMutationResult = Apollo.MutationResult<EditRatingMutation>;
+export type EditRatingMutationOptions = Apollo.BaseMutationOptions<EditRatingMutation, EditRatingMutationVariables>;
+export const DeleteRatingDocument = gql`
+    mutation DeleteRating($input: IdInput!) {
+  deleteRating(input: $input) {
+    ...ResMessage
+  }
+}
+    ${ResMessageFragmentDoc}`;
+export type DeleteRatingMutationFn = Apollo.MutationFunction<DeleteRatingMutation, DeleteRatingMutationVariables>;
+
+/**
+ * __useDeleteRatingMutation__
+ *
+ * To run a mutation, you first call `useDeleteRatingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRatingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRatingMutation, { data, loading, error }] = useDeleteRatingMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteRatingMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRatingMutation, DeleteRatingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRatingMutation, DeleteRatingMutationVariables>(DeleteRatingDocument, options);
+      }
+export type DeleteRatingMutationHookResult = ReturnType<typeof useDeleteRatingMutation>;
+export type DeleteRatingMutationResult = Apollo.MutationResult<DeleteRatingMutation>;
+export type DeleteRatingMutationOptions = Apollo.BaseMutationOptions<DeleteRatingMutation, DeleteRatingMutationVariables>;
 export const GetCategoriesDocument = gql`
     query GetCategories {
   getCategories {
@@ -1159,41 +1141,6 @@ export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
 export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
 export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
-export const GetCommentsDocument = gql`
-    query GetComments($input: GetCommentsInput!) {
-  getComments(input: $input) {
-    ...Comment
-  }
-}
-    ${CommentFragmentDoc}`;
-
-/**
- * __useGetCommentsQuery__
- *
- * To run a query within a React component, call `useGetCommentsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCommentsQuery({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useGetCommentsQuery(baseOptions: Apollo.QueryHookOptions<GetCommentsQuery, GetCommentsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCommentsQuery, GetCommentsQueryVariables>(GetCommentsDocument, options);
-      }
-export function useGetCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCommentsQuery, GetCommentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCommentsQuery, GetCommentsQueryVariables>(GetCommentsDocument, options);
-        }
-export type GetCommentsQueryHookResult = ReturnType<typeof useGetCommentsQuery>;
-export type GetCommentsLazyQueryHookResult = ReturnType<typeof useGetCommentsLazyQuery>;
-export type GetCommentsQueryResult = Apollo.QueryResult<GetCommentsQuery, GetCommentsQueryVariables>;
 export const GetHighlightedProductDocument = gql`
     query GetHighlightedProduct {
   getHighlightedProduct {
@@ -1297,6 +1244,41 @@ export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
 export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
 export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
+export const GetRatingsDocument = gql`
+    query GetRatings($input: GetRatingsInput!) {
+  getRatings(input: $input) {
+    ...Rating
+  }
+}
+    ${RatingFragmentDoc}`;
+
+/**
+ * __useGetRatingsQuery__
+ *
+ * To run a query within a React component, call `useGetRatingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRatingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRatingsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetRatingsQuery(baseOptions: Apollo.QueryHookOptions<GetRatingsQuery, GetRatingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRatingsQuery, GetRatingsQueryVariables>(GetRatingsDocument, options);
+      }
+export function useGetRatingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRatingsQuery, GetRatingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRatingsQuery, GetRatingsQueryVariables>(GetRatingsDocument, options);
+        }
+export type GetRatingsQueryHookResult = ReturnType<typeof useGetRatingsQuery>;
+export type GetRatingsLazyQueryHookResult = ReturnType<typeof useGetRatingsLazyQuery>;
+export type GetRatingsQueryResult = Apollo.QueryResult<GetRatingsQuery, GetRatingsQueryVariables>;
 export const LogoutDocument = gql`
     query Logout {
   logout {
@@ -1403,17 +1385,6 @@ export type CategoryFieldPolicy = {
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentKeySpecifier = ('comment' | 'createdAt' | 'id' | 'isOwner' | 'productId' | 'updatedAt' | 'userId' | 'username' | CommentKeySpecifier)[];
-export type CommentFieldPolicy = {
-	comment?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	isOwner?: FieldPolicy<any> | FieldReadFunction<any>,
-	productId?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	userId?: FieldPolicy<any> | FieldReadFunction<any>,
-	username?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type DecodedUserKeySpecifier = ('email' | 'id' | 'logged' | 'roles' | 'username' | DecodedUserKeySpecifier)[];
 export type DecodedUserFieldPolicy = {
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1428,18 +1399,18 @@ export type DistinctionFieldPolicy = {
 	endTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	startTime?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addCategory' | 'addComment' | 'addProduct' | 'changeActiveProduct' | 'deleteCategory' | 'deleteComment' | 'deleteProduct' | 'editCategory' | 'editComment' | 'editProduct' | 'login' | 'register' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	addRating?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteRating?: FieldPolicy<any> | FieldReadFunction<any>,
 	editCategory?: FieldPolicy<any> | FieldReadFunction<any>,
-	editComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	editProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	editRating?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	register?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1467,33 +1438,37 @@ export type ProductFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	views?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getCategories' | 'getComments' | 'getHighlightedProduct' | 'getProduct' | 'getProducts' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getCategories' | 'getHighlightedProduct' | 'getProduct' | 'getProducts' | 'getRatings' | 'logout' | 'profile' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getCategories?: FieldPolicy<any> | FieldReadFunction<any>,
-	getComments?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
+	getRatings?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	profile?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RatingsKeySpecifier = ('activeFake' | 'details' | 'fakeQuantity' | 'fakeTotal' | 'originalQuantity' | 'originalTotal' | 'quantityOriginalAndFake' | 'totalOriginalAndFake' | RatingsKeySpecifier)[];
+export type RatingKeySpecifier = ('comment' | 'createdAt' | 'id' | 'isOwner' | 'productId' | 'rating' | 'updatedAt' | 'userId' | 'username' | RatingKeySpecifier)[];
+export type RatingFieldPolicy = {
+	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isOwner?: FieldPolicy<any> | FieldReadFunction<any>,
+	productId?: FieldPolicy<any> | FieldReadFunction<any>,
+	rating?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RatingsKeySpecifier = ('activeFake' | 'fakeAmount' | 'fakeTotal' | 'originalAmount' | 'originalAndFakeAmount' | 'originalAndFakeTotal' | 'originalTotal' | RatingsKeySpecifier)[];
 export type RatingsFieldPolicy = {
 	activeFake?: FieldPolicy<any> | FieldReadFunction<any>,
-	details?: FieldPolicy<any> | FieldReadFunction<any>,
-	fakeQuantity?: FieldPolicy<any> | FieldReadFunction<any>,
+	fakeAmount?: FieldPolicy<any> | FieldReadFunction<any>,
 	fakeTotal?: FieldPolicy<any> | FieldReadFunction<any>,
-	originalQuantity?: FieldPolicy<any> | FieldReadFunction<any>,
-	originalTotal?: FieldPolicy<any> | FieldReadFunction<any>,
-	quantityOriginalAndFake?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalOriginalAndFake?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type RatingsDetailsKeySpecifier = ('date' | 'rating' | 'ratingId' | 'userId' | RatingsDetailsKeySpecifier)[];
-export type RatingsDetailsFieldPolicy = {
-	date?: FieldPolicy<any> | FieldReadFunction<any>,
-	rating?: FieldPolicy<any> | FieldReadFunction<any>,
-	ratingId?: FieldPolicy<any> | FieldReadFunction<any>,
-	userId?: FieldPolicy<any> | FieldReadFunction<any>
+	originalAmount?: FieldPolicy<any> | FieldReadFunction<any>,
+	originalAndFakeAmount?: FieldPolicy<any> | FieldReadFunction<any>,
+	originalAndFakeTotal?: FieldPolicy<any> | FieldReadFunction<any>,
+	originalTotal?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResMessageKeySpecifier = ('message' | ResMessageKeySpecifier)[];
 export type ResMessageFieldPolicy = {
@@ -1567,10 +1542,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CategoryKeySpecifier | (() => undefined | CategoryKeySpecifier),
 		fields?: CategoryFieldPolicy,
 	},
-	Comment?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | CommentKeySpecifier | (() => undefined | CommentKeySpecifier),
-		fields?: CommentFieldPolicy,
-	},
 	DecodedUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DecodedUserKeySpecifier | (() => undefined | DecodedUserKeySpecifier),
 		fields?: DecodedUserFieldPolicy,
@@ -1595,13 +1566,13 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
 	},
+	Rating?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RatingKeySpecifier | (() => undefined | RatingKeySpecifier),
+		fields?: RatingFieldPolicy,
+	},
 	Ratings?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RatingsKeySpecifier | (() => undefined | RatingsKeySpecifier),
 		fields?: RatingsFieldPolicy,
-	},
-	RatingsDetails?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | RatingsDetailsKeySpecifier | (() => undefined | RatingsDetailsKeySpecifier),
-		fields?: RatingsDetailsFieldPolicy,
 	},
 	ResMessage?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResMessageKeySpecifier | (() => undefined | ResMessageKeySpecifier),

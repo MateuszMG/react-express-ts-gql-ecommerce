@@ -48,11 +48,10 @@ export class ProductService {
       ...input,
       ratings: {
         ...input.ratings,
-        details: [],
         originalTotal: 0,
-        originalQuantity: 0,
-        totalOriginalAndFake: input.ratings.fakeTotal,
-        quantityOriginalAndFake: input.ratings.fakeQuantity,
+        originalAmount: 0,
+        originalAndFakeTotal: input.ratings.fakeTotal,
+        originalAndFakeAmount: input.ratings.fakeAmount,
       },
       views: {
         ...input.views,

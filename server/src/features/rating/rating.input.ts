@@ -1,19 +1,28 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 @InputType()
-export class GetCommentsInput {
+export class GetRatingsInput {
   @Field() @IsString() @MinLength(2) @MaxLength(128) productId: string;
 }
 
 @InputType()
-export class AddCommentInput {
+export class AddRatingInput {
   @Field() @IsString() @MinLength(2) @MaxLength(128) productId: string;
   @Field() @IsString() @MinLength(2) @MaxLength(5000) comment: string;
+  @Field() @IsNumber() @Min(1) @Max(6) rating: number;
 }
 
 @InputType()
-export class EditCommentInput {
+export class EditRatingInput {
   @Field() @IsString() @MinLength(2) @MaxLength(128) id: string;
   @Field() @IsString() @MinLength(2) @MaxLength(5000) comment: string;
+  @Field() @IsNumber() @Min(1) @Max(6) rating: number;
 }

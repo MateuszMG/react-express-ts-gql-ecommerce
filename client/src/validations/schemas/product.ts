@@ -73,11 +73,11 @@ export const productSchema = {
     //   }),
     // ),
     fakeTotal: yup.number().required(),
-    fakeQuantity: yup.number().required(),
+    fakeAmount: yup.number().required(),
     // originalTotal: yup.number().required(),
-    // originalQuantity: yup.number().required(),
-    // totalOriginalAndFake: yup.number().required(),
-    // quantityOriginalAndFake: yup.number().required(),
+    //  originalAmount: yup.number().required(),
+    // originalAndFakeTotal: yup.number().required(),
+    // originalAndFakeAmount: yup.number().required(),
   }),
 
   views: yup.object({

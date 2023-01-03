@@ -1,9 +1,10 @@
-fragment Comment on Comment {
+fragment Rating on Rating {
   id
   productId
   userId
   username
   comment
+  rating
   createdAt
   updatedAt
   isOwner @client

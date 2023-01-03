@@ -5,7 +5,7 @@ export const typeDefs = gql`
     logged: Boolean!
   }
 
-  extend type Comment {
+  extend type Rating {
     isOwner: Boolean!
   }
 `;

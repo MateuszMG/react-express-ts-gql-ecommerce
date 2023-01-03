@@ -2,46 +2,45 @@ import { useReactiveVar } from '@apollo/client';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { editedCommentVar } from '../../client/reactiveVariables';
+import { editedRatingVar } from '../../client/reactiveVariables';
 import {
-  useAddCommentMutation,
-  useDeleteCommentMutation,
-  useEditCommentMutation,
-  useGetCommentsLazyQuery,
+  useAddRatingMutation,
+  useDeleteRatingMutation,
+  useEditRatingMutation,
+  useGetRatingsLazyQuery,
 } from '../../generated/types';
 import {
-  commentResolver,
-  CommentSchema,
-} from '../../validations/resolvers/comment';
+  RatingSchema,
+  ratingResolver,
+} from '../../validations/resolvers/rating';
 
-export const useComments = () => {
+export const useRatings = () => {
   const productId = useParams().productId as string;
 
-  const [getComments, { data }] = useGetCommentsLazyQuery();
-  const comments = data?.getComments;
+  const [getRatings, { data }] = useGetRatingsLazyQuery();
+  const ratings = data?.getRatings;
 
-  const [addComment, { loading: addLoading }] = useAddCommentMutation();
-  const [editComment, { loading: editLoading }] = useEditCommentMutation();
-  const [deleteComment, { loading: deleteLoading }] =
-    useDeleteCommentMutation();
+  const [addRating, { loading: addLoading }] = useAddRatingMutation();
+  const [editRating, { loading: editLoading }] = useEditRatingMutation();
+  const [deleteRating, { loading: deleteLoading }] = useDeleteRatingMutation();
 
   const loading = addLoading || editLoading || deleteLoading;
 
-  const editedComment = useReactiveVar(editedCommentVar);
+  const editedRating = useReactiveVar(editedRatingVar);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm<CommentSchema>({
-    resolver: commentResolver,
+  } = useForm<RatingSchema>({
+    resolver: ratingResolver,
   });
 
   const onSubmit = handleSubmit((data) => {
-    if (editedComment) {
-      editComment({
-        variables: { input: { comment: data.comment, id: editedComment.id } },
+    if (editedRating) {
+      editRating({
+        variables: { input: { ...data, id: editedRating.id } },
         onCompleted: (data) => {
           console.log('data', data);
         },
@@ -49,10 +48,10 @@ export const useComments = () => {
           console.log('error', { error });
         },
       });
-      editedCommentVar(null);
+      editedRatingVar(null);
     } else {
-      addComment({
-        variables: { input: { comment: data.comment, productId } },
+      addRating({
+        variables: { input: { ...data, productId } },
         onCompleted: (data) => {
           console.log('data', data);
         },
@@ -65,7 +64,7 @@ export const useComments = () => {
   });
 
   const handleEdit = (id: string) => {
-    editedCommentVar(comments?.find((item) => item.id === id));
+    editedRatingVar(ratings?.find((item) => item.id === id));
   };
 
   const handleReset = () => {
@@ -73,7 +72,7 @@ export const useComments = () => {
   };
 
   const handleDelete = (id: string) => {
-    deleteComment({
+    deleteRating({
       variables: { input: { id } },
       onCompleted: (data) => {
         console.log('data', data);
@@ -85,7 +84,7 @@ export const useComments = () => {
   };
 
   useEffect(() => {
-    getComments({
+    getRatings({
       variables: { input: { productId } },
       onCompleted: (data) => {
         console.log('data', data);
@@ -97,12 +96,12 @@ export const useComments = () => {
   }, []);
 
   useEffect(() => {
-    if (!editedComment) return;
-    reset({ comment: editedComment.comment });
-  }, [editedComment]);
+    if (!editedRating) return;
+    reset({ comment: editedRating.comment });
+  }, [editedRating]);
 
   return {
-    comments,
+    ratings,
     errors,
     handleDelete,
     handleEdit,

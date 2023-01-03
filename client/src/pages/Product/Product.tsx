@@ -1,4 +1,4 @@
-import { Comments } from '../../components/Comments/Comments';
+import { Ratings } from '../../components/Ratings/Ratings';
 import { TextInput } from '../../components/Global/inputs/TextInput/TextInput';
 import { Loader } from '../../components/Global/Loader/Loader';
 import {
@@ -48,20 +48,22 @@ export const Product = () => {
       {subtitle && <SubTitle>{subtitle}</SubTitle>}
       <Description>{description}</Description>
       <Model>{model}</Model>
-      <SizeWrapper>
+      {/* <SizeWrapper>
         <Size>height: {size.height}</Size>
         <Size>length: {size.length}</Size>
         <Size>weight: {size.weight}</Size>
         <Size>width: {size.width}</Size>
-      </SizeWrapper>
-      <SoldWrapper>
+      </SizeWrapper> */}
+      {/* <SoldWrapper>
         <Sold></Sold>
-      </SoldWrapper>
+      </SoldWrapper> */}
+
+      <h1>ratings: {ratings.originalAndFakeAmount}</h1>
       <p> Product </p>
       <p> Product </p>
       <p> Product </p>
 
-      <Comments />
+      <Ratings />
     </div>
   );
 };

@@ -85,28 +85,28 @@ export class Sale {
 
 //////////////////////////////////////////////// Ratings
 
-@ObjectType()
-export class RatingsDetails {
-  @Prop()
-  @Field()
-  ratingId: string; //userId + '||' + new Date().valueOf()
+// @ObjectType()
+// export class RatingsDetails {
+//   @Prop()
+//   @Field()
+//   ratingId: string; //userId + '||' + new Date().valueOf()
 
-  @Prop()
-  @Field()
-  userId: string;
+//   @Prop()
+//   @Field()
+//   userId: string;
 
-  // @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
-  // @Field(() => User)
-  // userId: Types.ObjectId;
+//   // @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+//   // @Field(() => User)
+//   // userId: Types.ObjectId;
 
-  @Prop()
-  @Field()
-  rating: number;
+//   @Prop()
+//   @Field()
+//   rating: number;
 
-  @Prop()
-  @Field()
-  date: Date;
-}
+//   @Prop()
+//   @Field()
+//   date: Date;
+// }
 
 @ObjectType()
 export class Ratings {
@@ -115,16 +115,12 @@ export class Ratings {
   activeFake: boolean;
 
   @Prop()
-  @Field(() => [RatingsDetails])
-  details: RatingsDetails[];
-
-  @Prop()
   @Field()
   fakeTotal: number;
 
   @Prop()
   @Field()
-  fakeQuantity: number;
+  fakeAmount: number;
 
   @Prop()
   @Field()
@@ -132,15 +128,15 @@ export class Ratings {
 
   @Prop()
   @Field()
-  originalQuantity: number;
+  originalAmount: number;
 
   @Prop()
   @Field()
-  totalOriginalAndFake: number;
+  originalAndFakeTotal: number;
 
   @Prop()
   @Field()
-  quantityOriginalAndFake: number;
+  originalAndFakeAmount: number;
 }
 
 //////////////////////////////////////////////// Views
@@ -351,6 +347,13 @@ export class Product {
   @Prop()
   @Field()
   sold: Sold;
+
+  //   settings:{
+  //     ratings:{
+  //       total, fake + ref to ratings details
+  //     },
+  // views,
+  //   }
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
@@ -406,11 +409,11 @@ export type ProductDocument = Product & Document;
 //       date,
 //   }],
 //   fakeTotal,
-//   fakeQuantity,
+//   fakeAmount,
 //   originalTotal,
-//   originalQuantity,
-//   totalOriginalAndFake,
-//   quantityOriginalAndFake,
+//    originalAmount,
+//   originalAndFakeTotal,
+//   originalAndFakeAmount,
 // },
 // views: {
 //   activeFake,
@@ -457,3 +460,73 @@ export type ProductDocument = Product & Document;
 //   comment,
 //   date,
 // }],
+
+// @ObjectType()
+// export class RatingsDetails {
+//   @Prop()
+//   @Field()
+//   ratingId: string; //userId + '||' + new Date().valueOf()
+
+//   @Prop()
+//   @Field()
+//   userId: string;
+
+//   // @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+//   // @Field(() => User)
+//   // userId: Types.ObjectId;
+
+//   @Prop()
+//   @Field()
+//   rating: number;
+
+//   @Prop()
+//   @Field()
+//   date: Date;
+// }
+
+// @Schema({ timestamps: true })
+// @ObjectType()
+// export class Ratings {
+//   @Field(() => ID)
+//   id: string;
+
+//   @Prop()
+//   @Field()
+//   activeFake: boolean;
+
+//   @Prop()
+//   @Field(() => [RatingsDetails])
+//   details: RatingsDetails[];
+
+//   @Prop()
+//   @Field()
+//   fakeTotal: number;
+
+//   @Prop()
+//   @Field()
+//   fakeAmount: number;
+
+//   @Prop()
+//   @Field()
+//   originalTotal: number;
+
+//   @Prop()
+//   @Field()
+//    originalAmount: number;
+
+//   @Prop()
+//   @Field()
+//   originalAndFakeTotal: number;
+
+//   @Prop()
+//   @Field()
+//   originalAndFakeAmount: number;
+
+//   @Prop()
+//   @Field(() => Date)
+//   createdAt: Date;
+
+//   @Prop()
+//   @Field(() => Date)
+//   updatedAt: Date;
+// }

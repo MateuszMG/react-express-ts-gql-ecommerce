@@ -1,11 +1,11 @@
 import { Button } from '../Global/Button/Button';
 import { Form } from '../Global/Form/Form';
 import { TextInput } from '../Global/inputs/TextInput/TextInput';
-import { useComments } from './useComments';
+import { useRatings } from './useRatings';
 
-export const Comments = () => {
+export const Ratings = () => {
   const {
-    comments,
+    ratings,
     errors,
     handleDelete,
     handleEdit,
@@ -15,12 +15,17 @@ export const Comments = () => {
     loading,
     onSubmit,
     register,
-  } = useComments();
+  } = useRatings();
 
   return (
     <div>
       <Form onSubmit={onSubmit} onReset={handleReset}>
         <TextInput {...register('comment')} error={errors?.comment?.message} />
+        <TextInput
+          {...register('rating')}
+          error={errors?.rating?.message}
+          type={'number'}
+        />
         <Form.ButtonsWrapper>
           <Button loading={loading} type={'reset'}>
             Reset
@@ -35,14 +40,15 @@ export const Comments = () => {
         </Form.ButtonsWrapper>
       </Form>
 
-      {comments?.map(
-        ({ comment, createdAt, id, userId, isOwner, updatedAt, username }) => (
+      {ratings?.map(
+        ({ comment, createdAt, id, rating, isOwner, updatedAt, username }) => (
           <section key={id}>
             <p> username: {username} </p>
             <p> {comment} </p>
             <p>
               {createdAt !== updatedAt ? 'Updated: ' : 'Added: '} {updatedAt}{' '}
             </p>
+            <h1>rating: {rating}</h1>
             {isOwner && (
               <>
                 <Button onClick={() => handleDelete(id)}>Delete</Button>
@@ -52,9 +58,9 @@ export const Comments = () => {
           </section>
         ),
       )}
-      <p> Comments </p>
-      <p> Comments </p>
-      <p> Comments </p>
+      <p> Ratings </p>
+      <p> Ratings </p>
+      <p> Ratings </p>
     </div>
   );
 };

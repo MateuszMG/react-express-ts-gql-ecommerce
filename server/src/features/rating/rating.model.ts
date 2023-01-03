@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ timestamps: true })
 @ObjectType()
-export class Comment {
+export class Rating {
   @Field(() => ID)
   id: string;
 
@@ -21,6 +21,10 @@ export class Comment {
 
   @Prop()
   @Field()
+  rating: number;
+
+  @Prop()
+  @Field()
   comment: string;
 
   @Prop()
@@ -32,5 +36,5 @@ export class Comment {
   updatedAt: Date;
 }
 
-export const CommentSchema = SchemaFactory.createForClass(Comment);
-export type CommentDocument = Comment & Document;
+export const RatingSchema = SchemaFactory.createForClass(Rating);
+export type RatingDocument = Rating & Document;

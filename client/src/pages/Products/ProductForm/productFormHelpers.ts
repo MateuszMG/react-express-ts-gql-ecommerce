@@ -47,7 +47,7 @@ export const productFormHelpers = () => {
     ratings: {
       activeFake: true,
       fakeTotal: randomNumber(2),
-      fakeQuantity: randomNumber(2),
+      fakeAmount: +(Math.random() * 5 + 1).toFixed(),
     },
 
     views: {

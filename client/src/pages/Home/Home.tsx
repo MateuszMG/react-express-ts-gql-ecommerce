@@ -30,6 +30,7 @@ export const Home = () => {
           sale,
           size,
           subtitle,
+
           title,
         }) => (
           <Section key={id} onClick={() => navigate(paths.product(id))}>

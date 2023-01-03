@@ -1,20 +1,20 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
-import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './features/user/user.module';
-import { decodeAccessToken } from './utils/jwt.utils';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './features/user/user.model';
-import { ConfigModule } from '@nestjs/config';
-import { configuration } from './config/configruration';
-import { ProductModule } from './features/product/product.module';
-import { ProductSchema } from './features/product/product.model';
 import { CategoryModule } from './features/category/category.module';
 import { CategorySchema } from './features/category/category.model';
-import { CommentModule } from './features/comment/comment.module';
-import { CommentSchema } from './features/comment/comment.model';
+import { ConfigModule } from '@nestjs/config';
+import { configuration } from './config/configruration';
+import { decodeAccessToken } from './utils/jwt.utils';
+import { GraphQLModule } from '@nestjs/graphql';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ProductModule } from './features/product/product.module';
+import { ProductSchema } from './features/product/product.model';
+import { RatingModule } from './features/rating/rating.module';
+import { RatingSchema } from './features/rating/rating.model';
+import { UserSchema } from './features/user/user.model';
+import { UsersModule } from './features/user/user.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { CommentSchema } from './features/comment/comment.model';
       { name: 'user', schema: UserSchema },
       { name: 'product', schema: ProductSchema },
       { name: 'category', schema: CategorySchema },
-      { name: 'comment', schema: CommentSchema },
+      { name: 'rating', schema: RatingSchema },
     ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -62,7 +62,7 @@ import { CommentSchema } from './features/comment/comment.model';
     UsersModule,
     ProductModule,
     CategoryModule,
-    CommentModule,
+    RatingModule,
   ],
   controllers: [AppController],
 

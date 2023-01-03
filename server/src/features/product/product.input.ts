@@ -65,7 +65,7 @@ export class ProductRatingsInput {
   @Field() @IsBoolean() activeFake: boolean;
   // details: ProductRatingsDetailsInput;
   @Field() @IsNumber() @Min(0) @Max(1_000_000) fakeTotal: number;
-  @Field() @IsNumber() @Min(0) @Max(1_000_000) fakeQuantity: number;
+  @Field() @IsNumber() @Min(1) @Max(6) fakeAmount: number;
 }
 
 //////////////////////////////////////////////// Views

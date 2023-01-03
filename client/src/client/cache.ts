@@ -4,7 +4,7 @@ import { handleAccessToken } from '../helpers/accessToken';
 import { getFromTheLS } from '../helpers/localStorage';
 
 const typePolicies: StrictTypedTypePolicies = {
-  Comment: {
+  Rating: {
     fields: {
       isOwner(_, { readField, cache }) {
         const user = handleAccessToken(getFromTheLS('accessToken'));

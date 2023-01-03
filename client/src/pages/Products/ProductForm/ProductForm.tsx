@@ -198,8 +198,8 @@ export const ProductForm = () => {
           />
 
           <TextInput
-            {...register('ratings.fakeQuantity')}
-            error={errors?.ratings?.fakeQuantity?.message}
+            {...register('ratings.fakeAmount')}
+            error={errors?.ratings?.fakeAmount?.message}
             label={'Fake quantity'}
             type={'number'}
           />

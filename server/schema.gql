@@ -6,17 +6,6 @@ type ResMessage {
   message: String!
 }
 
-type AccessToken {
-  accessToken: String!
-}
-
-type DecodedUser {
-  id: String!
-  username: String!
-  email: String!
-  roles: [String!]!
-}
-
 type Category {
   id: ID!
   category: String!
@@ -54,22 +43,14 @@ type Sale {
   percentageDiscount: Float!
 }
 
-type RatingsDetails {
-  ratingId: String!
-  userId: String!
-  rating: Float!
-  date: DateTime!
-}
-
 type Ratings {
   activeFake: Boolean!
-  details: [RatingsDetails!]!
   fakeTotal: Float!
-  fakeQuantity: Float!
+  fakeAmount: Float!
   originalTotal: Float!
-  originalQuantity: Float!
-  totalOriginalAndFake: Float!
-  quantityOriginalAndFake: Float!
+  originalAmount: Float!
+  originalAndFakeTotal: Float!
+  originalAndFakeAmount: Float!
 }
 
 type ViewsDetails {
@@ -130,14 +111,26 @@ type Product {
   sold: Sold!
 }
 
-type Comment {
+type Rating {
   id: ID!
   productId: String!
   userId: String!
   username: String!
+  rating: Float!
   comment: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type AccessToken {
+  accessToken: String!
+}
+
+type DecodedUser {
+  id: String!
+  username: String!
+  email: String!
+  roles: [String!]!
 }
 
 type Query {
@@ -147,14 +140,14 @@ type Query {
   getProduct(input: IdInput!): Product!
   getHighlightedProduct: Product!
   getCategories: [Category!]!
-  getComments(input: GetCommentsInput!): [Comment!]!
+  getRatings(input: GetRatingsInput!): [Rating!]!
 }
 
 input IdInput {
   id: String!
 }
 
-input GetCommentsInput {
+input GetRatingsInput {
   productId: String!
 }
 
@@ -168,9 +161,9 @@ type Mutation {
   addCategory(input: CategoryInput!): Category!
   editCategory(input: EditCategoryInput!): ResMessage!
   deleteCategory(input: IdInput!): ResMessage!
-  addComment(input: AddCommentInput!): Comment!
-  editComment(input: EditCommentInput!): Comment!
-  deleteComment(input: IdInput!): ResMessage!
+  addRating(input: AddRatingInput!): Rating!
+  editRating(input: EditRatingInput!): Rating!
+  deleteRating(input: IdInput!): ResMessage!
 }
 
 input LoginInput {
@@ -233,7 +226,7 @@ input ProductSaleInput {
 input ProductRatingsInput {
   activeFake: Boolean!
   fakeTotal: Float!
-  fakeQuantity: Float!
+  fakeAmount: Float!
 }
 
 input ProductViewsInput {
@@ -274,14 +267,16 @@ input EditCategoryInput {
   id: String!
 }
 
-input AddCommentInput {
+input AddRatingInput {
   productId: String!
   comment: String!
+  rating: Float!
 }
 
-input EditCommentInput {
+input EditRatingInput {
   id: String!
   comment: String!
+  rating: Float!
 }
 
 type Subscription {

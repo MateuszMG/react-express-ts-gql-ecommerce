@@ -1,0 +1,5 @@
+query GetRatings($input: GetRatingsInput!) {
+  getRatings(input: $input) {
+    ...Rating
+  }
+}
