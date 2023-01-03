@@ -5,8 +5,8 @@ import { UserFromJWT } from 'src/utils/jwt.utils';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  requireRole: UserRoles;
-  constructor(requireRole: UserRoles) {
+  requireRole: UserRoles[];
+  constructor(requireRole: UserRoles[]) {
     this.requireRole = requireRole;
   }
 
@@ -14,12 +14,15 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const user = context.getArgs()[2].req?.user as UserFromJWT | null;
-    console.log('user', user);
 
     if (!user) return false;
 
-    user.roles.includes(this.requireRole);
+    let canEnter = false;
 
-    return false;
+    this.requireRole.forEach((role) => {
+      user.roles.includes(role) && (canEnter = true);
+    });
+
+    return canEnter;
   }
 }

@@ -13,6 +13,8 @@ import { ProductModule } from './features/product/product.module';
 import { ProductSchema } from './features/product/product.model';
 import { CategoryModule } from './features/category/category.module';
 import { CategorySchema } from './features/category/category.model';
+import { CommentModule } from './features/comment/comment.module';
+import { CommentSchema } from './features/comment/comment.model';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { CategorySchema } from './features/category/category.model';
       { name: 'user', schema: UserSchema },
       { name: 'product', schema: ProductSchema },
       { name: 'category', schema: CategorySchema },
+      { name: 'comment', schema: CommentSchema },
     ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -45,7 +48,7 @@ import { CategorySchema } from './features/category/category.model';
 
       context: ({ req, res }) => {
         if (!req) return; // for subscription
-        console.log('req', req?.body);
+        // console.log('req', req?.body);
 
         if (!req.headers?.authorization) {
           req.user = null;
@@ -59,6 +62,7 @@ import { CategorySchema } from './features/category/category.model';
     UsersModule,
     ProductModule,
     CategoryModule,
+    CommentModule,
   ],
   controllers: [AppController],
 

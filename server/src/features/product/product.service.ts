@@ -19,7 +19,18 @@ export class ProductService {
 
   async getProducts(): Promise<Product[]> {
     const products = await this.productModel.find({}).limit(10);
+    // console.log('products', products);
+
+    // only active
     return products || [];
+  }
+
+  async getProduct(input: IdInput): Promise<Product> {
+    const product = await this.productModel.findById(input.id);
+
+    if (!product.active) throw 'Inactive product';
+
+    return product;
   }
 
   async addProduct(input: ProductInput): Promise<Product> {
@@ -33,7 +44,32 @@ export class ProductService {
     });
     if (!category) throw 'Category Error';
 
-    const newProduct = await new this.productModel(input).save();
+    const productInput: Omit<Product, 'id'> = {
+      ...input,
+      ratings: {
+        ...input.ratings,
+        details: [],
+        originalTotal: 0,
+        originalQuantity: 0,
+        totalOriginalAndFake: input.ratings.fakeTotal,
+        quantityOriginalAndFake: input.ratings.fakeQuantity,
+      },
+      views: {
+        ...input.views,
+        details: [],
+        originalAndFakeTotal: input.views.fakeTotal,
+        originalTotal: 0,
+        originalTotalViewsWithoutDuplicateIPAddresses: 0,
+      },
+      sold: {
+        ...input.sold,
+        details: [],
+        originalAndFakeTotal: input.sold.fakeTotal,
+        originalTotal: 0,
+      },
+    };
+
+    const newProduct = await new this.productModel(productInput).save();
     console.log('newProduct', newProduct);
 
     return newProduct;

@@ -20,19 +20,19 @@ export class Price {
 
 @ObjectType()
 export class Size {
-  @Prop({ min: 0, max: 1_000_000, default: 0 })
+  @Prop({ min: 0, max: 1_000_000 })
   @Field()
   weight: number;
 
-  @Prop({ min: 0, max: 1_000_000, default: 0 })
+  @Prop({ min: 0, max: 1_000_000 })
   @Field()
   length: number;
 
-  @Prop({ min: 0, max: 1_000_000, default: 0 })
+  @Prop({ min: 0, max: 1_000_000 })
   @Field()
   width: number;
 
-  @Prop({ min: 0, max: 1_000_000, default: 0 })
+  @Prop({ min: 0, max: 1_000_000 })
   @Field()
   height: number;
 }
@@ -110,7 +110,7 @@ export class RatingsDetails {
 
 @ObjectType()
 export class Ratings {
-  @Prop({ default: false })
+  @Prop()
   @Field()
   activeFake: boolean;
 
@@ -118,27 +118,27 @@ export class Ratings {
   @Field(() => [RatingsDetails])
   details: RatingsDetails[];
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   fakeTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   fakeQuantity: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalQuantity: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   totalOriginalAndFake: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   quantityOriginalAndFake: number;
 }
@@ -158,7 +158,7 @@ export class ViewsDetails {
 
 @ObjectType()
 export class Views {
-  @Prop({ default: false })
+  @Prop()
   @Field()
   activeFake: boolean;
 
@@ -166,19 +166,19 @@ export class Views {
   @Field(() => [ViewsDetails])
   details: ViewsDetails[];
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   fakeTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalAndFakeTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalTotalViewsWithoutDuplicateIPAddresses: number;
 }
@@ -251,7 +251,7 @@ export class SoldDetails {
 
 @ObjectType()
 export class Sold {
-  @Prop({ default: false })
+  @Prop()
   @Field()
   activeFake: boolean;
 
@@ -259,42 +259,17 @@ export class Sold {
   @Field(() => [SoldDetails])
   details: SoldDetails[];
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   fakeTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalTotal: number;
 
-  @Prop({ default: 0 })
+  @Prop()
   @Field()
   originalAndFakeTotal: number;
-}
-
-//////////////////////////////////////////////// Comments
-
-@ObjectType()
-export class Comments {
-  @Prop()
-  @Field()
-  commentId: string;
-
-  @Prop()
-  @Field()
-  userId: string;
-
-  @Prop()
-  @Field()
-  username: string;
-
-  @Prop()
-  @Field()
-  comment: string;
-
-  @Prop()
-  @Field()
-  date: string;
 }
 
 const stringMin2Max64Trim = {
@@ -373,13 +348,9 @@ export class Product {
   @Field()
   views: Views;
 
-  // @Prop()
-  // @Field()
-  // sold: Sold;
-
-  // @Prop()
-  // @Field(() => [Comments])
-  // comments: Comments[];
+  @Prop()
+  @Field()
+  sold: Sold;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

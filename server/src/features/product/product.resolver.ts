@@ -18,26 +18,31 @@ export class ProductResolver {
     return await this.productService.getProducts();
   }
 
+  @Query(() => Product)
+  async getProduct(@Args('input') input: IdInput) {
+    return await this.productService.getProduct(input);
+  }
+
   @Mutation(() => Product)
-  @UseGuards(new RolesGuard(UserRoles.MODERATOR))
+  @UseGuards(new RolesGuard([UserRoles.MODERATOR]))
   async addProduct(@Args('input') input: ProductInput) {
     return await this.productService.addProduct(input);
   }
 
   @Mutation(() => ResMessage)
-  @UseGuards(new RolesGuard(UserRoles.MODERATOR))
+  @UseGuards(new RolesGuard([UserRoles.MODERATOR]))
   async editProduct(@Args('input') input: EditProductInput) {
     return await this.productService.editProduct(input);
   }
 
   @Mutation(() => ResMessage)
-  @UseGuards(new RolesGuard(UserRoles.MODERATOR))
+  @UseGuards(new RolesGuard([UserRoles.MODERATOR]))
   async deleteProduct(@Args('input') input: IdInput) {
     return await this.productService.deleteProduct(input);
   }
 
   @Mutation(() => ResMessage)
-  @UseGuards(new RolesGuard(UserRoles.MODERATOR))
+  @UseGuards(new RolesGuard([UserRoles.MODERATOR]))
   async changeActiveProduct(@Args('input') input: IdInput) {
     return await this.productService.changeActiveProduct(input);
   }

@@ -103,6 +103,14 @@ type SoldDetails {
   date: DateTime!
 }
 
+type Sold {
+  activeFake: Boolean!
+  details: [SoldDetails!]!
+  fakeTotal: Float!
+  originalTotal: Float!
+  originalAndFakeTotal: Float!
+}
+
 type Product {
   id: ID!
   title: String!
@@ -119,14 +127,35 @@ type Product {
   sale: Sale!
   ratings: Ratings!
   views: Views!
+  sold: Sold!
+}
+
+type Comment {
+  id: ID!
+  productId: String!
+  userId: String!
+  username: String!
+  comment: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
   logout: ResMessage!
   profile: DecodedUser!
   getProducts: [Product!]!
+  getProduct(input: IdInput!): Product!
   getHighlightedProduct: Product!
   getCategories: [Category!]!
+  getComments(input: GetCommentsInput!): [Comment!]!
+}
+
+input IdInput {
+  id: String!
+}
+
+input GetCommentsInput {
+  productId: String!
 }
 
 type Mutation {
@@ -139,6 +168,9 @@ type Mutation {
   addCategory(input: CategoryInput!): Category!
   editCategory(input: EditCategoryInput!): ResMessage!
   deleteCategory(input: IdInput!): ResMessage!
+  addComment(input: AddCommentInput!): Comment!
+  editComment(input: EditCommentInput!): Comment!
+  deleteComment(input: IdInput!): ResMessage!
 }
 
 input LoginInput {
@@ -168,6 +200,7 @@ input ProductInput {
   sale: ProductSaleInput!
   ratings: ProductRatingsInput!
   views: ProductViewsInput!
+  sold: ProductSoldInput!
 }
 
 input ProductPriceInput {
@@ -208,6 +241,11 @@ input ProductViewsInput {
   fakeTotal: Float!
 }
 
+input ProductSoldInput {
+  activeFake: Boolean!
+  fakeTotal: Float!
+}
+
 input EditProductInput {
   title: String!
   description: String!
@@ -223,10 +261,7 @@ input EditProductInput {
   sale: ProductSaleInput!
   ratings: ProductRatingsInput!
   views: ProductViewsInput!
-  id: String!
-}
-
-input IdInput {
+  sold: ProductSoldInput!
   id: String!
 }
 
@@ -237,6 +272,16 @@ input CategoryInput {
 input EditCategoryInput {
   category: String!
   id: String!
+}
+
+input AddCommentInput {
+  productId: String!
+  comment: String!
+}
+
+input EditCommentInput {
+  id: String!
+  comment: String!
 }
 
 type Subscription {
