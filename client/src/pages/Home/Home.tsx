@@ -40,7 +40,7 @@ export const Home = () => {
               <ProductTitle>{title}</ProductTitle>
               <Text> {description.slice(0, 500)}</Text>
               <Text> {model} </Text>
-              <Text>Price: {price.retail}</Text>
+              <Text>Price: {price}</Text>
               <Text>Quantity: {quantity}</Text>
             </DataWrapper>
           </Section>

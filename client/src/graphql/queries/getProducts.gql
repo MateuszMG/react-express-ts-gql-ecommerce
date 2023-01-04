@@ -1,5 +1,0 @@
-query GetProducts {
-  getProducts {
-    ...Product
-  }
-}

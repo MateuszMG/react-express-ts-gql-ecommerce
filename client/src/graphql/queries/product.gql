@@ -1,0 +1,23 @@
+query GetProducts {
+  getProducts {
+    ...Product
+  }
+}
+
+query GetProduct($input: IdInput!) {
+  getProduct(input: $input) {
+    ...Product
+  }
+}
+
+query GetProductsForGuest {
+  getProductsForGuest {
+    ...ProductForGuest
+  }
+}
+
+query GetProductForGuest($input: IdInput!) {
+  getProductForGuest(input: $input) {
+    ...ProductForGuest
+  }
+}

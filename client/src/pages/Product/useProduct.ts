@@ -3,25 +3,25 @@ import { useParams } from 'react-router-dom';
 import { client } from '../../client/client';
 
 import {
-  GetProductsDocument,
-  GetProductsQuery,
-  Product as IProduct,
+  GetProductsForGuestDocument,
+  GetProductsForGuestQuery,
+  ProductForGuest,
   useAddViewMutation,
-  useGetProductLazyQuery,
+  useGetProductForGuestLazyQuery,
 } from '../../generated/types';
 export const useProduct = () => {
   const productId = useParams().productId as string;
-  const [product, setProduct] = useState<IProduct>();
+  const [product, setProduct] = useState<ProductForGuest>();
 
-  const [getProduct, { loading, error }] = useGetProductLazyQuery();
+  const [getProduct, { loading, error }] = useGetProductForGuestLazyQuery();
 
   const [addView] = useAddViewMutation();
 
   const products = client.cache.readQuery({
-    query: GetProductsDocument,
-  }) as GetProductsQuery;
+    query: GetProductsForGuestDocument,
+  }) as GetProductsForGuestQuery;
 
-  const selectedProduct = products?.getProducts.find(
+  const selectedProduct = products?.getProductsForGuest.find(
     (item) => item.id === productId,
   );
 
@@ -35,7 +35,7 @@ export const useProduct = () => {
       onCompleted: (data) => {
         console.log('data', data);
 
-        setProduct(data.getProduct);
+        setProduct(data.getProductForGuest);
       },
       onError: (error) => {
         console.log('error', error);

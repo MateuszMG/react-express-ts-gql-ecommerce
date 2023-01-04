@@ -214,6 +214,25 @@ export type ProductDistinctionInput = {
   startTime: Scalars['DateTime'];
 };
 
+export type ProductForGuest = {
+  __typename?: 'ProductForGuest';
+  category: Scalars['String'];
+  description: Scalars['String'];
+  distinction: Distinction;
+  id: Scalars['ID'];
+  image: Scalars['String'];
+  model: Scalars['String'];
+  price: Scalars['Float'];
+  quantity: Scalars['Float'];
+  ratings: RatingsForGuest;
+  sale: Sale;
+  size: Size;
+  solds: Scalars['Float'];
+  subtitle: Scalars['String'];
+  title: Scalars['String'];
+  views: Scalars['Float'];
+};
+
 export type ProductInput = {
   active: Scalars['Boolean'];
   category: Scalars['String'];
@@ -274,7 +293,9 @@ export type Query = {
   getCategories: Array<Category>;
   getHighlightedProduct: Product;
   getProduct: Product;
+  getProductForGuest: ProductForGuest;
   getProducts: Array<Product>;
+  getProductsForGuest: Array<ProductForGuest>;
   getRatings: Array<Rating>;
   logout: ResMessage;
   profile: DecodedUser;
@@ -282,6 +303,11 @@ export type Query = {
 
 
 export type QueryGetProductArgs = {
+  input: IdInput;
+};
+
+
+export type QueryGetProductForGuestArgs = {
   input: IdInput;
 };
 
@@ -312,6 +338,12 @@ export type Ratings = {
   originalAndFakeAmount: Scalars['Float'];
   originalAndFakeTotal: Scalars['Float'];
   originalTotal: Scalars['Float'];
+};
+
+export type RatingsForGuest = {
+  __typename?: 'RatingsForGuest';
+  amount: Scalars['Float'];
+  total: Scalars['Float'];
 };
 
 export type RegisterInput = {
@@ -387,6 +419,10 @@ export type ViewsFragment = { __typename?: 'Views', activeFake: boolean, fakeTot
 export type SoldsFragment = { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number };
 
 export type ProductFragment = { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } };
+
+export type RatingsForGuestFragment = { __typename?: 'RatingsForGuest', total: number, amount: number };
+
+export type ProductForGuestFragment = { __typename?: 'ProductForGuest', id: string, title: string, subtitle: string, description: string, model: string, category: string, quantity: number, image: string, price: number, views: number, solds: number, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } };
 
 export type RatingFragment = { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean };
 
@@ -493,18 +529,6 @@ export type GetHighlightedProductQueryVariables = Exact<{ [key: string]: never; 
 
 export type GetHighlightedProductQuery = { __typename?: 'Query', getHighlightedProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } } };
 
-export type GetProductQueryVariables = Exact<{
-  input: IdInput;
-}>;
-
-
-export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } } };
-
-export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } }> };
-
 export type GetRatingsQueryVariables = Exact<{
   input: GetRatingsInput;
 }>;
@@ -516,6 +540,30 @@ export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'ResMessage', message: string } };
+
+export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } }> };
+
+export type GetProductQueryVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'Product', id: string, title: string, description: string, subtitle: string, model: string, category: string, active: boolean, quantity: number, image: string, price: { __typename?: 'Price', wholesale: number, retail: number }, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'Ratings', activeFake: boolean, fakeTotal: number, fakeAmount: number, originalTotal: number, originalAmount: number, originalAndFakeTotal: number, originalAndFakeAmount: number }, views: { __typename?: 'Views', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number, originalTotalViewsWithoutDuplicateIPAddresses: number }, solds: { __typename?: 'Solds', activeFake: boolean, fakeTotal: number, originalTotal: number, originalAndFakeTotal: number } } };
+
+export type GetProductsForGuestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsForGuestQuery = { __typename?: 'Query', getProductsForGuest: Array<{ __typename?: 'ProductForGuest', id: string, title: string, subtitle: string, description: string, model: string, category: string, quantity: number, image: string, price: number, views: number, solds: number, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> };
+
+export type GetProductForGuestQueryVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type GetProductForGuestQuery = { __typename?: 'Query', getProductForGuest: { __typename?: 'ProductForGuest', id: string, title: string, subtitle: string, description: string, model: string, category: string, quantity: number, image: string, price: number, views: number, solds: number, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } } };
 
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -646,6 +694,42 @@ ${SaleFragmentDoc}
 ${RatingsFragmentDoc}
 ${ViewsFragmentDoc}
 ${SoldsFragmentDoc}`;
+export const RatingsForGuestFragmentDoc = gql`
+    fragment RatingsForGuest on RatingsForGuest {
+  total
+  amount
+}
+    `;
+export const ProductForGuestFragmentDoc = gql`
+    fragment ProductForGuest on ProductForGuest {
+  id
+  title
+  subtitle
+  description
+  model
+  category
+  quantity
+  image
+  price
+  size {
+    ...Size
+  }
+  distinction {
+    ...Distinction
+  }
+  sale {
+    ...Sale
+  }
+  ratings {
+    ...RatingsForGuest
+  }
+  views
+  solds
+}
+    ${SizeFragmentDoc}
+${DistinctionFragmentDoc}
+${SaleFragmentDoc}
+${RatingsForGuestFragmentDoc}`;
 export const RatingFragmentDoc = gql`
     fragment Rating on Rating {
   id
@@ -1159,75 +1243,6 @@ export function useGetHighlightedProductLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetHighlightedProductQueryHookResult = ReturnType<typeof useGetHighlightedProductQuery>;
 export type GetHighlightedProductLazyQueryHookResult = ReturnType<typeof useGetHighlightedProductLazyQuery>;
 export type GetHighlightedProductQueryResult = Apollo.QueryResult<GetHighlightedProductQuery, GetHighlightedProductQueryVariables>;
-export const GetProductDocument = gql`
-    query GetProduct($input: IdInput!) {
-  getProduct(input: $input) {
-    ...Product
-  }
-}
-    ${ProductFragmentDoc}`;
-
-/**
- * __useGetProductQuery__
- *
- * To run a query within a React component, call `useGetProductQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetProductQuery({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useGetProductQuery(baseOptions: Apollo.QueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
-      }
-export function useGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
-        }
-export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
-export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
-export type GetProductQueryResult = Apollo.QueryResult<GetProductQuery, GetProductQueryVariables>;
-export const GetProductsDocument = gql`
-    query GetProducts {
-  getProducts {
-    ...Product
-  }
-}
-    ${ProductFragmentDoc}`;
-
-/**
- * __useGetProductsQuery__
- *
- * To run a query within a React component, call `useGetProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetProductsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-      }
-export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-        }
-export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
-export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
-export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
 export const GetRatingsDocument = gql`
     query GetRatings($input: GetRatingsInput!) {
   getRatings(input: $input) {
@@ -1297,6 +1312,144 @@ export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Log
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
 export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
 export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
+export const GetProductsDocument = gql`
+    query GetProducts {
+  getProducts {
+    ...Product
+  }
+}
+    ${ProductFragmentDoc}`;
+
+/**
+ * __useGetProductsQuery__
+ *
+ * To run a query within a React component, call `useGetProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProductsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
+      }
+export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
+        }
+export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
+export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
+export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductDocument = gql`
+    query GetProduct($input: IdInput!) {
+  getProduct(input: $input) {
+    ...Product
+  }
+}
+    ${ProductFragmentDoc}`;
+
+/**
+ * __useGetProductQuery__
+ *
+ * To run a query within a React component, call `useGetProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetProductQuery(baseOptions: Apollo.QueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
+      }
+export function useGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
+        }
+export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
+export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
+export type GetProductQueryResult = Apollo.QueryResult<GetProductQuery, GetProductQueryVariables>;
+export const GetProductsForGuestDocument = gql`
+    query GetProductsForGuest {
+  getProductsForGuest {
+    ...ProductForGuest
+  }
+}
+    ${ProductForGuestFragmentDoc}`;
+
+/**
+ * __useGetProductsForGuestQuery__
+ *
+ * To run a query within a React component, call `useGetProductsForGuestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductsForGuestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductsForGuestQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProductsForGuestQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsForGuestQuery, GetProductsForGuestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductsForGuestQuery, GetProductsForGuestQueryVariables>(GetProductsForGuestDocument, options);
+      }
+export function useGetProductsForGuestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsForGuestQuery, GetProductsForGuestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductsForGuestQuery, GetProductsForGuestQueryVariables>(GetProductsForGuestDocument, options);
+        }
+export type GetProductsForGuestQueryHookResult = ReturnType<typeof useGetProductsForGuestQuery>;
+export type GetProductsForGuestLazyQueryHookResult = ReturnType<typeof useGetProductsForGuestLazyQuery>;
+export type GetProductsForGuestQueryResult = Apollo.QueryResult<GetProductsForGuestQuery, GetProductsForGuestQueryVariables>;
+export const GetProductForGuestDocument = gql`
+    query GetProductForGuest($input: IdInput!) {
+  getProductForGuest(input: $input) {
+    ...ProductForGuest
+  }
+}
+    ${ProductForGuestFragmentDoc}`;
+
+/**
+ * __useGetProductForGuestQuery__
+ *
+ * To run a query within a React component, call `useGetProductForGuestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductForGuestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductForGuestQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetProductForGuestQuery(baseOptions: Apollo.QueryHookOptions<GetProductForGuestQuery, GetProductForGuestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductForGuestQuery, GetProductForGuestQueryVariables>(GetProductForGuestDocument, options);
+      }
+export function useGetProductForGuestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductForGuestQuery, GetProductForGuestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductForGuestQuery, GetProductForGuestQueryVariables>(GetProductForGuestDocument, options);
+        }
+export type GetProductForGuestQueryHookResult = ReturnType<typeof useGetProductForGuestQuery>;
+export type GetProductForGuestLazyQueryHookResult = ReturnType<typeof useGetProductForGuestLazyQuery>;
+export type GetProductForGuestQueryResult = Apollo.QueryResult<GetProductForGuestQuery, GetProductForGuestQueryVariables>;
 export const ProfileDocument = gql`
     query Profile {
   profile {
@@ -1423,12 +1576,32 @@ export type ProductFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	views?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getCategories' | 'getHighlightedProduct' | 'getProduct' | 'getProducts' | 'getRatings' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type ProductForGuestKeySpecifier = ('category' | 'description' | 'distinction' | 'id' | 'image' | 'model' | 'price' | 'quantity' | 'ratings' | 'sale' | 'size' | 'solds' | 'subtitle' | 'title' | 'views' | ProductForGuestKeySpecifier)[];
+export type ProductForGuestFieldPolicy = {
+	category?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	distinction?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	image?: FieldPolicy<any> | FieldReadFunction<any>,
+	model?: FieldPolicy<any> | FieldReadFunction<any>,
+	price?: FieldPolicy<any> | FieldReadFunction<any>,
+	quantity?: FieldPolicy<any> | FieldReadFunction<any>,
+	ratings?: FieldPolicy<any> | FieldReadFunction<any>,
+	sale?: FieldPolicy<any> | FieldReadFunction<any>,
+	size?: FieldPolicy<any> | FieldReadFunction<any>,
+	solds?: FieldPolicy<any> | FieldReadFunction<any>,
+	subtitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>,
+	views?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type QueryKeySpecifier = ('getCategories' | 'getHighlightedProduct' | 'getProduct' | 'getProductForGuest' | 'getProducts' | 'getProductsForGuest' | 'getRatings' | 'logout' | 'profile' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getCategories?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHighlightedProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	getProductForGuest?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
+	getProductsForGuest?: FieldPolicy<any> | FieldReadFunction<any>,
 	getRatings?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	profile?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1454,6 +1627,11 @@ export type RatingsFieldPolicy = {
 	originalAndFakeAmount?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalAndFakeTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	originalTotal?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RatingsForGuestKeySpecifier = ('amount' | 'total' | RatingsForGuestKeySpecifier)[];
+export type RatingsForGuestFieldPolicy = {
+	amount?: FieldPolicy<any> | FieldReadFunction<any>,
+	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResMessageKeySpecifier = ('message' | ResMessageKeySpecifier)[];
 export type ResMessageFieldPolicy = {
@@ -1523,6 +1701,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | ProductKeySpecifier | (() => undefined | ProductKeySpecifier),
 		fields?: ProductFieldPolicy,
 	},
+	ProductForGuest?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ProductForGuestKeySpecifier | (() => undefined | ProductForGuestKeySpecifier),
+		fields?: ProductForGuestFieldPolicy,
+	},
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
@@ -1534,6 +1716,10 @@ export type StrictTypedTypePolicies = {
 	Ratings?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RatingsKeySpecifier | (() => undefined | RatingsKeySpecifier),
 		fields?: RatingsFieldPolicy,
+	},
+	RatingsForGuest?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RatingsForGuestKeySpecifier | (() => undefined | RatingsForGuestKeySpecifier),
+		fields?: RatingsForGuestFieldPolicy,
 	},
 	ResMessage?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResMessageKeySpecifier | (() => undefined | ResMessageKeySpecifier),

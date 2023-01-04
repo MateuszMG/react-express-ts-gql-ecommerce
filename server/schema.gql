@@ -109,6 +109,29 @@ type DecodedUser {
   roles: [String!]!
 }
 
+type RatingsForGuest {
+  total: Float!
+  amount: Float!
+}
+
+type ProductForGuest {
+  id: ID!
+  title: String!
+  subtitle: String!
+  description: String!
+  model: String!
+  category: String!
+  quantity: Float!
+  image: String!
+  price: Float!
+  size: Size!
+  distinction: Distinction!
+  sale: Sale!
+  ratings: RatingsForGuest!
+  views: Float!
+  solds: Float!
+}
+
 type Query {
   logout: ResMessage!
   profile: DecodedUser!
@@ -117,6 +140,8 @@ type Query {
   getHighlightedProduct: Product!
   getCategories: [Category!]!
   getRatings(input: GetRatingsInput!): [Rating!]!
+  getProductsForGuest: [ProductForGuest!]!
+  getProductForGuest(input: IdInput!): ProductForGuest!
 }
 
 input IdInput {

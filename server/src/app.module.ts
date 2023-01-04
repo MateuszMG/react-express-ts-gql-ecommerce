@@ -19,6 +19,7 @@ import { User, UserSchema } from './features/user/user.model';
 import { UsersModule } from './features/user/user.module';
 import { View, ViewSchema } from './features/view/view.model';
 import { ViewModule } from './features/view/view.module';
+import { ProductForGuestModule } from './features/product-for-guest/product-for-guest.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { ViewModule } from './features/view/view.module';
     RatingModule,
     ViewModule,
     SoldModule,
+    ProductForGuestModule,
   ],
   controllers: [AppController],
 

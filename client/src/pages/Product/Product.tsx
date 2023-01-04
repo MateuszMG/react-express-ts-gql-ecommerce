@@ -21,7 +21,6 @@ export const Product = () => {
   if (!product) return <Loader />;
 
   const {
-    active,
     category,
     description,
     distinction,
@@ -58,12 +57,10 @@ export const Product = () => {
         <Sold></Sold>
       </SoldWrapper> */}
 
-      <h1>ratings: {ratings.originalAndFakeAmount}</h1>
-      <h1>originalTotal: {views.originalTotal}</h1>
-      <h1>
-        originalTotalViewsWithoutDuplicateIPAddresses:{' '}
-        {views.originalTotalViewsWithoutDuplicateIPAddresses}
-      </h1>
+      <h1>ratings amount: {ratings.amount}</h1>
+      <h1>ratings total: {ratings.total}</h1>
+      <h1>originalTotal: {views}</h1>
+      <h1>originalTotalViewsWithoutDuplicateIPAddresses: {views}</h1>
       <p> Product </p>
       <p> Product </p>
       <p> Product </p>

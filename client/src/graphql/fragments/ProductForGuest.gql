@@ -1,0 +1,35 @@
+fragment RatingsForGuest on RatingsForGuest {
+  total
+  amount
+}
+
+fragment ProductForGuest on ProductForGuest {
+  id
+  title
+  subtitle
+  description
+  model
+  category
+  quantity
+  image
+  price
+
+  size {
+    ...Size
+  }
+
+  distinction {
+    ...Distinction
+  }
+
+  sale {
+    ...Sale
+  }
+
+  ratings {
+    ...RatingsForGuest
+  }
+
+  views
+  solds
+}
