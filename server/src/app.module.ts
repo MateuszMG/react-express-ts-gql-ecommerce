@@ -47,7 +47,7 @@ import { ViewSchema } from './features/view/view.model';
         'subscriptions-transport-ws': true,
       },
       playground: true,
-      cors: { origin: true },
+      cors: { origin: process.env.DOMAIN },
 
       context: ({ req, res }) => {
         if (!req) return; // for subscription
