@@ -2,7 +2,7 @@ import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ProductDocument, Ratings } from '../product/product.model';
+import { Product, ProductDocument, Ratings } from '../product/product.model';
 import { Rating, RatingDocument } from './rating.model';
 import { ResMessage } from 'src/types/object.type';
 import Ctx from 'src/types/context.type';
@@ -26,8 +26,8 @@ interface CalculateRating {
 @Injectable()
 export class RatingService {
   constructor(
-    @InjectModel('rating') private ratingModel: Model<RatingDocument>,
-    @InjectModel('product') private productModel: Model<ProductDocument>,
+    @InjectModel(Rating.name) private ratingModel: Model<RatingDocument>,
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
   async getRatings(input: GetRatingsInput): Promise<Rating[]> {

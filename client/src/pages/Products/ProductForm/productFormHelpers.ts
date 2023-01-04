@@ -10,7 +10,7 @@ export const productFormHelpers = () => {
     description: 'Description --' + randomNumber(),
     subtitle: 'subtitle --' + randomNumber(),
 
-    category: 'Category --537399',
+    category: 'Category --1',
     model: 'model --' + randomNumber(),
 
     quantity: randomNumber(),
@@ -55,7 +55,7 @@ export const productFormHelpers = () => {
       fakeTotal: randomNumber(2),
     },
 
-    sold: {
+    solds: {
       activeFake: true,
       fakeTotal: randomNumber(2),
     },

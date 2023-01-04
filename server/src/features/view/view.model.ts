@@ -13,7 +13,7 @@ export class View {
 
   @Prop()
   @Field()
-  IPAdress: string;
+  guestIP: string;
 
   @Prop()
   @Field()

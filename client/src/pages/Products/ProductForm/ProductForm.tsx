@@ -226,14 +226,14 @@ export const ProductForm = () => {
 
         <Form.FieldsDivided>
           <CheckboxInput
-            {...register('sold.activeFake')}
-            error={errors?.sold?.activeFake?.message}
+            {...register('solds.activeFake')}
+            error={errors?.solds?.activeFake?.message}
             label={'Active fake sold'}
           />
 
           <TextInput
-            {...register('sold.fakeTotal')}
-            error={errors?.sold?.fakeTotal?.message}
+            {...register('solds.fakeTotal')}
+            error={errors?.solds?.fakeTotal?.message}
             label={'Fake total'}
             type={'number'}
           />

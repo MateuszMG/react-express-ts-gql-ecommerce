@@ -1,7 +1,5 @@
-import { Category } from '../category/category.model';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes, Types } from 'mongoose';
 
 //////////////////////////////////////////////// Price
 
@@ -139,81 +137,13 @@ export class Views {
   originalTotalViewsWithoutDuplicateIPAddresses: number;
 }
 
-//////////////////////////////////////////////// Sold
+//////////////////////////////////////////////// Solds
 
 @ObjectType()
-export class SoldDetails {
-  @Prop()
-  @Field()
-  guestIP: string;
-
-  // TODO: change soldId as ref
-  @Prop()
-  @Field()
-  soldId: string;
-
-  @Prop()
-  @Field()
-  userId: string;
-
-  // @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
-  // @Field()
-  // userId: Types.ObjectId;
-
-  @Prop()
-  @Field()
-  quantity: number;
-
-  @Prop()
-  @Field()
-  price: Price;
-
-  @Prop()
-  @Field()
-  activeSale: boolean;
-
-  @Prop()
-  @Field()
-  activeCoupon: boolean;
-
-  @Prop()
-  @Field()
-  activeDistinction: boolean;
-
-  @Prop()
-  @Field()
-  purchasePriceBeforeDiscount: number;
-
-  @Prop()
-  @Field()
-  purchasePrice: number;
-
-  @Prop()
-  @Field()
-  profit: number;
-
-  @Prop()
-  @Field()
-  amountDiscount: number;
-
-  @Prop()
-  @Field()
-  percentageDiscount: number;
-
-  @Prop()
-  @Field()
-  date: Date;
-}
-
-@ObjectType()
-export class Sold {
+export class Solds {
   @Prop()
   @Field()
   activeFake: boolean;
-
-  @Prop()
-  @Field(() => [SoldDetails])
-  details: SoldDetails[];
 
   @Prop()
   @Field()
@@ -262,10 +192,6 @@ export class Product {
   @Field()
   category: string;
 
-  // @Prop({ type: SchemaTypes.ObjectId, ref: Category.name })
-  // @Field(() => Category)
-  // category: Types.ObjectId;
-
   @Prop({ default: true })
   @Field()
   active: boolean;
@@ -306,110 +232,8 @@ export class Product {
 
   @Prop()
   @Field()
-  sold: Sold;
+  solds: Solds;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
 export type ProductDocument = Product & Document;
-
-// title;
-// subtitle;
-// model;
-// description;
-
-// category;
-
-// quantity;
-
-// price: {
-//   wholesale,
-//   retail,
-// },
-
-// size: {
-//   weight,
-//   length,
-//   width,
-//   height,
-// },
-
-// images: {
-//   type: Array,
-//   required: true,
-// },
-
-// distinction: {
-//   active,
-//   startTime,
-//   endTime,
-// },
-
-// sale: {
-//   active
-//   priceBeforeSale,
-//   priceAfterSale,
-//   percentageDiscount,
-//   startTime,
-//   endTime,
-// },
-
-// ratings: {
-//   activeFake,
-//   details: [{
-//       ratingId,
-//       userId,
-//       rating,
-//       date,
-//   }],
-//   fakeTotal,
-//   fakeAmount,
-//   originalTotal,
-//    originalAmount,
-//   originalAndFakeTotal,
-//   originalAndFakeAmount,
-// },
-// views: {
-//   activeFake,
-//   fakeTotal,
-//   details: [{
-//       guestIP,
-//       date,
-//   }],
-//   originalTotal,
-//   originalAndSetTotal,
-//   originalTotalViewsWithoutDuplicateIPAddresses,
-// },
-// sold: {
-//   activeFake,
-//   fakeTotal,
-//   details: [{
-//       soldId,
-//       userId,
-//       quantity,
-
-//       wholesale,
-//       retail,
-
-//       activeSale,
-//       activeCoupon,
-//       activeDistinction,
-
-//       purchasePriceBeforeDiscount,
-//       purchasePrice,
-//       profit,
-
-//       amountDiscount,
-//       percentageDiscount,
-
-//       date,
-//   }],
-//   originalTotal,
-//   originalAndFakeTotal,
-// },
-// comments: [{
-//   commentId,
-//   userId,
-//   username,
-//   comment,
-//   date,
-// }],

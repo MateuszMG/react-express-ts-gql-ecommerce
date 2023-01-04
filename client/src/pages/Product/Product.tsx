@@ -33,7 +33,7 @@ export const Product = () => {
     ratings,
     sale,
     size,
-    sold,
+    solds,
     subtitle,
     title,
     views,

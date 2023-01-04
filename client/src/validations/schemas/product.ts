@@ -94,7 +94,7 @@ export const productSchema = {
     // originalTotalViewsWithoutDuplicateIPAddresses: yup.number().required(),
   }),
 
-  sold: yup.object({
+  solds: yup.object({
     activeFake: yup.boolean().required(),
     fakeTotal: yup.number().required(),
   }),

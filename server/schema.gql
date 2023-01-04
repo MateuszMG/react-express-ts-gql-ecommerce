@@ -2,13 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ResMessage {
-  message: String!
-}
-
 type Category {
   id: ID!
   category: String!
+}
+
+type ResMessage {
+  message: String!
 }
 
 type Price {
@@ -61,26 +61,8 @@ type Views {
   originalTotalViewsWithoutDuplicateIPAddresses: Float!
 }
 
-type SoldDetails {
-  guestIP: String!
-  soldId: String!
-  userId: String!
-  quantity: Float!
-  price: Price!
-  activeSale: Boolean!
-  activeCoupon: Boolean!
-  activeDistinction: Boolean!
-  purchasePriceBeforeDiscount: Float!
-  purchasePrice: Float!
-  profit: Float!
-  amountDiscount: Float!
-  percentageDiscount: Float!
-  date: DateTime!
-}
-
-type Sold {
+type Solds {
   activeFake: Boolean!
-  details: [SoldDetails!]!
   fakeTotal: Float!
   originalTotal: Float!
   originalAndFakeTotal: Float!
@@ -102,7 +84,7 @@ type Product {
   sale: Sale!
   ratings: Ratings!
   views: Views!
-  sold: Sold!
+  solds: Solds!
 }
 
 type Rating {
@@ -188,7 +170,7 @@ input ProductInput {
   sale: ProductSaleInput!
   ratings: ProductRatingsInput!
   views: ProductViewsInput!
-  sold: ProductSoldInput!
+  solds: ProductSoldsInput!
 }
 
 input ProductPriceInput {
@@ -229,7 +211,7 @@ input ProductViewsInput {
   fakeTotal: Float!
 }
 
-input ProductSoldInput {
+input ProductSoldsInput {
   activeFake: Boolean!
   fakeTotal: Float!
 }
@@ -249,7 +231,7 @@ input EditProductInput {
   sale: ProductSaleInput!
   ratings: ProductRatingsInput!
   views: ProductViewsInput!
-  sold: ProductSoldInput!
+  solds: ProductSoldsInput!
   id: String!
 }
 

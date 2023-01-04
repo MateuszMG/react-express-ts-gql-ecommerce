@@ -9,7 +9,7 @@ import { ResMessage } from 'src/types/object.type';
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectModel('category') private categoryModel: Model<CategoryDocument>,
+    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
   async getCategories(): Promise<Category[]> {

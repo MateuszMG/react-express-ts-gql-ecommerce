@@ -44,34 +44,31 @@ fragment Views on Views {
   originalTotalViewsWithoutDuplicateIPAddresses
 }
 
-fragment SoldDetails on SoldDetails {
-  guestIP
-  soldId
-  userId
+# fragment SoldDetails on SoldDetails {
+#   guestIP
+#   soldId
+#   userId
 
-  quantity
-  price {
-    ...Price
-  }
+#   quantity
+#   price {
+#     ...Price
+#   }
 
-  activeSale
-  activeCoupon
-  activeDistinction
+#   activeSale
+#   activeCoupon
+#   activeDistinction
 
-  purchasePriceBeforeDiscount
-  purchasePrice
-  profit
-  amountDiscount
-  percentageDiscount
+#   purchasePriceBeforeDiscount
+#   purchasePrice
+#   profit
+#   amountDiscount
+#   percentageDiscount
 
-  date
-}
+#   date
+# }
 
-fragment Sold on Sold {
+fragment Solds on Solds {
   activeFake
-  details {
-    ...SoldDetails
-  }
   fakeTotal
   originalTotal
   originalAndFakeTotal
@@ -114,7 +111,7 @@ fragment Product on Product {
     ...Views
   }
 
-  sold {
-    ...Sold
+  solds {
+    ...Solds
   }
 }

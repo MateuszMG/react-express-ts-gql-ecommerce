@@ -2,13 +2,15 @@ import { Module } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { RatingResolver } from './rating.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RatingSchema } from './rating.model';
-import { ProductSchema } from '../product/product.model';
+import { Rating, RatingSchema } from './rating.model';
+import { Product, ProductSchema } from '../product/product.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'rating', schema: RatingSchema }]),
-    MongooseModule.forFeature([{ name: 'product', schema: ProductSchema }]),
+    MongooseModule.forFeature([
+      { name: Rating.name, schema: RatingSchema },
+      { name: Product.name, schema: ProductSchema },
+    ]),
   ],
   providers: [RatingService, RatingResolver],
 })

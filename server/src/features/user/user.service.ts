@@ -9,29 +9,17 @@ import Ctx from 'src/types/context.type';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('users') private userModel: Model<UserDocument>) {}
-
-  async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.userModel.findOne({ email }).select(['-__v']);
-    if (!user) return null;
-    const isMatch = await bcrypt.compare(password, user?.password);
-    if (!isMatch) return null;
-
-    return user;
-  }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async login(input: LoginInput) {
-    const { id, username, email, roles } = await this.validateUser(
-      input.email,
-      input.password,
-    );
+    const user = await this.userModel.findOne({ email: input.email });
+    if (!user) throw 'Error';
 
-    const accessToken = createAccessToken({
-      id,
-      username,
-      email,
-      roles,
-    });
+    const isMatch = await bcrypt.compare(input.password, user?.password);
+    if (!isMatch) throw 'Error';
+
+    const { id, username, email, roles } = user;
+    const accessToken = createAccessToken({ id, username, email, roles });
 
     await this.userModel.findByIdAndUpdate(id, { accessToken });
 

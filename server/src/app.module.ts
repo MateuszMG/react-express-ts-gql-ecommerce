@@ -1,22 +1,24 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Category, CategorySchema } from './features/category/category.model';
 import { CategoryModule } from './features/category/category.module';
-import { CategorySchema } from './features/category/category.model';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from './config/configruration';
 import { decodeAccessToken } from './utils/jwt.utils';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Product, ProductSchema } from './features/product/product.model';
 import { ProductModule } from './features/product/product.module';
-import { ProductSchema } from './features/product/product.model';
+import { Rating, RatingSchema } from './features/rating/rating.model';
 import { RatingModule } from './features/rating/rating.module';
-import { RatingSchema } from './features/rating/rating.model';
-import { UserSchema } from './features/user/user.model';
+import { Sold, SoldSchema } from './features/sold/sold.model';
+import { SoldModule } from './features/sold/sold.module';
+import { User, UserSchema } from './features/user/user.model';
 import { UsersModule } from './features/user/user.module';
+import { View, ViewSchema } from './features/view/view.model';
 import { ViewModule } from './features/view/view.module';
-import { ViewSchema } from './features/view/view.model';
 
 @Module({
   imports: [
@@ -32,11 +34,12 @@ import { ViewSchema } from './features/view/view.model';
     }),
 
     MongooseModule.forFeature([
-      { name: 'user', schema: UserSchema },
-      { name: 'product', schema: ProductSchema },
-      { name: 'category', schema: CategorySchema },
-      { name: 'rating', schema: RatingSchema },
-      { name: 'view', schema: ViewSchema },
+      { name: User.name, schema: UserSchema },
+      { name: Product.name, schema: ProductSchema },
+      { name: Category.name, schema: CategorySchema },
+      { name: Rating.name, schema: RatingSchema },
+      { name: View.name, schema: ViewSchema },
+      { name: Sold.name, schema: SoldSchema },
     ]),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -67,6 +70,7 @@ import { ViewSchema } from './features/view/view.model';
     CategoryModule,
     RatingModule,
     ViewModule,
+    SoldModule,
   ],
   controllers: [AppController],
 

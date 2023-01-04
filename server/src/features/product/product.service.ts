@@ -1,3 +1,5 @@
+import { Category, CategoryDocument } from '../category/category.model';
+import { dataRangeValidation } from 'src/validations/dataRangeValidation';
 import { EditProductInput, ProductInput } from './product.input';
 import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
@@ -7,14 +9,12 @@ import { Product, ProductDocument } from './product.model';
 import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
 import { timeoutService } from 'src/utils/services/timeout.service';
-import { CategoryDocument } from '../category/category.model';
-import { dataRangeValidation } from 'src/validations/dataRangeValidation';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectModel('category') private categoryModel: Model<CategoryDocument>,
-    @InjectModel('product') private productModel: Model<ProductDocument>,
+    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
   async getProducts(): Promise<Product[]> {
@@ -59,10 +59,9 @@ export class ProductService {
         originalTotal: 0,
         originalTotalViewsWithoutDuplicateIPAddresses: 0,
       },
-      sold: {
-        ...input.sold,
-        details: [],
-        originalAndFakeTotal: input.sold.fakeTotal,
+      solds: {
+        ...input.solds,
+        originalAndFakeTotal: input.solds.fakeTotal,
         originalTotal: 0,
       },
     };

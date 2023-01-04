@@ -52,14 +52,6 @@ export class ProductSaleInput {
 
 //////////////////////////////////////////////// Ratings
 
-// @InputType()
-// export class ProductRatingsDetailsInput {
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) ratingId: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) userId: string;
-//   @Field() @IsNumber() @Min(0) @Max(6) rating: number;
-//   @Field() @IsDate() @Type(() => Date) endTime: Date;
-// }
-
 @InputType()
 export class ProductRatingsInput {
   @Field() @IsBoolean() activeFake: boolean;
@@ -69,12 +61,6 @@ export class ProductRatingsInput {
 }
 
 //////////////////////////////////////////////// Views
-
-// @InputType()
-// export class ProductViewsDetailsInput {
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) guestIP: string;
-//   @Field() @IsDate() @Type(() => Date) date: Date;
-// }
 
 @InputType()
 export class ProductViewsInput {
@@ -112,22 +98,10 @@ export class ProductViewsInput {
 // }
 
 @InputType()
-export class ProductSoldInput {
+export class ProductSoldsInput {
   @Field() @IsBoolean() activeFake: boolean;
-  // @Field() details: ProductSoldDetailsInput;
   @Field() @IsNumber() @Min(0) @Max(1_000_000) fakeTotal: number;
 }
-
-//////////////////////////////////////////////// Comments
-
-// @InputType()
-// export class ProductCommentsInput {
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) commentId: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) userId: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) username: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(5000) comment: string;
-//   @Field() @IsDate() @Type(() => Date) date: Date;
-// }
 
 @InputType()
 export class ProductInput {
@@ -148,7 +122,7 @@ export class ProductInput {
   @Field() sale: ProductSaleInput;
   @Field() ratings: ProductRatingsInput;
   @Field() views: ProductViewsInput;
-  @Field() sold: ProductSoldInput;
+  @Field() solds: ProductSoldsInput;
   // @Field() comments: ProductCommentsInput;
 }
 

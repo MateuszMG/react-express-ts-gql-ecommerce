@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
+import { SoldService } from './sold.service';
+import { SoldResolver } from './sold.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from '../product/product.model';
-import { View, ViewSchema } from './view.model';
-import { ViewResolver } from './view.resolver';
-import { ViewService } from './view.service';
+import { Sold, SoldSchema } from './sold.model';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: View.name, schema: ViewSchema },
+      { name: Sold.name, schema: SoldSchema },
       { name: Product.name, schema: ProductSchema },
     ]),
   ],
-  providers: [ViewService, ViewResolver],
+  providers: [SoldService, SoldResolver],
 })
-export class ViewModule {}
+export class SoldModule {}
