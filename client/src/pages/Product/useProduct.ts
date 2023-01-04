@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { client } from '../../client/client';
-
 import {
   GetProductsForGuestDocument,
   GetProductsForGuestQuery,
@@ -9,6 +8,7 @@ import {
   useAddViewMutation,
   useGetProductForGuestLazyQuery,
 } from '../../generated/types';
+
 export const useProduct = () => {
   const productId = useParams().productId as string;
   const [product, setProduct] = useState<ProductForGuest>();

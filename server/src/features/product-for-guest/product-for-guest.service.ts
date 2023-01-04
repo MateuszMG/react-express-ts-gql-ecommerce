@@ -25,7 +25,6 @@ export class ProductForGuestService {
       delete product._doc._id;
       return this.extractProductForGuest(product._doc);
     });
-    console.log('productsForGuest', productsForGuest[0]);
 
     return productsForGuest || [];
   }

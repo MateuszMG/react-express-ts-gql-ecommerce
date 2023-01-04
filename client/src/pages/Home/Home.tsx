@@ -1,4 +1,6 @@
+import { paths } from '../../routes/paths';
 import { useHome } from './useHome';
+import { useNavigate } from 'react-router-dom';
 import {
   DataWrapper,
   Img,
@@ -7,8 +9,6 @@ import {
   Text,
   Wrapper,
 } from './Home.styled';
-import { useNavigate } from 'react-router-dom';
-import { paths } from '../../routes/paths';
 
 export const Home = () => {
   const { products } = useHome();
