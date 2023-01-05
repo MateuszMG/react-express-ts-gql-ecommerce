@@ -39,7 +39,7 @@ export class AuthService {
       roles: [UserRoles.USER],
       accessToken: '',
       refreshToken: '',
-      basket: { products: [] },
+      basket: [],
     }).save();
 
     const refreshToken = createRefreshToken({

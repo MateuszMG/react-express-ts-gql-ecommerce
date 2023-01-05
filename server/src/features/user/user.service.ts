@@ -24,7 +24,7 @@ export class UserService {
     const userId = ctx.req.user.id;
     const user = await this.userModel.findById(userId).lean();
 
-    const productIds = user.basket.products.map((item) => item.productId);
+    const productIds = user.basket.map((item) => item.productId);
 
     return await this.loadUserBasket(user.basket, productIds);
   }
@@ -34,14 +34,13 @@ export class UserService {
 
     const userId = ctx.req.user.id;
     const user = await this.userModel.findById(userId).lean();
+    const basket = user.basket;
 
-    const basketProducts = user.basket.products;
+    const isExist = basket.find((item) => item.productId === input.id);
 
-    const isExist = basketProducts.find((item) => item.productId === input.id);
-
-    const updatedProducts = !isExist
-      ? [...basketProducts, { productId: input.id, quantity: 1 }]
-      : basketProducts.map((item) =>
+    const updatedBasket: Basket[] = !isExist
+      ? [...basket, { productId: input.id, quantity: 1 }]
+      : basket.map((item) =>
           item.productId === input.id
             ? {
                 productId: item.productId,
@@ -50,14 +49,15 @@ export class UserService {
             : item,
         );
 
-    const basket: Basket = {
-      products: updatedProducts,
-    };
-    console.log('updatedProducts', updatedProducts);
+    console.log('updatedBasket', updatedBasket);
 
-    await this.userModel.findByIdAndUpdate(userId, { basket }, { new: true });
+    await this.userModel.findByIdAndUpdate(
+      userId,
+      { basket: updatedBasket },
+      { new: true },
+    );
 
-    const productIds = basket.products.map((item) => item.productId);
+    const productIds = basket.map((item) => item.productId);
     console.log('productIds', productIds);
 
     return await this.loadUserBasket(basket, productIds);
@@ -66,14 +66,14 @@ export class UserService {
   async removeFromBasket(ctx: Ctx, input: IdInput) {
     const userId = ctx.req.user.id;
     const user = await this.userModel.findById(userId).lean();
-    const basketProducts = user.basket.products;
+    const basket = user.basket;
 
     const canRemove =
-      basketProducts.find((item) => item.productId === input.id).quantity === 1;
+      basket.find((item) => item.productId === input.id).quantity === 1;
 
-    const updatedProducts = canRemove
-      ? basketProducts.filter((item) => item.productId !== input.id)
-      : basketProducts.map((item) =>
+    const updatedBasket = canRemove
+      ? basket.filter((item) => item.productId !== input.id)
+      : basket.map((item) =>
           item.productId === input.id
             ? {
                 productId: item.productId,
@@ -82,20 +82,20 @@ export class UserService {
             : item,
         );
 
-    const basket: Basket = {
-      products: updatedProducts,
-    };
+    await this.userModel.findByIdAndUpdate(
+      userId,
+      { basket: updatedBasket },
+      { new: true },
+    );
 
-    await this.userModel.findByIdAndUpdate(userId, { basket }, { new: true });
-
-    const productIds = basket.products.map((item) => item.productId);
+    const productIds = basket.map((item) => item.productId);
     console.log('productIds', productIds);
 
     return await this.loadUserBasket(basket, productIds);
   }
 
   private async loadUserBasket(
-    basket: Basket,
+    basket: Basket[],
     productIds: string[],
   ): Promise<UserBasket> {
     const products = await Promise.all(
@@ -110,7 +110,7 @@ export class UserService {
       const id = (item._id as any).toString();
 
       const quantityTotal =
-        basket.products.find((item) => item.productId === id)?.quantity || 0;
+        basket.find((item) => item.productId === id)?.quantity || 0;
 
       const priceTotal = !rest.sale.active
         ? price.retail * quantityTotal

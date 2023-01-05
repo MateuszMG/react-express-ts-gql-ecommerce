@@ -33,7 +33,8 @@ export type AddRatingInput = {
 
 export type Basket = {
   __typename?: 'Basket';
-  products: Array<ProductInBasket>;
+  productId: Scalars['String'];
+  quantity: Scalars['Float'];
 };
 
 export type Category = {
@@ -248,12 +249,6 @@ export type ProductForGuest = {
   subtitle: Scalars['String'];
   title: Scalars['String'];
   views: Scalars['Float'];
-};
-
-export type ProductInBasket = {
-  __typename?: 'ProductInBasket';
-  productId: Scalars['String'];
-  quantity: Scalars['Float'];
 };
 
 export type ProductInUserBasket = {
@@ -1728,9 +1723,10 @@ export type AccessTokenKeySpecifier = ('accessToken' | AccessTokenKeySpecifier)[
 export type AccessTokenFieldPolicy = {
 	accessToken?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BasketKeySpecifier = ('products' | BasketKeySpecifier)[];
+export type BasketKeySpecifier = ('productId' | 'quantity' | BasketKeySpecifier)[];
 export type BasketFieldPolicy = {
-	products?: FieldPolicy<any> | FieldReadFunction<any>
+	productId?: FieldPolicy<any> | FieldReadFunction<any>,
+	quantity?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CategoryKeySpecifier = ('category' | 'id' | CategoryKeySpecifier)[];
 export type CategoryFieldPolicy = {
@@ -1810,11 +1806,6 @@ export type ProductForGuestFieldPolicy = {
 	subtitle?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	views?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type ProductInBasketKeySpecifier = ('productId' | 'quantity' | ProductInBasketKeySpecifier)[];
-export type ProductInBasketFieldPolicy = {
-	productId?: FieldPolicy<any> | FieldReadFunction<any>,
-	quantity?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ProductInUserBasketKeySpecifier = ('description' | 'discountTotal' | 'distinction' | 'image' | 'price' | 'priceTotal' | 'productId' | 'quantity' | 'quantityTotal' | 'ratings' | 'sale' | 'solds' | 'title' | 'views' | ProductInUserBasketKeySpecifier)[];
 export type ProductInUserBasketFieldPolicy = {
@@ -1956,10 +1947,6 @@ export type StrictTypedTypePolicies = {
 	ProductForGuest?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ProductForGuestKeySpecifier | (() => undefined | ProductForGuestKeySpecifier),
 		fields?: ProductForGuestFieldPolicy,
-	},
-	ProductInBasket?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ProductInBasketKeySpecifier | (() => undefined | ProductInBasketKeySpecifier),
-		fields?: ProductInBasketFieldPolicy,
 	},
 	ProductInUserBasket?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ProductInUserBasketKeySpecifier | (() => undefined | ProductInUserBasketKeySpecifier),

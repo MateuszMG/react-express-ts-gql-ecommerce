@@ -2,13 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ProductInBasket {
+type Basket {
   productId: String!
   quantity: Float!
-}
-
-type Basket {
-  products: [ProductInBasket!]!
 }
 
 type ResMessage {
