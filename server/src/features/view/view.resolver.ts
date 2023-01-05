@@ -1,7 +1,7 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import Ctx from 'src/types/context.type';
-import { IdInput } from 'src/types/input.type';
+import { Ctx } from 'src/types/context.type';
 import { GraphQLVoid } from 'src/types/object.type';
+import { IdInput } from 'src/types/input.type';
 import { ViewService } from './view.service';
 
 @Resolver()

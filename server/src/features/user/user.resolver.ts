@@ -1,8 +1,7 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import Ctx from 'src/types/context.type';
+import { Ctx } from 'src/types/context.type';
 import { IdInput } from 'src/types/input.type';
 import { User } from '../auth/auth.model';
-
 import { UserBasket } from './user.object';
 import { UserService } from './user.service';
 

@@ -1,10 +1,10 @@
 import { Context, Mutation, Resolver } from '@nestjs/graphql';
+import { Ctx } from 'src/types/context.type';
 import { ResId, ResMessage } from 'src/types/object.type';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { SoldService } from './sold.service';
 import { UseGuards } from '@nestjs/common';
 import { UserRoles } from '../auth/auth.model';
-import Ctx from 'src/types/context.type';
 
 @Resolver()
 @UseGuards(new RolesGuard([UserRoles.USER, UserRoles.MODERATOR]))

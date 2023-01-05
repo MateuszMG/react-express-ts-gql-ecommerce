@@ -1,13 +1,12 @@
+import { Ctx } from 'src/types/context.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectStripe } from 'nestjs-stripe';
-
 import { ISold, Sold, SoldDocument } from './sold.model';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from '../product/product.model';
 import { PurchaseHistory, User, UserDocument } from '../auth/auth.model';
 import { ResId, ResMessage } from 'src/types/object.type';
-import Ctx from 'src/types/context.type';
 import Stripe from 'stripe';
 import {
   calculatePercentage,

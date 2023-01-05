@@ -1,10 +1,10 @@
+import { Ctx } from 'src/types/context.type';
 import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { IView, View, ViewDocument } from './view.model';
 import { Model } from 'mongoose';
 import { Product, ProductDocument, Views } from '../product/product.model';
-import { IView, View, ViewDocument } from './view.model';
-import Ctx from 'src/types/context.type';
 
 interface GuestIPObject {
   guestIP: string;

@@ -1,11 +1,11 @@
 import { createAccessToken, createRefreshToken } from '../../utils/jwt.utils';
+import { Ctx } from 'src/types/context.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { IUser, User, UserDocument, UserRoles } from './auth.model';
 import { LoginInput, RegisterInput } from './auth.input';
 import { Model } from 'mongoose';
-import { IUser, User, UserDocument, UserRoles } from './auth.model';
 import * as bcrypt from 'bcrypt';
-import Ctx from 'src/types/context.type';
 
 @Injectable()
 export class AuthService {

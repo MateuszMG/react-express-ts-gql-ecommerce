@@ -1,9 +1,9 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import Ctx from 'src/types/context.type';
-import { ResMessage } from 'src/types/object.type';
-import { LoginInput, RegisterInput } from './auth.input';
 import { AccessToken, DecodedUser } from './auth.object';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
+import { Ctx } from 'src/types/context.type';
+import { LoginInput, RegisterInput } from './auth.input';
+import { ResMessage } from 'src/types/object.type';
 
 @Resolver(() => AccessToken)
 export class AuthResolver {

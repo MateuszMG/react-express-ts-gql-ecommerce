@@ -35,14 +35,6 @@ type User {
   updatedAt: DateTime!
 }
 
-type ResMessage {
-  message: String!
-}
-
-type ResId {
-  id: String!
-}
-
 type AccessToken {
   accessToken: String!
 }
@@ -52,6 +44,14 @@ type DecodedUser {
   username: String!
   email: String!
   roles: [String!]!
+}
+
+type ResMessage {
+  message: String!
+}
+
+type ResId {
+  id: String!
 }
 
 type Category {
