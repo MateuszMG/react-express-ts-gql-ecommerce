@@ -1,3 +1,29 @@
+fragment PurchaseHistory on PurchaseHistory {
+  productsIds
+  soldsIds
+  quantityTotal
+  priceTotal
+  discountTotal
+  percentageDiscount
+  date
+}
+
+fragment User on User {
+  id
+  email
+  username
+  accessToken
+  refreshToken
+  roles
+
+  purchaseHistory {
+    ...PurchaseHistory
+  }
+
+  createdAt
+  updatedAt
+}
+
 fragment ProductInUserBasket on ProductInUserBasket {
   productId
   price

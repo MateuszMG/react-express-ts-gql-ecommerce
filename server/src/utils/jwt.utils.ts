@@ -17,7 +17,7 @@ export interface UserFromJWT extends DataToJWT {
 }
 
 export const createAccessToken = (payload: DataToJWT) =>
-  jwt.sign(payload, accessTokenSecret, { expiresIn: '60m' });
+  jwt.sign(payload, accessTokenSecret, { expiresIn: '360m' });
 
 export const createRefreshToken = (payload: DataToJWT) =>
   jwt.sign(payload, refreshTokenSecret, { expiresIn: '1y' });

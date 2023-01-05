@@ -1,0 +1,11 @@
+mutation CreatePayment {
+  createPayment {
+    ...ResId
+  }
+}
+
+mutation SavePayment {
+  savePayment {
+    ...ResMessage
+  }
+}

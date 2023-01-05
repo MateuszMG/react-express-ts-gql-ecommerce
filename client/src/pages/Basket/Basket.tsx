@@ -1,6 +1,9 @@
+import { useStripe } from '@stripe/react-stripe-js';
 import { Counter } from '../../components/Counter/Counter';
+import { Button } from '../../components/Global/Button/Button';
 import {
   useAddToBasketMutation,
+  useCreatePaymentMutation,
   useGetBasketQuery,
   useRemoveFromBasketMutation,
 } from '../../generated/types';
@@ -8,11 +11,14 @@ import {
 interface BasketProps {}
 
 export const Basket = ({}: BasketProps) => {
+  const stripe = useStripe();
   const { data: basket } = useGetBasketQuery();
-  console.log('basket', basket);
+  // console.log('basket', basket);
 
   const [add] = useAddToBasketMutation();
   const [remove] = useRemoveFromBasketMutation();
+
+  const [createPayment] = useCreatePaymentMutation();
 
   const addToBasket = (id: string) => {
     add({
@@ -20,11 +26,18 @@ export const Basket = ({}: BasketProps) => {
       onError: (err) => console.log('err', { err }),
     });
   };
+
   const removeFromBasket = (id: string) => {
     remove({
       variables: { input: { id } },
       onError: (err) => console.log('err', { err }),
     });
+  };
+
+  const buy = async () => {
+    const id = await createPayment().then((res) => res.data?.createPayment.id);
+    if (!id) return;
+    await stripe!.redirectToCheckout({ sessionId: id });
   };
 
   return (
@@ -48,6 +61,8 @@ export const Basket = ({}: BasketProps) => {
       <p> percentageDiscount: {basket?.getBasket.percentageDiscount} </p>
       <p> Basket </p>
       <p> Basket </p>
+
+      <Button onClick={() => buy()}>buy</Button>
     </div>
   );
 };

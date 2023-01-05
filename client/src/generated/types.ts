@@ -114,6 +114,7 @@ export type Mutation = {
   addToBasket: UserBasket;
   addView?: Maybe<Scalars['GraphQLVoid']>;
   changeActiveProduct: ResMessage;
+  createPayment: ResId;
   deleteCategory: ResMessage;
   deleteProduct: ResMessage;
   deleteRating: ResMessage;
@@ -123,6 +124,7 @@ export type Mutation = {
   login: AccessToken;
   register: AccessToken;
   removeFromBasket: UserBasket;
+  savePayment: ResMessage;
 };
 
 
@@ -257,6 +259,7 @@ export type ProductInUserBasket = {
   discountTotal: Scalars['Float'];
   distinction: Distinction;
   image: Scalars['String'];
+  percentageDiscount: Scalars['Float'];
   price: Scalars['Float'];
   priceTotal: Scalars['Float'];
   productId: Scalars['String'];
@@ -324,6 +327,17 @@ export type ProductViewsInput = {
   fakeTotal: Scalars['Float'];
 };
 
+export type PurchaseHistory = {
+  __typename?: 'PurchaseHistory';
+  date: Scalars['DateTime'];
+  discountTotal: Scalars['Float'];
+  percentageDiscount: Scalars['Float'];
+  priceTotal: Scalars['Float'];
+  productsIds: Array<Scalars['String']>;
+  quantityTotal: Scalars['Float'];
+  soldsIds: Array<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getBasket: UserBasket;
@@ -334,6 +348,7 @@ export type Query = {
   getProducts: Array<Product>;
   getProductsForGuest: Array<ProductForGuest>;
   getRatings: Array<Rating>;
+  getUser: User;
   logout: ResMessage;
   profile: DecodedUser;
 };
@@ -390,6 +405,11 @@ export type RegisterInput = {
   username: Scalars['String'];
 };
 
+export type ResId = {
+  __typename?: 'ResId';
+  id: Scalars['String'];
+};
+
 export type ResMessage = {
   __typename?: 'ResMessage';
   message: Scalars['String'];
@@ -424,6 +444,20 @@ export type Solds = {
 export type Subscription = {
   __typename?: 'Subscription';
   highlightedProductUpdated?: Maybe<Product>;
+};
+
+export type User = {
+  __typename?: 'User';
+  accessToken: Scalars['String'];
+  basket: Basket;
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  purchaseHistory: Array<PurchaseHistory>;
+  refreshToken: Scalars['String'];
+  roles: Array<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+  username: Scalars['String'];
 };
 
 export type UserBasket = {
@@ -472,9 +506,15 @@ export type ProductForGuestFragment = { __typename?: 'ProductForGuest', id: stri
 
 export type RatingFragment = { __typename?: 'Rating', id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean };
 
+export type PurchaseHistoryFragment = { __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any };
+
+export type UserFragment = { __typename?: 'User', id: string, email: string, username: string, accessToken: string, refreshToken: string, roles: Array<string>, createdAt: any, updatedAt: any, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> };
+
 export type ProductInUserBasketFragment = { __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } };
 
 export type UserBasketFragment = { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> };
+
+export type ResIdFragment = { __typename?: 'ResId', id: string };
 
 export type ResMessageFragment = { __typename?: 'ResMessage', message: string };
 
@@ -526,6 +566,16 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'ResMessage', message: string } };
+
+export type CreatePaymentMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'ResId', id: string } };
+
+export type SavePaymentMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SavePaymentMutation = { __typename?: 'Mutation', savePayment: { __typename?: 'ResMessage', message: string } };
 
 export type AddProductMutationVariables = Exact<{
   input: ProductInput;
@@ -583,11 +633,6 @@ export type AddViewMutationVariables = Exact<{
 
 export type AddViewMutation = { __typename?: 'Mutation', addView?: any | null };
 
-export type GetBasketQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetBasketQuery = { __typename?: 'Query', getBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
-
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -638,6 +683,16 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'DecodedUser', id: string, username: string, email: string, roles: Array<string>, logged: boolean } };
+
+export type GetBasketQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBasketQuery = { __typename?: 'Query', getBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
+
+export type GetPurchaseHistoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPurchaseHistoryQuery = { __typename?: 'Query', getUser: { __typename?: 'User', purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> } };
 
 export type HighlightedProductUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -812,6 +867,32 @@ export const RatingFragmentDoc = gql`
   isOwner @client
 }
     `;
+export const PurchaseHistoryFragmentDoc = gql`
+    fragment PurchaseHistory on PurchaseHistory {
+  productsIds
+  soldsIds
+  quantityTotal
+  priceTotal
+  discountTotal
+  percentageDiscount
+  date
+}
+    `;
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  id
+  email
+  username
+  accessToken
+  refreshToken
+  roles
+  purchaseHistory {
+    ...PurchaseHistory
+  }
+  createdAt
+  updatedAt
+}
+    ${PurchaseHistoryFragmentDoc}`;
 export const ProductInUserBasketFragmentDoc = gql`
     fragment ProductInUserBasket on ProductInUserBasket {
   productId
@@ -849,6 +930,11 @@ export const UserBasketFragmentDoc = gql`
   percentageDiscount
 }
     ${ProductInUserBasketFragmentDoc}`;
+export const ResIdFragmentDoc = gql`
+    fragment ResId on ResId {
+  id
+}
+    `;
 export const ResMessageFragmentDoc = gql`
     fragment ResMessage on ResMessage {
   message
@@ -1085,6 +1171,70 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const CreatePaymentDocument = gql`
+    mutation CreatePayment {
+  createPayment {
+    ...ResId
+  }
+}
+    ${ResIdFragmentDoc}`;
+export type CreatePaymentMutationFn = Apollo.MutationFunction<CreatePaymentMutation, CreatePaymentMutationVariables>;
+
+/**
+ * __useCreatePaymentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreatePaymentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CreatePaymentDocument, options);
+      }
+export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
+export type CreatePaymentMutationResult = Apollo.MutationResult<CreatePaymentMutation>;
+export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const SavePaymentDocument = gql`
+    mutation SavePayment {
+  savePayment {
+    ...ResMessage
+  }
+}
+    ${ResMessageFragmentDoc}`;
+export type SavePaymentMutationFn = Apollo.MutationFunction<SavePaymentMutation, SavePaymentMutationVariables>;
+
+/**
+ * __useSavePaymentMutation__
+ *
+ * To run a mutation, you first call `useSavePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSavePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [savePaymentMutation, { data, loading, error }] = useSavePaymentMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSavePaymentMutation(baseOptions?: Apollo.MutationHookOptions<SavePaymentMutation, SavePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SavePaymentMutation, SavePaymentMutationVariables>(SavePaymentDocument, options);
+      }
+export type SavePaymentMutationHookResult = ReturnType<typeof useSavePaymentMutation>;
+export type SavePaymentMutationResult = Apollo.MutationResult<SavePaymentMutation>;
+export type SavePaymentMutationOptions = Apollo.BaseMutationOptions<SavePaymentMutation, SavePaymentMutationVariables>;
 export const AddProductDocument = gql`
     mutation AddProduct($input: ProductInput!) {
   addProduct(input: $input) {
@@ -1347,40 +1497,6 @@ export function useAddViewMutation(baseOptions?: Apollo.MutationHookOptions<AddV
 export type AddViewMutationHookResult = ReturnType<typeof useAddViewMutation>;
 export type AddViewMutationResult = Apollo.MutationResult<AddViewMutation>;
 export type AddViewMutationOptions = Apollo.BaseMutationOptions<AddViewMutation, AddViewMutationVariables>;
-export const GetBasketDocument = gql`
-    query GetBasket {
-  getBasket {
-    ...UserBasket
-  }
-}
-    ${UserBasketFragmentDoc}`;
-
-/**
- * __useGetBasketQuery__
- *
- * To run a query within a React component, call `useGetBasketQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBasketQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetBasketQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetBasketQuery(baseOptions?: Apollo.QueryHookOptions<GetBasketQuery, GetBasketQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetBasketQuery, GetBasketQueryVariables>(GetBasketDocument, options);
-      }
-export function useGetBasketLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBasketQuery, GetBasketQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetBasketQuery, GetBasketQueryVariables>(GetBasketDocument, options);
-        }
-export type GetBasketQueryHookResult = ReturnType<typeof useGetBasketQuery>;
-export type GetBasketLazyQueryHookResult = ReturnType<typeof useGetBasketLazyQuery>;
-export type GetBasketQueryResult = Apollo.QueryResult<GetBasketQuery, GetBasketQueryVariables>;
 export const GetCategoriesDocument = gql`
     query GetCategories {
   getCategories {
@@ -1690,6 +1806,76 @@ export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export const GetBasketDocument = gql`
+    query GetBasket {
+  getBasket {
+    ...UserBasket
+  }
+}
+    ${UserBasketFragmentDoc}`;
+
+/**
+ * __useGetBasketQuery__
+ *
+ * To run a query within a React component, call `useGetBasketQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBasketQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBasketQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetBasketQuery(baseOptions?: Apollo.QueryHookOptions<GetBasketQuery, GetBasketQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBasketQuery, GetBasketQueryVariables>(GetBasketDocument, options);
+      }
+export function useGetBasketLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBasketQuery, GetBasketQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBasketQuery, GetBasketQueryVariables>(GetBasketDocument, options);
+        }
+export type GetBasketQueryHookResult = ReturnType<typeof useGetBasketQuery>;
+export type GetBasketLazyQueryHookResult = ReturnType<typeof useGetBasketLazyQuery>;
+export type GetBasketQueryResult = Apollo.QueryResult<GetBasketQuery, GetBasketQueryVariables>;
+export const GetPurchaseHistoryDocument = gql`
+    query GetPurchaseHistory {
+  getUser {
+    purchaseHistory {
+      ...PurchaseHistory
+    }
+  }
+}
+    ${PurchaseHistoryFragmentDoc}`;
+
+/**
+ * __useGetPurchaseHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetPurchaseHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPurchaseHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPurchaseHistoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPurchaseHistoryQuery(baseOptions?: Apollo.QueryHookOptions<GetPurchaseHistoryQuery, GetPurchaseHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPurchaseHistoryQuery, GetPurchaseHistoryQueryVariables>(GetPurchaseHistoryDocument, options);
+      }
+export function useGetPurchaseHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPurchaseHistoryQuery, GetPurchaseHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPurchaseHistoryQuery, GetPurchaseHistoryQueryVariables>(GetPurchaseHistoryDocument, options);
+        }
+export type GetPurchaseHistoryQueryHookResult = ReturnType<typeof useGetPurchaseHistoryQuery>;
+export type GetPurchaseHistoryLazyQueryHookResult = ReturnType<typeof useGetPurchaseHistoryLazyQuery>;
+export type GetPurchaseHistoryQueryResult = Apollo.QueryResult<GetPurchaseHistoryQuery, GetPurchaseHistoryQueryVariables>;
 export const HighlightedProductUpdatedDocument = gql`
     subscription HighlightedProductUpdated {
   highlightedProductUpdated {
@@ -1747,7 +1933,7 @@ export type DistinctionFieldPolicy = {
 	endTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	startTime?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'addToBasket' | 'addView' | 'changeActiveProduct' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | 'removeFromBasket' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'addToBasket' | 'addView' | 'changeActiveProduct' | 'createPayment' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | 'removeFromBasket' | 'savePayment' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1755,6 +1941,7 @@ export type MutationFieldPolicy = {
 	addToBasket?: FieldPolicy<any> | FieldReadFunction<any>,
 	addView?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeActiveProduct?: FieldPolicy<any> | FieldReadFunction<any>,
+	createPayment?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteProduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteRating?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1763,7 +1950,8 @@ export type MutationFieldPolicy = {
 	editRating?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	register?: FieldPolicy<any> | FieldReadFunction<any>,
-	removeFromBasket?: FieldPolicy<any> | FieldReadFunction<any>
+	removeFromBasket?: FieldPolicy<any> | FieldReadFunction<any>,
+	savePayment?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PriceKeySpecifier = ('retail' | 'wholesale' | PriceKeySpecifier)[];
 export type PriceFieldPolicy = {
@@ -1807,12 +1995,13 @@ export type ProductForGuestFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	views?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ProductInUserBasketKeySpecifier = ('description' | 'discountTotal' | 'distinction' | 'image' | 'price' | 'priceTotal' | 'productId' | 'quantity' | 'quantityTotal' | 'ratings' | 'sale' | 'solds' | 'title' | 'views' | ProductInUserBasketKeySpecifier)[];
+export type ProductInUserBasketKeySpecifier = ('description' | 'discountTotal' | 'distinction' | 'image' | 'percentageDiscount' | 'price' | 'priceTotal' | 'productId' | 'quantity' | 'quantityTotal' | 'ratings' | 'sale' | 'solds' | 'title' | 'views' | ProductInUserBasketKeySpecifier)[];
 export type ProductInUserBasketFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	discountTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	distinction?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
+	percentageDiscount?: FieldPolicy<any> | FieldReadFunction<any>,
 	price?: FieldPolicy<any> | FieldReadFunction<any>,
 	priceTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	productId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1824,7 +2013,17 @@ export type ProductInUserBasketFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	views?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('getBasket' | 'getCategories' | 'getHighlightedProduct' | 'getProduct' | 'getProductForGuest' | 'getProducts' | 'getProductsForGuest' | 'getRatings' | 'logout' | 'profile' | QueryKeySpecifier)[];
+export type PurchaseHistoryKeySpecifier = ('date' | 'discountTotal' | 'percentageDiscount' | 'priceTotal' | 'productsIds' | 'quantityTotal' | 'soldsIds' | PurchaseHistoryKeySpecifier)[];
+export type PurchaseHistoryFieldPolicy = {
+	date?: FieldPolicy<any> | FieldReadFunction<any>,
+	discountTotal?: FieldPolicy<any> | FieldReadFunction<any>,
+	percentageDiscount?: FieldPolicy<any> | FieldReadFunction<any>,
+	priceTotal?: FieldPolicy<any> | FieldReadFunction<any>,
+	productsIds?: FieldPolicy<any> | FieldReadFunction<any>,
+	quantityTotal?: FieldPolicy<any> | FieldReadFunction<any>,
+	soldsIds?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type QueryKeySpecifier = ('getBasket' | 'getCategories' | 'getHighlightedProduct' | 'getProduct' | 'getProductForGuest' | 'getProducts' | 'getProductsForGuest' | 'getRatings' | 'getUser' | 'logout' | 'profile' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getBasket?: FieldPolicy<any> | FieldReadFunction<any>,
 	getCategories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1834,6 +2033,7 @@ export type QueryFieldPolicy = {
 	getProducts?: FieldPolicy<any> | FieldReadFunction<any>,
 	getProductsForGuest?: FieldPolicy<any> | FieldReadFunction<any>,
 	getRatings?: FieldPolicy<any> | FieldReadFunction<any>,
+	getUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	profile?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1863,6 +2063,10 @@ export type RatingsForGuestKeySpecifier = ('amount' | 'total' | RatingsForGuestK
 export type RatingsForGuestFieldPolicy = {
 	amount?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ResIdKeySpecifier = ('id' | ResIdKeySpecifier)[];
+export type ResIdFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResMessageKeySpecifier = ('message' | ResMessageKeySpecifier)[];
 export type ResMessageFieldPolicy = {
@@ -1894,6 +2098,19 @@ export type SoldsFieldPolicy = {
 export type SubscriptionKeySpecifier = ('highlightedProductUpdated' | SubscriptionKeySpecifier)[];
 export type SubscriptionFieldPolicy = {
 	highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UserKeySpecifier = ('accessToken' | 'basket' | 'createdAt' | 'email' | 'id' | 'purchaseHistory' | 'refreshToken' | 'roles' | 'updatedAt' | 'username' | UserKeySpecifier)[];
+export type UserFieldPolicy = {
+	accessToken?: FieldPolicy<any> | FieldReadFunction<any>,
+	basket?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	purchaseHistory?: FieldPolicy<any> | FieldReadFunction<any>,
+	refreshToken?: FieldPolicy<any> | FieldReadFunction<any>,
+	roles?: FieldPolicy<any> | FieldReadFunction<any>,
+	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserBasketKeySpecifier = ('discountTotal' | 'percentageDiscount' | 'priceTotal' | 'products' | 'quantityTotal' | UserBasketKeySpecifier)[];
 export type UserBasketFieldPolicy = {
@@ -1952,6 +2169,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | ProductInUserBasketKeySpecifier | (() => undefined | ProductInUserBasketKeySpecifier),
 		fields?: ProductInUserBasketFieldPolicy,
 	},
+	PurchaseHistory?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PurchaseHistoryKeySpecifier | (() => undefined | PurchaseHistoryKeySpecifier),
+		fields?: PurchaseHistoryFieldPolicy,
+	},
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
@@ -1967,6 +2188,10 @@ export type StrictTypedTypePolicies = {
 	RatingsForGuest?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RatingsForGuestKeySpecifier | (() => undefined | RatingsForGuestKeySpecifier),
 		fields?: RatingsForGuestFieldPolicy,
+	},
+	ResId?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResIdKeySpecifier | (() => undefined | ResIdKeySpecifier),
+		fields?: ResIdFieldPolicy,
 	},
 	ResMessage?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResMessageKeySpecifier | (() => undefined | ResMessageKeySpecifier),
@@ -1987,6 +2212,10 @@ export type StrictTypedTypePolicies = {
 	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),
 		fields?: SubscriptionFieldPolicy,
+	},
+	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
+		fields?: UserFieldPolicy,
 	},
 	UserBasket?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserBasketKeySpecifier | (() => undefined | UserBasketKeySpecifier),

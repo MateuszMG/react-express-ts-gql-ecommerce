@@ -22,6 +22,8 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.2",
     "@mui/x-date-pickers": "^5.0.12",
+    "@stripe/react-stripe-js": "^1.16.2",
+    "@stripe/stripe-js": "^1.46.0",
     "apollo": "^2.34.0",
     "dayjs": "^1.11.7",
     "faker": "^6.6.6",

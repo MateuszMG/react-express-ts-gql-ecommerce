@@ -1,3 +1,7 @@
+fragment ResId on ResId {
+  id
+}
+
 fragment ResMessage on ResMessage {
   message
 }

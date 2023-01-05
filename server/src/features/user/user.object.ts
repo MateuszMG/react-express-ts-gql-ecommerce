@@ -19,8 +19,9 @@ export class ProductInUserBasket {
   @Field() solds: number;
 
   @Field() quantityTotal: number;
-  @Field() discountTotal: number;
   @Field() priceTotal: number;
+  @Field() discountTotal: number;
+  @Field() percentageDiscount: number;
 }
 
 @ObjectType()

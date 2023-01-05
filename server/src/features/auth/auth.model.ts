@@ -10,11 +10,24 @@ export enum UserRoles {
 
 @ObjectType()
 export class Basket {
-  @Field() productId: string;
-  @Field() quantity: number;
+  @Prop() @Field() productId: string;
+  @Prop() @Field() quantity: number;
 }
 
-@Schema()
+@ObjectType()
+export class PurchaseHistory {
+  @Prop() @Field(() => [String]) productsIds: string[];
+  @Prop() @Field(() => [String]) soldsIds: string[];
+
+  @Prop() @Field() quantityTotal: number;
+  @Prop() @Field() priceTotal: number;
+  @Prop() @Field() discountTotal: number;
+  @Prop() @Field() percentageDiscount: number;
+
+  @Prop() @Field(() => Date) date: Date;
+}
+
+@Schema({ timestamps: true })
 @ObjectType()
 export class User {
   @Field(() => ID)
@@ -45,46 +58,26 @@ export class User {
     required: true,
     type: [String],
   })
-  @Field(() => [UserRoles])
+  @Field(() => [String])
   roles: UserRoles[];
 
   @Prop()
   @Field(() => Basket)
   basket: Basket[];
 
-  // @Prop()
-  // @Field()
-  // purchaseHistory: Sold[];
+  @Prop()
+  @Field(() => [PurchaseHistory])
+  purchaseHistory: PurchaseHistory[];
+
+  @Prop()
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Prop()
+  @Field(() => Date)
+  updatedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = User & Document;
-
-// productId: '',
-// title: '',
-// category: '',
-// quantity: '',
-// purchasePrice: '',
-// activeSale: '',
-// percentageDiscount: '',
-// activeDistinction: '',
-// totalPrice: '',
-// paymentDate: '',
-
-// @ObjectType()
-// export class PurchaseDetails {
-// solds: Sold[]
-
-// quantity: '',
-// purchasePrice: '',
-// activeSale: '',
-// activeDistinction: '',
-// percentageDiscount: '',
-// totalPrice: '',
-
-// date: Date
-// }
-
-// @Prop()
-// @Field(() => [PurchaseDetails])
-// details: PurchaseDetails[];
+export type IUser = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;

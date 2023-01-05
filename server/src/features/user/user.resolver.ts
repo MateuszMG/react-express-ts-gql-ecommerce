@@ -1,6 +1,7 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import Ctx from 'src/types/context.type';
 import { IdInput } from 'src/types/input.type';
+import { User } from '../auth/auth.model';
 
 import { UserBasket } from './user.object';
 import { UserService } from './user.service';
@@ -8,6 +9,11 @@ import { UserService } from './user.service';
 @Resolver()
 export class UserResolver {
   constructor(private userService: UserService) {}
+
+  @Query(() => User)
+  async getUser(@Context() ctx: Ctx) {
+    return await this.userService.getUser(ctx);
+  }
 
   @Query(() => UserBasket)
   async getBasket(@Context() ctx: Ctx) {

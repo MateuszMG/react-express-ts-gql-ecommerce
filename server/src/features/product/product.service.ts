@@ -1,5 +1,5 @@
 import { Category, CategoryDocument } from '../category/category.model';
-import { dataRangeValidation } from 'src/validations/dataRangeValidation';
+import { dataRangeValidation } from 'src/validations/date-range.validation';
 import { EditProductInput, ProductInput } from './product.input';
 import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';

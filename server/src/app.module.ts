@@ -17,10 +17,11 @@ import { Rating, RatingSchema } from './features/rating/rating.model';
 import { RatingModule } from './features/rating/rating.module';
 import { Sold, SoldSchema } from './features/sold/sold.model';
 import { SoldModule } from './features/sold/sold.module';
+import { StripeModule } from 'nestjs-stripe';
 import { User, UserSchema } from './features/auth/auth.model';
+import { UserModule } from './features/user/user.module';
 import { View, ViewSchema } from './features/view/view.model';
 import { ViewModule } from './features/view/view.module';
-import { UserModule } from './features/user/user.module';
 
 @Module({
   imports: [
@@ -67,6 +68,12 @@ import { UserModule } from './features/user/user.module';
         return { req, res };
       },
     }),
+
+    StripeModule.forRoot({
+      apiKey: process.env.STRIPE_SECRET,
+      apiVersion: '2022-11-15',
+    }),
+
     AuthModule,
     ProductModule,
     CategoryModule,

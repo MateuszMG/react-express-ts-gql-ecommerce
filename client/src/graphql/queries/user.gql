@@ -1,0 +1,19 @@
+query Profile {
+  profile {
+    ...DecodedUser
+  }
+}
+
+query GetBasket {
+  getBasket {
+    ...UserBasket
+  }
+}
+
+query GetPurchaseHistory {
+  getUser {
+    purchaseHistory {
+      ...PurchaseHistory
+    }
+  }
+}

@@ -1,5 +1,0 @@
-query GetBasket {
-  getBasket {
-    ...UserBasket
-  }
-}

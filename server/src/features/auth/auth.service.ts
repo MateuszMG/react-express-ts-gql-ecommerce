@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { LoginInput, RegisterInput } from './auth.input';
 import { Model } from 'mongoose';
-import { User, UserDocument, UserRoles } from './auth.model';
+import { IUser, User, UserDocument, UserRoles } from './auth.model';
 import * as bcrypt from 'bcrypt';
 import Ctx from 'src/types/context.type';
 
@@ -32,14 +32,15 @@ export class AuthService {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await new this.userModel({
+    const newUser = await new this.userModel<IUser>({
       username,
       email,
       password: hashPassword,
-      roles: [UserRoles.USER],
+      roles: [UserRoles.USER, UserRoles.MODERATOR, UserRoles.ADMINISTRATOR],
       accessToken: '',
       refreshToken: '',
       basket: [],
+      purchaseHistory: [],
     }).save();
 
     const refreshToken = createRefreshToken({

@@ -8,6 +8,8 @@ import { Home } from '../pages/Home/Home';
 import { Category } from '../pages/Category/Category';
 import { Product } from '../pages/Product/Product';
 import { Basket } from '../pages/Basket/Basket';
+import { CancelPayment } from '../pages/Payment/CancelPayment';
+import { SuccessPayment } from '../pages/Payment/SuccessPayment';
 
 export const routesConfig = [
   // NOT_LOGGED
@@ -43,6 +45,16 @@ export const routesConfig = [
   {
     component: Basket,
     path: paths.basket,
+    roles: [AppRoles.USER],
+  },
+  {
+    component: SuccessPayment,
+    path: paths.success,
+    roles: [AppRoles.USER],
+  },
+  {
+    component: CancelPayment,
+    path: paths.cancel,
     roles: [AppRoles.USER],
   },
 

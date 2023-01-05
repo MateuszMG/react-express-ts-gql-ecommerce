@@ -7,8 +7,40 @@ type Basket {
   quantity: Float!
 }
 
+type PurchaseHistory {
+  productsIds: [String!]!
+  soldsIds: [String!]!
+  quantityTotal: Float!
+  priceTotal: Float!
+  discountTotal: Float!
+  percentageDiscount: Float!
+  date: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: ID!
+  email: String!
+  username: String!
+  accessToken: String!
+  refreshToken: String!
+  roles: [String!]!
+  basket: Basket!
+  purchaseHistory: [PurchaseHistory!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type ResMessage {
   message: String!
+}
+
+type ResId {
+  id: String!
 }
 
 type AccessToken {
@@ -44,11 +76,6 @@ type Distinction {
   startTime: DateTime!
   endTime: DateTime!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Sale {
   active: Boolean!
@@ -150,8 +177,9 @@ type ProductInUserBasket {
   views: Float!
   solds: Float!
   quantityTotal: Float!
-  discountTotal: Float!
   priceTotal: Float!
+  discountTotal: Float!
+  percentageDiscount: Float!
 }
 
 type UserBasket {
@@ -172,6 +200,7 @@ type Query {
   getRatings(input: GetRatingsInput!): [Rating!]!
   getProductsForGuest: [ProductForGuest!]!
   getProductForGuest(input: IdInput!): ProductForGuest!
+  getUser: User!
   getBasket: UserBasket!
 }
 
@@ -197,6 +226,8 @@ type Mutation {
   editRating(input: EditRatingInput!): Rating!
   deleteRating(input: IdInput!): ResMessage!
   addView(input: IdInput!): GraphQLVoid
+  createPayment: ResId!
+  savePayment: ResMessage!
   addToBasket(input: IdInput!): UserBasket!
   removeFromBasket(input: IdInput!): UserBasket!
 }

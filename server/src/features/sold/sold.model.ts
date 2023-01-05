@@ -76,3 +76,4 @@ export class Sold {
 
 export const SoldSchema = SchemaFactory.createForClass(Sold);
 export type SoldDocument = Sold & Document;
+export type ISold = Omit<Sold, 'id' | 'createdAt' | 'updatedAt'>;

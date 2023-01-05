@@ -20,6 +20,12 @@ export class UserService {
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
+  async getUser(ctx: Ctx): Promise<User> {
+    const userId = ctx.req.user.id;
+    const user = await this.userModel.findById(userId);
+    return user;
+  }
+
   async getBasket(ctx: Ctx): Promise<UserBasket> {
     const userId = ctx.req.user.id;
     const user = await this.userModel.findById(userId).lean();
@@ -121,6 +127,13 @@ export class UserService {
         : rest.sale.priceBeforeSale * quantityTotal -
           rest.sale.priceAfterSale * quantityTotal;
 
+      const percentageDiscount = discountTotal
+        ? +(
+            ((priceTotal + discountTotal) / discountTotal) ** -1 *
+            100
+          ).toFixed()
+        : 0;
+
       return {
         ...rest,
         productId: id,
@@ -134,9 +147,10 @@ export class UserService {
         solds: getTotal(solds),
         views: getTotal(views),
 
+        priceTotal,
         quantityTotal,
         discountTotal,
-        priceTotal,
+        percentageDiscount,
       };
     });
 
@@ -150,7 +164,7 @@ export class UserService {
     const discountTotal = calculate('discountTotal');
 
     const percentageDiscount = discountTotal
-      ? (priceTotal + discountTotal / discountTotal) ** -1
+      ? +(((priceTotal + discountTotal) / discountTotal) ** -1 * 100).toFixed()
       : 0;
 
     const userBasket: UserBasket = {
