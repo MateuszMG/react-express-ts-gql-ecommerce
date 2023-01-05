@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { MongoModelContents } from 'src/types/other.type';
 
 //////////////////////////////////////////////// Price
 
@@ -238,3 +239,4 @@ export class Product {
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
 export type ProductDocument = Product & Document;
+export type IProduct = MongoModelContents<Product>;

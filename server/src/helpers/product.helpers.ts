@@ -13,3 +13,11 @@ export const isActivePromotion = ({ nowTime, object }: IsActivePromotion) => {
 
   return startTime < nowTime && endTime > nowTime;
 };
+
+interface CalculatePercentage {
+  addition: number;
+  base: number;
+}
+
+export const calculatePercentage = ({ addition, base }: CalculatePercentage) =>
+  addition ? +(((base + addition) / addition) ** -1 * 100).toFixed() : 0;

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product, ProductDocument, Views } from '../product/product.model';
-import { View, ViewDocument } from './view.model';
+import { IView, View, ViewDocument } from './view.model';
 import Ctx from 'src/types/context.type';
 
 interface GuestIPObject {
@@ -24,7 +24,7 @@ export class ViewService {
     const device = ctx.req.headers['user-agent'];
     const userId = ctx.req.user?.id || null;
 
-    await new this.viewModel({
+    await new this.viewModel<IView>({
       device,
       guestIP,
       productId: input.id,

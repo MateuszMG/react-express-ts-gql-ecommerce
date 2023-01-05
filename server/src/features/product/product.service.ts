@@ -5,7 +5,7 @@ import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from './product.model';
+import { IProduct, Product, ProductDocument } from './product.model';
 import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
 import { timeoutService } from 'src/utils/services/timeout.service';
@@ -44,8 +44,12 @@ export class ProductService {
     });
     if (!category) throw 'Category Error';
 
-    const productInput: Omit<Product, 'id'> = {
+    const newProduct = await new this.productModel<IProduct>({
       ...input,
+      sale: {
+        ...input.sale,
+        percentageDiscount: 0,
+      },
       ratings: {
         ...input.ratings,
         originalTotal: 0,
@@ -64,10 +68,7 @@ export class ProductService {
         originalAndFakeTotal: input.solds.fakeTotal,
         originalTotal: 0,
       },
-    };
-
-    const newProduct = await new this.productModel(productInput).save();
-    console.log('newProduct', newProduct);
+    }).save();
 
     return newProduct;
   }

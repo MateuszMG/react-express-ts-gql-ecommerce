@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectStripe } from 'nestjs-stripe';
-import { isActivePromotion } from 'src/utils/is-active-promotion';
+
 import { ISold, Sold, SoldDocument } from './sold.model';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from '../product/product.model';
@@ -9,6 +9,10 @@ import { PurchaseHistory, User, UserDocument } from '../auth/auth.model';
 import { ResId, ResMessage } from 'src/types/object.type';
 import Ctx from 'src/types/context.type';
 import Stripe from 'stripe';
+import {
+  calculatePercentage,
+  isActivePromotion,
+} from 'src/helpers/product.helpers';
 
 @Injectable()
 export class SoldService {
@@ -124,9 +128,10 @@ export class SoldService {
           ? 0
           : sale.priceBeforeSale * quantity - sale.priceAfterSale * quantity;
 
-        const percentageDiscount = discount
-          ? +(((purchasePrice + discount) / discount) ** -1 * 100).toFixed()
-          : 0;
+        const percentageDiscount = calculatePercentage({
+          base: purchasePrice,
+          addition: discount,
+        });
 
         return await new this.soldModel<ISold>({
           guestIP,
@@ -154,9 +159,10 @@ export class SoldService {
     const quantityTotal = calculate('quantity');
     const priceTotal = calculate('purchasePrice');
     const discountTotal = calculate('amountDiscount');
-    const percentageDiscount = discountTotal
-      ? +(((priceTotal + discountTotal) / discountTotal) ** -1 * 100).toFixed()
-      : 0;
+    const percentageDiscount = calculatePercentage({
+      base: priceTotal,
+      addition: discountTotal,
+    });
 
     const purchaseHistory: PurchaseHistory = {
       date: new Date(),

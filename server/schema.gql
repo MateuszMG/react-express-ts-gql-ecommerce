@@ -286,7 +286,6 @@ input ProductSaleInput {
   endTime: DateTime!
   priceBeforeSale: Float!
   priceAfterSale: Float!
-  percentageDiscount: Float!
 }
 
 input ProductRatingsInput {

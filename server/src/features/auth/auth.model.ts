@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { MongoModelContents } from 'src/types/other.type';
 
 export enum UserRoles {
   USER = 'USER',
@@ -80,4 +81,4 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = User & Document;
-export type IUser = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+export type IUser = MongoModelContents<User>;

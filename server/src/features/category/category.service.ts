@@ -1,4 +1,4 @@
-import { Category, CategoryDocument } from './category.model';
+import { Category, CategoryDocument, ICategory } from './category.model';
 import { CategoryInput, EditCategoryInput } from './category.input';
 import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
@@ -20,7 +20,7 @@ export class CategoryService {
   async addCategory(input: CategoryInput): Promise<Category> {
     console.log('input', input);
 
-    const newCategory = await new this.categoryModel(input).save();
+    const newCategory = await new this.categoryModel<ICategory>(input).save();
     console.log('newCategory', newCategory);
 
     return newCategory;

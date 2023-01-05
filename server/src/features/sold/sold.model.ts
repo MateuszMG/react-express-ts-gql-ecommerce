@@ -2,6 +2,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Price } from '../product/product.model';
 import { Document } from 'mongoose';
+import { MongoModelContents } from 'src/types/other.type';
 
 @Schema({ timestamps: true })
 @ObjectType()
@@ -76,4 +77,4 @@ export class Sold {
 
 export const SoldSchema = SchemaFactory.createForClass(Sold);
 export type SoldDocument = Sold & Document;
-export type ISold = Omit<Sold, 'id' | 'createdAt' | 'updatedAt'>;
+export type ISold = MongoModelContents<Sold>;

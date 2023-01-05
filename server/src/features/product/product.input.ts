@@ -47,7 +47,6 @@ export class ProductSaleInput {
   @Field() @IsDate() @Type(() => Date) endTime: Date;
   @Field() @IsNumber() @Min(0) @Max(1_000_000) priceBeforeSale: number;
   @Field() @IsNumber() @Min(0) @Max(1_000_000) priceAfterSale: number;
-  @Field() @IsNumber() @Min(0) @Max(100) percentageDiscount: number;
 }
 
 //////////////////////////////////////////////// Ratings
@@ -67,35 +66,6 @@ export class ProductViewsInput {
   @Field() @IsBoolean() activeFake: boolean;
   @Field() @IsNumber() @Min(0) @Max(1_000_000) fakeTotal: number;
 }
-
-//////////////////////////////////////////////// Sold
-
-// @InputType()
-// export class ProductSoldDetailsInput {
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) guestIP: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) soldId: string;
-//   @Field() @IsString() @MinLength(2) @MaxLength(128) userId: string;
-
-//   @Field() @IsNumber() @Min(0) @Max(1_000_000) quantity: number;
-
-//   @Field() price: ProductPriceInput;
-
-//   @Field() @IsBoolean() activeSale: boolean;
-//   @Field() @IsBoolean() activeCoupon: boolean;
-//   @Field() @IsBoolean() activeDistinction: boolean;
-
-//   @Field()
-//   @IsNumber()
-//   @Min(0)
-//   @Max(1_000_000)
-//   purchasePriceBeforeDiscount: number;
-//   @Field() @IsNumber() @Min(0) @Max(1_000_000) purchasePrice: number;
-//   @Field() @IsNumber() @Min(0) @Max(1_000_000) profit: number;
-//   @Field() @IsNumber() @Min(0) @Max(1_000_000) amountDiscount: number;
-//   @Field() @IsNumber() @Min(0) @Max(1_000_000) percentageDiscount: number;
-
-//   @Field() @IsDate() @Type(() => Date) date: Date;
-// }
 
 @InputType()
 export class ProductSoldsInput {
@@ -123,7 +93,6 @@ export class ProductInput {
   @Field() ratings: ProductRatingsInput;
   @Field() views: ProductViewsInput;
   @Field() solds: ProductSoldsInput;
-  // @Field() comments: ProductCommentsInput;
 }
 
 @InputType()

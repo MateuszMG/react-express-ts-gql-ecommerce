@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { MongoModelContents } from 'src/types/other.type';
 
 @Schema({ timestamps: true })
 @ObjectType()
@@ -35,3 +36,4 @@ export class View {
 
 export const ViewSchema = SchemaFactory.createForClass(View);
 export type ViewDocument = View & Document;
+export type IView = MongoModelContents<View>;

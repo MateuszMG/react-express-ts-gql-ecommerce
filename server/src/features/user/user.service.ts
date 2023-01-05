@@ -1,4 +1,5 @@
 import { Basket, User, UserDocument } from '../auth/auth.model';
+import { calculatePercentage } from 'src/helpers/product.helpers';
 import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -127,12 +128,10 @@ export class UserService {
         : rest.sale.priceBeforeSale * quantityTotal -
           rest.sale.priceAfterSale * quantityTotal;
 
-      const percentageDiscount = discountTotal
-        ? +(
-            ((priceTotal + discountTotal) / discountTotal) ** -1 *
-            100
-          ).toFixed()
-        : 0;
+      const percentageDiscount = calculatePercentage({
+        base: priceTotal,
+        addition: discountTotal,
+      });
 
       return {
         ...rest,
@@ -162,10 +161,10 @@ export class UserService {
     const quantityTotal = calculate('quantityTotal');
     const priceTotal = calculate('priceTotal');
     const discountTotal = calculate('discountTotal');
-
-    const percentageDiscount = discountTotal
-      ? +(((priceTotal + discountTotal) / discountTotal) ** -1 * 100).toFixed()
-      : 0;
+    const percentageDiscount = calculatePercentage({
+      base: priceTotal,
+      addition: discountTotal,
+    });
 
     const userBasket: UserBasket = {
       products: basketProducts,

@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { MongoModelContents } from 'src/types/other.type';
 
 @Schema()
 @ObjectType()
@@ -15,3 +16,4 @@ export class Category {
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
 export type CategoryDocument = Category & Document;
+export type ICategory = MongoModelContents<Category>;
