@@ -15,8 +15,10 @@ import {
   Title,
 } from './Product.styled';
 import { useProduct } from './useProduct';
+import { Button } from '../../components/Global/Button/Button';
+import { Counter } from '../../components/Counter/Counter';
 export const Product = () => {
-  const { product } = useProduct();
+  const { addToBasket, product } = useProduct();
 
   if (!product) return <Loader />;
 
@@ -66,6 +68,9 @@ export const Product = () => {
       <p> Product </p>
 
       <Ratings />
+
+      <Button onClick={() => addToBasket(id)}>addToBasket</Button>
+      {/* <Counter devaultValue={0} max={quantity} productId={id} /> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Price } from '../product/product.model';
+import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 @ObjectType()

@@ -2,13 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Category {
-  id: ID!
-  category: String!
+type ProductInBasket {
+  productId: String!
+  quantity: Float!
+}
+
+type Basket {
+  products: [ProductInBasket!]!
 }
 
 type ResMessage {
   message: String!
+}
+
+type AccessToken {
+  accessToken: String!
+}
+
+type DecodedUser {
+  id: String!
+  username: String!
+  email: String!
+  roles: [String!]!
+}
+
+type Category {
+  id: ID!
+  category: String!
 }
 
 type Price {
@@ -87,28 +107,6 @@ type Product {
   solds: Solds!
 }
 
-type Rating {
-  id: ID!
-  productId: String!
-  userId: String!
-  username: String!
-  rating: Float!
-  comment: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type AccessToken {
-  accessToken: String!
-}
-
-type DecodedUser {
-  id: String!
-  username: String!
-  email: String!
-  roles: [String!]!
-}
-
 type RatingsForGuest {
   total: Float!
   amount: Float!
@@ -132,6 +130,42 @@ type ProductForGuest {
   solds: Float!
 }
 
+type Rating {
+  id: ID!
+  productId: String!
+  userId: String!
+  username: String!
+  rating: Float!
+  comment: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductInUserBasket {
+  productId: String!
+  price: Float!
+  quantity: Float!
+  title: String!
+  description: String!
+  image: String!
+  distinction: Distinction!
+  sale: Sale!
+  ratings: RatingsForGuest!
+  views: Float!
+  solds: Float!
+  quantityTotal: Float!
+  discountTotal: Float!
+  priceTotal: Float!
+}
+
+type UserBasket {
+  products: [ProductInUserBasket!]!
+  quantityTotal: Float!
+  priceTotal: Float!
+  discountTotal: Float!
+  percentageDiscount: Float!
+}
+
 type Query {
   logout: ResMessage!
   profile: DecodedUser!
@@ -142,6 +176,7 @@ type Query {
   getRatings(input: GetRatingsInput!): [Rating!]!
   getProductsForGuest: [ProductForGuest!]!
   getProductForGuest(input: IdInput!): ProductForGuest!
+  getBasket: UserBasket!
 }
 
 input IdInput {
@@ -166,6 +201,8 @@ type Mutation {
   editRating(input: EditRatingInput!): Rating!
   deleteRating(input: IdInput!): ResMessage!
   addView(input: IdInput!): GraphQLVoid
+  addToBasket(input: IdInput!): UserBasket!
+  removeFromBasket(input: IdInput!): UserBasket!
 }
 
 input LoginInput {

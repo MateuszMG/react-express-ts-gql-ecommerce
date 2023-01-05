@@ -1,42 +1,26 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import Ctx from 'src/types/context.type';
-import { ResMessage } from 'src/types/object.type';
-import { LoginInput, RegisterInput } from './user.input';
-import { AccessToken, DecodedUser } from './user.object';
+import { IdInput } from 'src/types/input.type';
+
+import { UserBasket } from './user.object';
 import { UserService } from './user.service';
 
-@Resolver(() => AccessToken)
+@Resolver()
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Mutation(() => AccessToken)
-  async login(@Args('loginInput') loginInput: LoginInput) {
-    return await this.userService.login(loginInput);
+  @Query(() => UserBasket)
+  async getBasket(@Context() ctx: Ctx) {
+    return await this.userService.getBasket(ctx);
   }
 
-  @Mutation(() => AccessToken)
-  async register(@Args('registerInput') registerInput: RegisterInput) {
-    return await this.userService.register(registerInput);
+  @Mutation(() => UserBasket)
+  async addToBasket(@Context() ctx: Ctx, @Args('input') input: IdInput) {
+    return await this.userService.addToBasket(ctx, input);
   }
 
-  @Query(() => ResMessage)
-  async logout(@Context() context: Ctx) {
-    return await this.userService.logout(context);
-  }
-
-  @Query(() => DecodedUser || null)
-  async profile(@Context() context: Ctx) {
-    console.log('context', context.req.user);
-
-    if (!context.req.user) return null;
-
-    const { id, username, email, roles } = context.req.user;
-
-    return {
-      id,
-      username,
-      email,
-      roles,
-    };
+  @Mutation(() => UserBasket)
+  async removeFromBasket(@Context() ctx: Ctx, @Args('input') input: IdInput) {
+    return await this.userService.removeFromBasket(ctx, input);
   }
 }

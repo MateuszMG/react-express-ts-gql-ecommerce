@@ -1,76 +1,168 @@
-import { createAccessToken, createRefreshToken } from '../../utils/jwt.utils';
+import { Basket, User, UserDocument } from '../auth/auth.model';
+import { IdInput } from 'src/types/input.type';
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument, UserRoles } from './user.model';
-import { LoginInput, RegisterInput } from './user.input';
 import { Model } from 'mongoose';
+import { ProductInUserBasket, UserBasket } from './user.object';
 import Ctx from 'src/types/context.type';
+import {
+  Product,
+  ProductDocument,
+  Ratings,
+  Solds,
+  Views,
+} from '../product/product.model';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+  ) {}
 
-  async login(input: LoginInput) {
-    const user = await this.userModel.findOne({ email: input.email });
-    if (!user) throw 'Error';
+  async getBasket(ctx: Ctx): Promise<UserBasket> {
+    const userId = ctx.req.user.id;
+    const user = await this.userModel.findById(userId).lean();
 
-    const isMatch = await bcrypt.compare(input.password, user?.password);
-    if (!isMatch) throw 'Error';
+    const productIds = user.basket.products.map((item) => item.productId);
 
-    const { id, username, email, roles } = user;
-    const accessToken = createAccessToken({ id, username, email, roles });
-
-    await this.userModel.findByIdAndUpdate(id, { accessToken });
-
-    return { accessToken };
+    return await this.loadUserBasket(user.basket, productIds);
   }
 
-  async register(input: RegisterInput) {
-    const { username, email, password, confirmPassword } = input;
-    if (password !== confirmPassword) {
-      return;
-    }
+  async addToBasket(ctx: Ctx, input: IdInput) {
+    console.log('input', input);
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    const userId = ctx.req.user.id;
+    const user = await this.userModel.findById(userId).lean();
 
-    const newUser = new this.userModel({
-      username,
-      email,
-      password: hashPassword,
-      roles: [UserRoles.USER],
-      accessToken: '',
-      refreshToken: '',
-    });
-    await newUser.save();
+    const basketProducts = user.basket.products;
 
-    const refreshToken = createRefreshToken({
-      id: newUser.id,
-      username: newUser.username,
-      roles: newUser.roles,
-      email: newUser.email,
-    });
+    const isExist = basketProducts.find((item) => item.productId === input.id);
 
-    const accessToken = createAccessToken({
-      id: newUser.id,
-      username: newUser.username,
-      roles: newUser.roles,
-      email: newUser.email,
-    });
+    const updatedProducts = !isExist
+      ? [...basketProducts, { productId: input.id, quantity: 1 }]
+      : basketProducts.map((item) =>
+          item.productId === input.id
+            ? {
+                productId: item.productId,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        );
 
-    await this.userModel.findByIdAndUpdate(
-      { _id: newUser._id },
-      { accessToken, refreshToken },
+    const basket: Basket = {
+      products: updatedProducts,
+    };
+    console.log('updatedProducts', updatedProducts);
+
+    await this.userModel.findByIdAndUpdate(userId, { basket }, { new: true });
+
+    const productIds = basket.products.map((item) => item.productId);
+    console.log('productIds', productIds);
+
+    return await this.loadUserBasket(basket, productIds);
+  }
+
+  async removeFromBasket(ctx: Ctx, input: IdInput) {
+    const userId = ctx.req.user.id;
+    const user = await this.userModel.findById(userId).lean();
+    const basketProducts = user.basket.products;
+
+    const canRemove =
+      basketProducts.find((item) => item.productId === input.id).quantity === 1;
+
+    const updatedProducts = canRemove
+      ? basketProducts.filter((item) => item.productId !== input.id)
+      : basketProducts.map((item) =>
+          item.productId === input.id
+            ? {
+                productId: item.productId,
+                quantity: item.quantity - 1,
+              }
+            : item,
+        );
+
+    const basket: Basket = {
+      products: updatedProducts,
+    };
+
+    await this.userModel.findByIdAndUpdate(userId, { basket }, { new: true });
+
+    const productIds = basket.products.map((item) => item.productId);
+    console.log('productIds', productIds);
+
+    return await this.loadUserBasket(basket, productIds);
+  }
+
+  private async loadUserBasket(
+    basket: Basket,
+    productIds: string[],
+  ): Promise<UserBasket> {
+    const products = await Promise.all(
+      productIds.map(async (id) => await this.productModel.findById(id).lean()),
     );
 
-    return { accessToken };
-  }
+    const basketProducts: ProductInUserBasket[] = products.map((item: any) => {
+      const { active, solds, views, ratings, price, ...rest } = item as Product;
+      const getTotal = (obj: Solds | Ratings | Views) =>
+        obj.activeFake ? obj.originalAndFakeTotal : obj.originalTotal;
 
-  async logout(input: Ctx) {
-    const id = input.req.user.id;
+      const id = (item._id as any).toString();
 
-    await this.userModel.findByIdAndUpdate(id, { accessToken: '' });
+      const quantityTotal =
+        basket.products.find((item) => item.productId === id)?.quantity || 0;
 
-    return null;
+      const priceTotal = !rest.sale.active
+        ? price.retail * quantityTotal
+        : rest.sale.priceAfterSale * quantityTotal;
+
+      const discountTotal = !rest.sale.active
+        ? 0
+        : rest.sale.priceBeforeSale * quantityTotal -
+          rest.sale.priceAfterSale * quantityTotal;
+
+      return {
+        ...rest,
+        productId: id,
+        price: price.retail,
+        ratings: {
+          amount: ratings.activeFake
+            ? ratings.originalAndFakeAmount
+            : ratings.originalAmount,
+          total: getTotal(ratings),
+        },
+        solds: getTotal(solds),
+        views: getTotal(views),
+
+        quantityTotal,
+        discountTotal,
+        priceTotal,
+      };
+    });
+
+    const calculate = (key: 'quantityTotal' | 'priceTotal' | 'discountTotal') =>
+      basketProducts
+        .map((item) => item[key])
+        .reduce((acc, val) => acc + val, 0);
+
+    const quantityTotal = calculate('quantityTotal');
+    const priceTotal = calculate('priceTotal');
+    const discountTotal = calculate('discountTotal');
+
+    const percentageDiscount = discountTotal
+      ? (priceTotal + discountTotal / discountTotal) ** -1
+      : 0;
+
+    const userBasket: UserBasket = {
+      products: basketProducts,
+      quantityTotal,
+      priceTotal,
+      discountTotal,
+      percentageDiscount,
+    };
+
+    console.log('userBasket', userBasket);
+
+    return userBasket;
   }
 }

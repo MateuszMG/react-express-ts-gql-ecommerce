@@ -1,0 +1,37 @@
+fragment ProductInUserBasket on ProductInUserBasket {
+  productId
+  price
+  quantity
+  title
+  description
+  image
+
+  distinction {
+    ...Distinction
+  }
+
+  sale {
+    ...Sale
+  }
+
+  ratings {
+    ...RatingsForGuest
+  }
+
+  views
+  solds
+
+  quantityTotal
+  discountTotal
+  priceTotal
+}
+
+fragment UserBasket on UserBasket {
+  products {
+    ...ProductInUserBasket
+  }
+  quantityTotal
+  priceTotal
+  discountTotal
+  percentageDiscount
+}

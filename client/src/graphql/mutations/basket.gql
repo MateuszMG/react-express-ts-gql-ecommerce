@@ -1,0 +1,10 @@
+mutation AddToBasket($input: IdInput!) {
+  addToBasket(input: $input) {
+    ...UserBasket
+  }
+}
+mutation RemoveFromBasket($input: IdInput!) {
+  removeFromBasket(input: $input) {
+    ...UserBasket
+  }
+}

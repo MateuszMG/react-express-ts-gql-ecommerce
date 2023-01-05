@@ -7,6 +7,7 @@ import { AppRoles } from '../const';
 import { Home } from '../pages/Home/Home';
 import { Category } from '../pages/Category/Category';
 import { Product } from '../pages/Product/Product';
+import { Basket } from '../pages/Basket/Basket';
 
 export const routesConfig = [
   // NOT_LOGGED
@@ -37,6 +38,11 @@ export const routesConfig = [
   {
     component: Profile,
     path: paths.profile,
+    roles: [AppRoles.USER],
+  },
+  {
+    component: Basket,
+    path: paths.basket,
     roles: [AppRoles.USER],
   },
 

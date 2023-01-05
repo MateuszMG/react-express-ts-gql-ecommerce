@@ -2,6 +2,8 @@ import styled, { css } from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 import MuiLogoutIcon from '@mui/icons-material/Logout';
 import MuiPersonIcon from '@mui/icons-material/Person';
+import Badge, { BadgeProps } from '@mui/material/Badge';
+import MuiShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 export const Nav = styled.nav``;
 
@@ -47,6 +49,15 @@ const iconStyles = css(
     }
   `,
 );
+
+export const BadgeIcon = styled(Badge)<BadgeProps>(({ theme: { colors } }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: colors.primary,
+    top: 3,
+  },
+}));
+
+export const ShoppingCartIcon = styled(MuiShoppingCartIcon)``;
 
 export const LogoutIcon = styled(MuiLogoutIcon)`
   ${iconStyles}

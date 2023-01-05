@@ -7,7 +7,7 @@ import { pubSub, triggerNames } from 'src/config/PubSub';
 import { ResMessage } from 'src/types/object.type';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { UseGuards } from '@nestjs/common';
-import { UserRoles } from '../user/user.model';
+import { UserRoles } from '../auth/auth.model';
 
 @Resolver()
 export class ProductResolver {

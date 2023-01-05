@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { Product } from '../product/product.model';
 import { Sold } from '../sold/sold.model';
 
@@ -7,6 +8,17 @@ export enum UserRoles {
   USER = 'USER',
   MODERATOR = 'MODERATOR',
   ADMINISTRATOR = 'ADMINISTRATOR',
+}
+
+@ObjectType()
+export class ProductInBasket {
+  @Field() productId: string;
+  @Field() quantity: number;
+}
+
+@ObjectType()
+export class Basket {
+  @Field(() => [ProductInBasket]) products: ProductInBasket[];
 }
 
 @Schema()
@@ -43,9 +55,9 @@ export class User {
   @Field(() => [UserRoles])
   roles: UserRoles[];
 
-  // @Prop()
-  // @Field()
-  // basket: Product[];
+  @Prop()
+  @Field()
+  basket: Basket;
 
   // @Prop()
   // @Field()

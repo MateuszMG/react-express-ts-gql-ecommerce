@@ -1,6 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './features/auth/auth.module';
 import { Category, CategorySchema } from './features/category/category.model';
 import { CategoryModule } from './features/category/category.module';
 import { ConfigModule } from '@nestjs/config';
@@ -10,16 +11,16 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from './features/product/product.model';
+import { ProductForGuestModule } from './features/product-for-guest/product-for-guest.module';
 import { ProductModule } from './features/product/product.module';
 import { Rating, RatingSchema } from './features/rating/rating.model';
 import { RatingModule } from './features/rating/rating.module';
 import { Sold, SoldSchema } from './features/sold/sold.model';
 import { SoldModule } from './features/sold/sold.module';
-import { User, UserSchema } from './features/user/user.model';
-import { UsersModule } from './features/user/user.module';
+import { User, UserSchema } from './features/auth/auth.model';
 import { View, ViewSchema } from './features/view/view.model';
 import { ViewModule } from './features/view/view.module';
-import { ProductForGuestModule } from './features/product-for-guest/product-for-guest.module';
+import { UserModule } from './features/user/user.module';
 
 @Module({
   imports: [
@@ -66,13 +67,14 @@ import { ProductForGuestModule } from './features/product-for-guest/product-for-
         return { req, res };
       },
     }),
-    UsersModule,
+    AuthModule,
     ProductModule,
     CategoryModule,
     RatingModule,
     ViewModule,
     SoldModule,
     ProductForGuestModule,
+    UserModule,
   ],
   controllers: [AppController],
 

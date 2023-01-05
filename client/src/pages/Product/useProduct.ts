@@ -5,6 +5,7 @@ import {
   GetProductsForGuestDocument,
   GetProductsForGuestQuery,
   ProductForGuest,
+  useAddToBasketMutation,
   useAddViewMutation,
   useGetProductForGuestLazyQuery,
 } from '../../generated/types';
@@ -14,6 +15,7 @@ export const useProduct = () => {
   const [product, setProduct] = useState<ProductForGuest>();
 
   const [getProduct, { loading, error }] = useGetProductForGuestLazyQuery();
+  const [add] = useAddToBasketMutation();
 
   const [addView] = useAddViewMutation();
 
@@ -42,10 +44,14 @@ export const useProduct = () => {
       },
     });
 
+  const addToBasket = (id: string) => {
+    add({ variables: { input: { id } } });
+  };
+
   useEffect(() => {
     addView({ variables: { input: { id: productId } } });
   }, []);
 
   console.log('product', product);
-  return { product };
+  return { addToBasket, product };
 };

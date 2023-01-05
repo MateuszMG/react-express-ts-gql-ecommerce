@@ -4,13 +4,17 @@ import { separateString } from '../../helpers/strings';
 import { useNavigate } from 'react-router-dom';
 import {
   AuthLinksWrapper,
+  BadgeIcon,
   Link,
   LinksWrapper,
   List,
   LogoutIcon,
   Nav,
   PersonIcon,
+  ShoppingCartIcon,
 } from './Navigation.styled';
+import { client } from '../../client/client';
+import { GetBasketDocument, GetBasketQuery } from '../../generated/types';
 
 interface NavigationLinkProps {
   path: string;
@@ -23,6 +27,14 @@ const NavigationLink = ({ path }: NavigationLinkProps) => (
 export const Navigation = () => {
   const { logout, user, isLogged, isMod } = useAuth();
   const navigate = useNavigate();
+
+  const basket = (
+    client.cache.readQuery({
+      query: GetBasketDocument,
+    }) as GetBasketQuery | undefined
+  )?.getBasket;
+
+  console.log('basket', basket);
 
   return (
     <Nav>
@@ -37,6 +49,12 @@ export const Navigation = () => {
         <AuthLinksWrapper>
           {isLogged ? (
             <>
+              <BadgeIcon
+                badgeContent={basket?.quantityTotal}
+                onClick={() => navigate(paths.basket)}
+              >
+                <ShoppingCartIcon />
+              </BadgeIcon>
               <PersonIcon onClick={() => navigate(paths.profile)} />
               <LogoutIcon onClick={() => logout()} />
             </>

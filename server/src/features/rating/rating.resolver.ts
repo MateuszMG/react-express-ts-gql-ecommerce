@@ -5,7 +5,7 @@ import { RatingService } from './rating.service';
 import { ResMessage } from 'src/types/object.type';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { UseGuards } from '@nestjs/common';
-import { UserRoles } from '../user/user.model';
+import { UserRoles } from '../auth/auth.model';
 import Ctx from 'src/types/context.type';
 import {
   AddRatingInput,

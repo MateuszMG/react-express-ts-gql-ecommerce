@@ -1,7 +1,8 @@
-import { useProfileQuery } from '../../generated/types';
+import { useGetBasketQuery, useProfileQuery } from '../../generated/types';
 
 export const Profile = () => {
   const { data, loading, error, client } = useProfileQuery();
+
   const user = data?.profile;
   // console.log('data', data?.profile);
   // data && (data.profile.logged = false);
