@@ -1,7 +1,0 @@
-import { PubSub } from 'graphql-subscriptions';
-
-export const pubSub = new PubSub();
-
-export const triggerNames = {
-  highlightedProductUpdated: 'highlightedProductUpdated',
-};
