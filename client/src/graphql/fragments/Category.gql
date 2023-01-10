@@ -1,4 +1,4 @@
 fragment Category on Category {
-  id
+  _id
   category
 }

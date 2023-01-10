@@ -22,7 +22,7 @@ export const Home = () => {
         ({
           description,
           distinction,
-          id,
+          _id,
           image,
           model,
           price,
@@ -33,7 +33,7 @@ export const Home = () => {
 
           title,
         }) => (
-          <Section key={id} onClick={() => navigate(paths.product(id))}>
+          <Section key={_id} onClick={() => navigate(paths.product(_id))}>
             <Img src={image} alt={title} />
 
             <DataWrapper>

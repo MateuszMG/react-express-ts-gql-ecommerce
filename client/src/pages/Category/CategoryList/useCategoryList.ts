@@ -18,7 +18,7 @@ export const useCategoryList = () => {
 
   const handleDelete = (item: Category) => {
     deleteCategory({
-      variables: { input: { id: item.id } },
+      variables: { input: { _id: item._id } },
       onCompleted: () => {
         cache.evict({ id: cache.identify({ ...item }) });
         cache.gc();

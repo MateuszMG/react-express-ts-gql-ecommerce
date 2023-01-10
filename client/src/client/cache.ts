@@ -8,7 +8,7 @@ const typePolicies: StrictTypedTypePolicies = {
     fields: {
       isOwner(_, { readField, cache }) {
         const user = handleAccessToken(getFromTheLS('accessToken'));
-        return user.id === readField('userId');
+        return user._id === readField('userId');
       },
     },
   },

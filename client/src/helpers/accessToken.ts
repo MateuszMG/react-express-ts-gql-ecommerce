@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 
 export interface UserFromJWT {
   email: string;
-  id: string;
+  _id: string;
   roles: UserRoles[];
   username: string;
   exp: number;
@@ -15,7 +15,7 @@ export const emptyUser: UserFromJWT = {
   email: '',
   exp: 0,
   iat: 0,
-  id: '',
+  _id: '',
   roles: [],
   username: '',
 };

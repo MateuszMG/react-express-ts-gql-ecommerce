@@ -59,7 +59,6 @@ export const productSchema = {
 
     priceBeforeSale: yup.number().required(),
     priceAfterSale: yup.number().required(),
-    percentageDiscount: yup.number().required(),
   }),
 
   ratings: yup.object({

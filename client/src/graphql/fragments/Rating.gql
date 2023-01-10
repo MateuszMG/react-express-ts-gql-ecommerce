@@ -1,5 +1,5 @@
 fragment Rating on Rating {
-  id
+  _id
   productId
   userId
   username

@@ -20,24 +20,26 @@ export const Basket = ({}: BasketProps) => {
 
   const [createPayment] = useCreatePaymentMutation();
 
-  const addToBasket = (id: string) => {
+  const addToBasket = (_id: string) => {
     add({
-      variables: { input: { id } },
+      variables: { input: { _id } },
       onError: (err) => console.log('err', { err }),
     });
   };
 
-  const removeFromBasket = (id: string) => {
+  const removeFromBasket = (_id: string) => {
     remove({
-      variables: { input: { id } },
+      variables: { input: { _id } },
       onError: (err) => console.log('err', { err }),
     });
   };
 
   const buy = async () => {
-    const id = await createPayment().then((res) => res.data?.createPayment.id);
-    if (!id) return;
-    await stripe!.redirectToCheckout({ sessionId: id });
+    const _id = await createPayment().then(
+      (res) => res.data?.createPayment._id,
+    );
+    if (!_id) return;
+    await stripe!.redirectToCheckout({ sessionId: _id });
   };
 
   return (

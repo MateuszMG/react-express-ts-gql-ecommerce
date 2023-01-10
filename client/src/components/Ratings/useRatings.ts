@@ -40,7 +40,7 @@ export const useRatings = () => {
   const onSubmit = handleSubmit((data) => {
     if (editedRating) {
       editRating({
-        variables: { input: { ...data, id: editedRating.id } },
+        variables: { input: { ...data, _id: editedRating._id } },
         onCompleted: (data) => {
           console.log('data', data);
         },
@@ -63,17 +63,17 @@ export const useRatings = () => {
     reset();
   });
 
-  const handleEdit = (id: string) => {
-    editedRatingVar(ratings?.find((item) => item.id === id));
+  const handleEdit = (_id: string) => {
+    editedRatingVar(ratings?.find((item) => item._id === _id));
   };
 
   const handleReset = () => {
     reset();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (_id: string) => {
     deleteRating({
-      variables: { input: { id } },
+      variables: { input: { _id } },
       onCompleted: (data) => {
         console.log('data', data);
       },

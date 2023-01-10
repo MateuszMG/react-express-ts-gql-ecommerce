@@ -14,7 +14,7 @@ export const CategoryList = () => {
   return (
     <Wrapper>
       {categories?.map((item) => (
-        <Section key={item.id}>
+        <Section key={item._id}>
           <DataWrapper>
             <ProductTitle>{item.category}</ProductTitle>
           </DataWrapper>

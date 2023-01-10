@@ -41,7 +41,6 @@ export const productFormHelpers = () => {
 
       priceBeforeSale: randomNumber(2),
       priceAfterSale: randomNumber(2),
-      percentageDiscount: randomNumber(2),
     },
 
     ratings: {

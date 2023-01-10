@@ -24,7 +24,7 @@ export const useProduct = () => {
   }) as GetProductsForGuestQuery;
 
   const selectedProduct = products?.getProductsForGuest.find(
-    (item) => item.id === productId,
+    (item) => item._id === productId,
   );
 
   selectedProduct && !product && setProduct(selectedProduct);
@@ -33,7 +33,7 @@ export const useProduct = () => {
     !loading &&
     !error &&
     getProduct({
-      variables: { input: { id: productId } },
+      variables: { input: { _id: productId } },
       onCompleted: (data) => {
         console.log('data', data);
 
@@ -44,12 +44,12 @@ export const useProduct = () => {
       },
     });
 
-  const addToBasket = (id: string) => {
-    add({ variables: { input: { id } } });
+  const addToBasket = (_id: string) => {
+    add({ variables: { input: { _id } } });
   };
 
   useEffect(() => {
-    addView({ variables: { input: { id: productId } } });
+    addView({ variables: { input: { _id: productId } } });
   }, []);
 
   console.log('product', product);

@@ -48,7 +48,7 @@ export const useProductForm = () => {
       editProduct({
         variables: {
           input: {
-            id: editedProduct.id,
+            _id: editedProduct._id,
             image: editedProduct.image,
             ...input,
             // category: input.category.value || '',
@@ -109,7 +109,7 @@ export const useProductForm = () => {
                 });
 
                 const alreadyExists = existingProductsRefs.some(
-                  (ref: Reference) => readField('id', ref) === newProduct.id,
+                  (ref: Reference) => readField('id', ref) === newProduct._id,
                 );
 
                 if (alreadyExists) return existingProductsRefs;

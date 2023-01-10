@@ -32,9 +32,9 @@ export const Register = () => {
     },
   });
 
-  const onSubmit = handleSubmit((registerInput) => {
+  const onSubmit = handleSubmit((input) => {
     signUp({
-      variables: { registerInput },
+      variables: { input },
       onCompleted: (data) => {
         setUser(data.register.accessToken);
         navigate(paths.profile);
@@ -43,7 +43,7 @@ export const Register = () => {
     });
   });
 
-  if (user.id) return <Navigate to={paths.profile} />;
+  if (user._id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>

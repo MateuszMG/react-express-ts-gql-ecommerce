@@ -15,7 +15,7 @@ export const useProductList = () => {
 
   const handleChange = (item: any) => {
     changeActive({
-      variables: { input: { id: item.id } },
+      variables: { input: { _id: item.id } },
       onCompleted: () => {
         cache.modify({
           id: cache.identify(item),
@@ -36,7 +36,7 @@ export const useProductList = () => {
 
   const handleDelete = (item: any) => {
     deleteProduct({
-      variables: { input: { id: item.id } },
+      variables: { input: { _id: item.id } },
       onCompleted: () => {
         cache.evict({ id: cache.identify({ ...item }) });
         cache.gc();

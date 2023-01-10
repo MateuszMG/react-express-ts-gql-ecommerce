@@ -1,5 +1,5 @@
 fragment ResId on ResId {
-  id
+  _id
 }
 
 fragment ResMessage on ResMessage {

@@ -9,7 +9,7 @@ import { UserRoles } from '../../const';
 
 export const fillAuthState = (accessToken: string) => {
   const user = handleAccessToken(accessToken);
-  const isLogged = !!user?.id;
+  const isLogged = !!user?._id;
   const isUser = user.roles.includes(UserRoles.USER);
   const isMod = user.roles.includes(UserRoles.MODERATOR);
   const isAdmin = user.roles.includes(UserRoles.ADMINISTRATOR);

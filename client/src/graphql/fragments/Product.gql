@@ -75,7 +75,7 @@ fragment Solds on Solds {
 }
 
 fragment Product on Product {
-  id
+  _id
   title
   description
   subtitle

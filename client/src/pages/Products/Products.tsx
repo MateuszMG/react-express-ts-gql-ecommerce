@@ -7,7 +7,7 @@ export const Products = () => {
   return (
     <Container>
       <ProductForm />
-      {/* <HighlightedProduct /> */}
+      <HighlightedProduct />
       {/* <ProductList /> */}
     </Container>
   );

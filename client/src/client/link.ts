@@ -21,7 +21,7 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
-  credentials: 'same-origin',
+  // credentials: 'same-origin',
 });
 
 const wsLink = new GraphQLWsLink(
@@ -33,6 +33,8 @@ const wsLink = new GraphQLWsLink(
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
+    console.log('definition', definition);
+
     return (
       definition.kind === 'OperationDefinition' &&
       definition.operation === 'subscription'

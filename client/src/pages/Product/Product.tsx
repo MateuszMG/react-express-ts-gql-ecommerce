@@ -26,7 +26,7 @@ export const Product = () => {
     category,
     description,
     distinction,
-    id,
+    _id,
     image,
     model,
     price,
@@ -69,7 +69,7 @@ export const Product = () => {
 
       <Ratings />
 
-      <Button onClick={() => addToBasket(id)}>addToBasket</Button>
+      <Button onClick={() => addToBasket(_id)}>addToBasket</Button>
       {/* <Counter devaultValue={0} max={quantity} productId={id} /> */}
     </div>
   );

@@ -173,12 +173,6 @@ export const ProductForm = () => {
             label={'Price after sale'}
             type={'number'}
           />
-          <TextInput
-            {...register('sale.percentageDiscount')}
-            error={errors?.sale?.percentageDiscount?.message}
-            label={'Percentage discount'}
-            type={'number'}
-          />
         </Form.FieldsDivided>
 
         {/* //////////////////////////////////////////////// ratings */}

@@ -9,7 +9,7 @@ fragment PurchaseHistory on PurchaseHistory {
 }
 
 fragment User on User {
-  id
+  _id
   email
   username
   accessToken

@@ -41,8 +41,8 @@ export const Ratings = () => {
       </Form>
 
       {ratings?.map(
-        ({ comment, createdAt, id, rating, isOwner, updatedAt, username }) => (
-          <section key={id}>
+        ({ comment, createdAt, _id, rating, isOwner, updatedAt, username }) => (
+          <section key={_id}>
             <p> username: {username} </p>
             <p> {comment} </p>
             <p>
@@ -51,8 +51,8 @@ export const Ratings = () => {
             <h1>rating: {rating}</h1>
             {isOwner && (
               <>
-                <Button onClick={() => handleDelete(id)}>Delete</Button>
-                <Button onClick={() => handleEdit(id)}>Edit</Button>
+                <Button onClick={() => handleDelete(_id)}>Delete</Button>
+                <Button onClick={() => handleEdit(_id)}>Edit</Button>
               </>
             )}
           </section>

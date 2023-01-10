@@ -17,7 +17,7 @@ export const ProductList = () => {
   return (
     <Wrapper>
       {products?.map((item) => (
-        <Section key={item.id}>
+        <Section key={item._id}>
           <Img src={item.image} alt={item.title} />
 
           <DataWrapper>

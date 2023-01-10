@@ -29,9 +29,9 @@ export const Login = () => {
     },
   });
 
-  const onSubmit = handleSubmit((loginInput) => {
+  const onSubmit = handleSubmit((input) => {
     signIn({
-      variables: { loginInput },
+      variables: { input },
       onCompleted: (data) => {
         setUser(data.login.accessToken);
         navigate(paths.profile);
@@ -40,7 +40,7 @@ export const Login = () => {
     });
   });
 
-  if (user.id) return <Navigate to={paths.profile} />;
+  if (user._id) return <Navigate to={paths.profile} />;
 
   return (
     <Container>

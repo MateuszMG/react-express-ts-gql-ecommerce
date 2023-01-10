@@ -36,7 +36,7 @@ export const useCategoryForm = () => {
   const onSubmit = handleSubmit((input) => {
     if (editedCategory) {
       editCategory({
-        variables: { input: { id: editedCategory.id, ...input } },
+        variables: { input: { _id: editedCategory._id, ...input } },
         onCompleted: () => {
           cache.modify({
             id: cache.identify({ ...editedCategory }),
@@ -71,7 +71,7 @@ export const useCategoryForm = () => {
                 });
 
                 const alreadyExists = existingCategoriesRefs.some(
-                  (ref: Reference) => readField('id', ref) === newCategory.id,
+                  (ref: Reference) => readField('id', ref) === newCategory._id,
                 );
 
                 if (alreadyExists) return existingCategoriesRefs;
