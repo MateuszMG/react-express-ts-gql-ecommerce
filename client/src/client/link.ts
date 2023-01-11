@@ -33,7 +33,6 @@ const wsLink = new GraphQLWsLink(
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    console.log('definition', definition);
 
     return (
       definition.kind === 'OperationDefinition' &&

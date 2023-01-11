@@ -14,8 +14,8 @@ export const GlobalStyle = createGlobalStyle(
     }
 
     body {
-      background-color: ${colors.backgroundPrimary};
-      color: ${colors.fontPrimary};
+      /* background-color: ${colors.backgroundPrimary}; */
+      /* color: ${colors.fontPrimary}; */
       min-height: 100vh;
     }
 

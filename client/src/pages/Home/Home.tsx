@@ -14,8 +14,6 @@ export const Home = () => {
   const { products } = useHome();
   const navigate = useNavigate();
 
-  console.log('products', products);
-
   return (
     <Wrapper>
       {products?.map(

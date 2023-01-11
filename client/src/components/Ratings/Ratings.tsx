@@ -20,10 +20,13 @@ export const Ratings = () => {
   return (
     <div>
       <Form onSubmit={onSubmit} onReset={handleReset}>
-        <TextInput {...register('comment')} error={errors?.comment?.message} />
+        <TextInput
+          {...register('comment')}
+          message={errors?.comment?.message}
+        />
         <TextInput
           {...register('rating')}
-          error={errors?.rating?.message}
+          message={errors?.rating?.message}
           type={'number'}
         />
         <Form.ButtonsWrapper>

@@ -26,17 +26,17 @@ export const ProductForm = () => {
         <Title>Add Product</Title>
 
         <Form.FieldsDivided>
-          <TextInput {...register('title')} error={errors?.title?.message} />
+          <TextInput {...register('title')} message={errors?.title?.message} />
 
           <TextInput
             {...register('subtitle')}
-            error={errors?.subtitle?.message}
+            message={errors?.subtitle?.message}
           />
         </Form.FieldsDivided>
 
         <TextInput
           {...register('description')}
-          error={errors?.description?.message}
+          message={errors?.description?.message}
         />
 
         <Form.FieldsDivided>
@@ -47,12 +47,12 @@ export const ProductForm = () => {
             options={categoriesOptions}
           />
 
-          <TextInput {...register('model')} error={errors?.model?.message} />
+          <TextInput {...register('model')} message={errors?.model?.message} />
         </Form.FieldsDivided>
 
         <TextInput
           {...register('quantity')}
-          error={errors?.quantity?.message}
+          message={errors?.quantity?.message}
           type={'number'}
         />
 
@@ -67,14 +67,14 @@ export const ProductForm = () => {
         <Form.FieldsDivided>
           <TextInput
             {...register('price.wholesale')}
-            error={errors?.price?.wholesale?.message}
+            message={errors?.price?.wholesale?.message}
             label={'Wholesale price'}
             type={'number'}
           />
 
           <TextInput
             {...register('price.retail')}
-            error={errors?.price?.retail?.message}
+            message={errors?.price?.retail?.message}
             label={'Retail price'}
             type={'number'}
           />
@@ -85,28 +85,28 @@ export const ProductForm = () => {
         <Form.FieldsDivided>
           <TextInput
             {...register('size.weight')}
-            error={errors?.size?.weight?.message}
+            message={errors?.size?.weight?.message}
             label={'Weight'}
             type={'number'}
           />
 
           <TextInput
             {...register('size.length')}
-            error={errors?.size?.length?.message}
+            message={errors?.size?.length?.message}
             label={'Length'}
             type={'number'}
           />
 
           <TextInput
             {...register('size.width')}
-            error={errors?.size?.width?.message}
+            message={errors?.size?.width?.message}
             label={'Width'}
             type={'number'}
           />
 
           <TextInput
             {...register('size.height')}
-            error={errors?.size?.height?.message}
+            message={errors?.size?.height?.message}
             label={'Height'}
             type={'number'}
           />
@@ -163,13 +163,13 @@ export const ProductForm = () => {
         <Form.FieldsDivided>
           <TextInput
             {...register('sale.priceBeforeSale')}
-            error={errors?.sale?.priceBeforeSale?.message}
+            message={errors?.sale?.priceBeforeSale?.message}
             label={'Price before sale'}
             type={'number'}
           />
           <TextInput
             {...register('sale.priceAfterSale')}
-            error={errors?.sale?.priceAfterSale?.message}
+            message={errors?.sale?.priceAfterSale?.message}
             label={'Price after sale'}
             type={'number'}
           />
@@ -186,14 +186,14 @@ export const ProductForm = () => {
 
           <TextInput
             {...register('ratings.fakeTotal')}
-            error={errors?.ratings?.fakeTotal?.message}
+            message={errors?.ratings?.fakeTotal?.message}
             label={'Fake total'}
             type={'number'}
           />
 
           <TextInput
             {...register('ratings.fakeAmount')}
-            error={errors?.ratings?.fakeAmount?.message}
+            message={errors?.ratings?.fakeAmount?.message}
             label={'Fake quantity'}
             type={'number'}
           />
@@ -210,7 +210,7 @@ export const ProductForm = () => {
 
           <TextInput
             {...register('views.fakeTotal')}
-            error={errors?.views?.fakeTotal?.message}
+            message={errors?.views?.fakeTotal?.message}
             label={'Fake total'}
             type={'number'}
           />
@@ -227,7 +227,7 @@ export const ProductForm = () => {
 
           <TextInput
             {...register('solds.fakeTotal')}
-            error={errors?.solds?.fakeTotal?.message}
+            message={errors?.solds?.fakeTotal?.message}
             label={'Fake total'}
             type={'number'}
           />

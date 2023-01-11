@@ -51,28 +51,28 @@ export const Register = () => {
         <Title>Register</Title>
         <TextInput
           {...register('username')}
-          error={errors?.username?.message}
           label={'Username'}
+          message={errors?.username?.message}
           placeholder={'your.email@gmail.com'}
         />
         <TextInput
           {...register('email')}
-          error={errors?.email?.message}
           label={'Email'}
+          message={errors?.email?.message}
           placeholder={'your.email@gmail.com'}
           type={'email'}
         />
         <TextInput
           {...register('password')}
-          error={errors?.password?.message}
           label={'Password'}
+          message={errors?.password?.message}
           placeholder={'StrongPassword1!'}
           type={'password'}
         />
         <TextInput
           {...register('confirmPassword')}
-          error={errors?.confirmPassword?.message}
           label={'Repeat password'}
+          message={errors?.confirmPassword?.message}
           placeholder={'StrongPassword1!'}
           type={'password'}
         />

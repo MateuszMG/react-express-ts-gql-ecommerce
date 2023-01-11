@@ -15,8 +15,8 @@ export const CategoryForm = () => {
 
         <TextInput
           {...register('category')}
-          error={errors?.category?.message}
           label={'Category'}
+          message={errors?.category?.message}
           placeholder={'Ball'}
         />
 

@@ -49,16 +49,16 @@ export const Login = () => {
         <TextInput
           {...register('email')}
           data-testid={'input_email'}
-          error={errors?.email?.message}
           label={'Email'}
+          message={errors?.email?.message}
           placeholder={'your.email@gmail.com'}
           type={'email'}
         />
         <TextInput
           {...register('password')}
           data-testid={'input_password'}
-          error={errors?.password?.message}
           label={'Password'}
+          message={errors?.password?.message}
           placeholder={'StrongPassword1!'}
           type={'password'}
         />
