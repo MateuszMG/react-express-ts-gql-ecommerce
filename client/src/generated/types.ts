@@ -56,6 +56,27 @@ export type DecodedUser = {
   username: Scalars['String'];
 };
 
+export type DeliveryAdress = {
+  __typename?: 'DeliveryAdress';
+  address: Scalars['String'];
+  city: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  postCode: Scalars['String'];
+  state: Scalars['String'];
+};
+
+export type DeliveryAdressInput = {
+  address: Scalars['String'];
+  city: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  postCode: Scalars['String'];
+  state: Scalars['String'];
+};
+
 export type Distinction = {
   __typename?: 'Distinction';
   active: Scalars['Boolean'];
@@ -125,6 +146,7 @@ export type Mutation = {
   register: AccessToken;
   removeFromBasket: UserBasket;
   savePayment: ResMessage;
+  setDeliveryAdress: DeliveryAdress;
 };
 
 
@@ -200,6 +222,11 @@ export type MutationRegisterArgs = {
 
 export type MutationRemoveFromBasketArgs = {
   input: IdInput;
+};
+
+
+export type MutationSetDeliveryAdressArgs = {
+  input: DeliveryAdressInput;
 };
 
 export type Price = {
@@ -432,26 +459,6 @@ export type Size = {
   width: Scalars['Float'];
 };
 
-export type Sold = {
-  __typename?: 'Sold';
-  _id: Scalars['String'];
-  activeDistinction: Scalars['Boolean'];
-  activeSale: Scalars['Boolean'];
-  amountDiscount: Scalars['Float'];
-  createdAt: Scalars['DateTime'];
-  guestDevice: Scalars['String'];
-  guestIP: Scalars['String'];
-  percentageDiscount: Scalars['Float'];
-  price: Price;
-  productId: Scalars['String'];
-  profit: Scalars['Float'];
-  purchasePrice: Scalars['Float'];
-  purchasePriceBeforeDiscount: Scalars['Float'];
-  quantity: Scalars['Float'];
-  updatedAt: Scalars['DateTime'];
-  userId: Scalars['String'];
-};
-
 export type Solds = {
   __typename?: 'Solds';
   activeFake: Scalars['Boolean'];
@@ -471,6 +478,7 @@ export type User = {
   accessToken: Scalars['String'];
   basket: Basket;
   createdAt: Scalars['DateTime'];
+  deliveryAdress: DeliveryAdress;
   email: Scalars['String'];
   purchaseHistory: Array<PurchaseHistory>;
   refreshToken: Scalars['String'];
@@ -486,17 +494,6 @@ export type UserBasket = {
   priceTotal: Scalars['Float'];
   products: Array<ProductInUserBasket>;
   quantityTotal: Scalars['Float'];
-};
-
-export type View = {
-  __typename?: 'View';
-  _id: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  device: Scalars['String'];
-  guestIP: Scalars['String'];
-  productId: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  userId?: Maybe<Scalars['String']>;
 };
 
 export type Views = {
@@ -536,9 +533,11 @@ export type ProductForGuestFragment = { __typename?: 'ProductForGuest', _id: str
 
 export type RatingFragment = { __typename?: 'Rating', _id: string, productId: string, userId: string, username: string, comment: string, rating: number, createdAt: any, updatedAt: any, isOwner: boolean };
 
+export type DeliveryAdressFragment = { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string };
+
 export type PurchaseHistoryFragment = { __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any };
 
-export type UserFragment = { __typename?: 'User', _id: string, email: string, username: string, accessToken: string, refreshToken: string, roles: Array<string>, createdAt: any, updatedAt: any, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> };
+export type UserFragment = { __typename?: 'User', _id: string, email: string, username: string, accessToken: string, refreshToken: string, roles: Array<string>, createdAt: any, updatedAt: any, deliveryAdress: { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string }, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> };
 
 export type ProductInUserBasketFragment = { __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } };
 
@@ -561,20 +560,6 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AccessToken', accessToken: string } };
-
-export type AddToBasketMutationVariables = Exact<{
-  input: IdInput;
-}>;
-
-
-export type AddToBasketMutation = { __typename?: 'Mutation', addToBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
-
-export type RemoveFromBasketMutationVariables = Exact<{
-  input: IdInput;
-}>;
-
-
-export type RemoveFromBasketMutation = { __typename?: 'Mutation', removeFromBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
 
 export type AddCategoryMutationVariables = Exact<{
   input: CategoryInput;
@@ -655,6 +640,27 @@ export type DeleteRatingMutationVariables = Exact<{
 
 
 export type DeleteRatingMutation = { __typename?: 'Mutation', deleteRating: { __typename?: 'ResMessage', message: string } };
+
+export type SetDeliveryAdressMutationVariables = Exact<{
+  input: DeliveryAdressInput;
+}>;
+
+
+export type SetDeliveryAdressMutation = { __typename?: 'Mutation', setDeliveryAdress: { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string } };
+
+export type AddToBasketMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type AddToBasketMutation = { __typename?: 'Mutation', addToBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
+
+export type RemoveFromBasketMutationVariables = Exact<{
+  input: IdInput;
+}>;
+
+
+export type RemoveFromBasketMutation = { __typename?: 'Mutation', removeFromBasket: { __typename?: 'UserBasket', quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, products: Array<{ __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } }> } };
 
 export type AddViewMutationVariables = Exact<{
   input: IdInput;
@@ -897,6 +903,17 @@ export const RatingFragmentDoc = gql`
   isOwner @client
 }
     `;
+export const DeliveryAdressFragmentDoc = gql`
+    fragment DeliveryAdress on DeliveryAdress {
+  firstName
+  lastName
+  address
+  postCode
+  city
+  state
+  phoneNumber
+}
+    `;
 export const PurchaseHistoryFragmentDoc = gql`
     fragment PurchaseHistory on PurchaseHistory {
   productsIds
@@ -916,13 +933,17 @@ export const UserFragmentDoc = gql`
   accessToken
   refreshToken
   roles
+  deliveryAdress {
+    ...DeliveryAdress
+  }
   purchaseHistory {
     ...PurchaseHistory
   }
   createdAt
   updatedAt
 }
-    ${PurchaseHistoryFragmentDoc}`;
+    ${DeliveryAdressFragmentDoc}
+${PurchaseHistoryFragmentDoc}`;
 export const ProductInUserBasketFragmentDoc = gql`
     fragment ProductInUserBasket on ProductInUserBasket {
   productId
@@ -1036,72 +1057,6 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const AddToBasketDocument = gql`
-    mutation AddToBasket($input: IdInput!) {
-  addToBasket(input: $input) {
-    ...UserBasket
-  }
-}
-    ${UserBasketFragmentDoc}`;
-export type AddToBasketMutationFn = Apollo.MutationFunction<AddToBasketMutation, AddToBasketMutationVariables>;
-
-/**
- * __useAddToBasketMutation__
- *
- * To run a mutation, you first call `useAddToBasketMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddToBasketMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addToBasketMutation, { data, loading, error }] = useAddToBasketMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useAddToBasketMutation(baseOptions?: Apollo.MutationHookOptions<AddToBasketMutation, AddToBasketMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddToBasketMutation, AddToBasketMutationVariables>(AddToBasketDocument, options);
-      }
-export type AddToBasketMutationHookResult = ReturnType<typeof useAddToBasketMutation>;
-export type AddToBasketMutationResult = Apollo.MutationResult<AddToBasketMutation>;
-export type AddToBasketMutationOptions = Apollo.BaseMutationOptions<AddToBasketMutation, AddToBasketMutationVariables>;
-export const RemoveFromBasketDocument = gql`
-    mutation RemoveFromBasket($input: IdInput!) {
-  removeFromBasket(input: $input) {
-    ...UserBasket
-  }
-}
-    ${UserBasketFragmentDoc}`;
-export type RemoveFromBasketMutationFn = Apollo.MutationFunction<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>;
-
-/**
- * __useRemoveFromBasketMutation__
- *
- * To run a mutation, you first call `useRemoveFromBasketMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveFromBasketMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeFromBasketMutation, { data, loading, error }] = useRemoveFromBasketMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useRemoveFromBasketMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>(RemoveFromBasketDocument, options);
-      }
-export type RemoveFromBasketMutationHookResult = ReturnType<typeof useRemoveFromBasketMutation>;
-export type RemoveFromBasketMutationResult = Apollo.MutationResult<RemoveFromBasketMutation>;
-export type RemoveFromBasketMutationOptions = Apollo.BaseMutationOptions<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>;
 export const AddCategoryDocument = gql`
     mutation AddCategory($input: CategoryInput!) {
   addCategory(input: $input) {
@@ -1496,6 +1451,105 @@ export function useDeleteRatingMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteRatingMutationHookResult = ReturnType<typeof useDeleteRatingMutation>;
 export type DeleteRatingMutationResult = Apollo.MutationResult<DeleteRatingMutation>;
 export type DeleteRatingMutationOptions = Apollo.BaseMutationOptions<DeleteRatingMutation, DeleteRatingMutationVariables>;
+export const SetDeliveryAdressDocument = gql`
+    mutation SetDeliveryAdress($input: DeliveryAdressInput!) {
+  setDeliveryAdress(input: $input) {
+    ...DeliveryAdress
+  }
+}
+    ${DeliveryAdressFragmentDoc}`;
+export type SetDeliveryAdressMutationFn = Apollo.MutationFunction<SetDeliveryAdressMutation, SetDeliveryAdressMutationVariables>;
+
+/**
+ * __useSetDeliveryAdressMutation__
+ *
+ * To run a mutation, you first call `useSetDeliveryAdressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetDeliveryAdressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setDeliveryAdressMutation, { data, loading, error }] = useSetDeliveryAdressMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSetDeliveryAdressMutation(baseOptions?: Apollo.MutationHookOptions<SetDeliveryAdressMutation, SetDeliveryAdressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetDeliveryAdressMutation, SetDeliveryAdressMutationVariables>(SetDeliveryAdressDocument, options);
+      }
+export type SetDeliveryAdressMutationHookResult = ReturnType<typeof useSetDeliveryAdressMutation>;
+export type SetDeliveryAdressMutationResult = Apollo.MutationResult<SetDeliveryAdressMutation>;
+export type SetDeliveryAdressMutationOptions = Apollo.BaseMutationOptions<SetDeliveryAdressMutation, SetDeliveryAdressMutationVariables>;
+export const AddToBasketDocument = gql`
+    mutation AddToBasket($input: IdInput!) {
+  addToBasket(input: $input) {
+    ...UserBasket
+  }
+}
+    ${UserBasketFragmentDoc}`;
+export type AddToBasketMutationFn = Apollo.MutationFunction<AddToBasketMutation, AddToBasketMutationVariables>;
+
+/**
+ * __useAddToBasketMutation__
+ *
+ * To run a mutation, you first call `useAddToBasketMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToBasketMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToBasketMutation, { data, loading, error }] = useAddToBasketMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddToBasketMutation(baseOptions?: Apollo.MutationHookOptions<AddToBasketMutation, AddToBasketMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToBasketMutation, AddToBasketMutationVariables>(AddToBasketDocument, options);
+      }
+export type AddToBasketMutationHookResult = ReturnType<typeof useAddToBasketMutation>;
+export type AddToBasketMutationResult = Apollo.MutationResult<AddToBasketMutation>;
+export type AddToBasketMutationOptions = Apollo.BaseMutationOptions<AddToBasketMutation, AddToBasketMutationVariables>;
+export const RemoveFromBasketDocument = gql`
+    mutation RemoveFromBasket($input: IdInput!) {
+  removeFromBasket(input: $input) {
+    ...UserBasket
+  }
+}
+    ${UserBasketFragmentDoc}`;
+export type RemoveFromBasketMutationFn = Apollo.MutationFunction<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>;
+
+/**
+ * __useRemoveFromBasketMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromBasketMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromBasketMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromBasketMutation, { data, loading, error }] = useRemoveFromBasketMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRemoveFromBasketMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>(RemoveFromBasketDocument, options);
+      }
+export type RemoveFromBasketMutationHookResult = ReturnType<typeof useRemoveFromBasketMutation>;
+export type RemoveFromBasketMutationResult = Apollo.MutationResult<RemoveFromBasketMutation>;
+export type RemoveFromBasketMutationOptions = Apollo.BaseMutationOptions<RemoveFromBasketMutation, RemoveFromBasketMutationVariables>;
 export const AddViewDocument = gql`
     mutation AddView($input: IdInput!) {
   addView(input: $input)
@@ -1957,13 +2011,23 @@ export type DecodedUserFieldPolicy = {
 	roles?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeliveryAdressKeySpecifier = ('address' | 'city' | 'firstName' | 'lastName' | 'phoneNumber' | 'postCode' | 'state' | DeliveryAdressKeySpecifier)[];
+export type DeliveryAdressFieldPolicy = {
+	address?: FieldPolicy<any> | FieldReadFunction<any>,
+	city?: FieldPolicy<any> | FieldReadFunction<any>,
+	firstName?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastName?: FieldPolicy<any> | FieldReadFunction<any>,
+	phoneNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	postCode?: FieldPolicy<any> | FieldReadFunction<any>,
+	state?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DistinctionKeySpecifier = ('active' | 'endTime' | 'startTime' | DistinctionKeySpecifier)[];
 export type DistinctionFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
 	endTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	startTime?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'addToBasket' | 'addView' | 'changeActiveProduct' | 'createPayment' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | 'removeFromBasket' | 'savePayment' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addCategory' | 'addProduct' | 'addRating' | 'addToBasket' | 'addView' | 'changeActiveProduct' | 'createPayment' | 'deleteCategory' | 'deleteProduct' | 'deleteRating' | 'editCategory' | 'editProduct' | 'editRating' | 'login' | 'register' | 'removeFromBasket' | 'savePayment' | 'setDeliveryAdress' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	addProduct?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1981,7 +2045,8 @@ export type MutationFieldPolicy = {
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	register?: FieldPolicy<any> | FieldReadFunction<any>,
 	removeFromBasket?: FieldPolicy<any> | FieldReadFunction<any>,
-	savePayment?: FieldPolicy<any> | FieldReadFunction<any>
+	savePayment?: FieldPolicy<any> | FieldReadFunction<any>,
+	setDeliveryAdress?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PriceKeySpecifier = ('retail' | 'wholesale' | PriceKeySpecifier)[];
 export type PriceFieldPolicy = {
@@ -2118,25 +2183,6 @@ export type SizeFieldPolicy = {
 	weight?: FieldPolicy<any> | FieldReadFunction<any>,
 	width?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SoldKeySpecifier = ('_id' | 'activeDistinction' | 'activeSale' | 'amountDiscount' | 'createdAt' | 'guestDevice' | 'guestIP' | 'percentageDiscount' | 'price' | 'productId' | 'profit' | 'purchasePrice' | 'purchasePriceBeforeDiscount' | 'quantity' | 'updatedAt' | 'userId' | SoldKeySpecifier)[];
-export type SoldFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>,
-	activeDistinction?: FieldPolicy<any> | FieldReadFunction<any>,
-	activeSale?: FieldPolicy<any> | FieldReadFunction<any>,
-	amountDiscount?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	guestDevice?: FieldPolicy<any> | FieldReadFunction<any>,
-	guestIP?: FieldPolicy<any> | FieldReadFunction<any>,
-	percentageDiscount?: FieldPolicy<any> | FieldReadFunction<any>,
-	price?: FieldPolicy<any> | FieldReadFunction<any>,
-	productId?: FieldPolicy<any> | FieldReadFunction<any>,
-	profit?: FieldPolicy<any> | FieldReadFunction<any>,
-	purchasePrice?: FieldPolicy<any> | FieldReadFunction<any>,
-	purchasePriceBeforeDiscount?: FieldPolicy<any> | FieldReadFunction<any>,
-	quantity?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	userId?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type SoldsKeySpecifier = ('activeFake' | 'fakeTotal' | 'originalAndFakeTotal' | 'originalTotal' | SoldsKeySpecifier)[];
 export type SoldsFieldPolicy = {
 	activeFake?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2148,12 +2194,13 @@ export type SubscriptionKeySpecifier = ('highlightedProductUpdated' | Subscripti
 export type SubscriptionFieldPolicy = {
 	highlightedProductUpdated?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('_id' | 'accessToken' | 'basket' | 'createdAt' | 'email' | 'purchaseHistory' | 'refreshToken' | 'roles' | 'updatedAt' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('_id' | 'accessToken' | 'basket' | 'createdAt' | 'deliveryAdress' | 'email' | 'purchaseHistory' | 'refreshToken' | 'roles' | 'updatedAt' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	accessToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	basket?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	deliveryAdress?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	purchaseHistory?: FieldPolicy<any> | FieldReadFunction<any>,
 	refreshToken?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2168,16 +2215,6 @@ export type UserBasketFieldPolicy = {
 	priceTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	products?: FieldPolicy<any> | FieldReadFunction<any>,
 	quantityTotal?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type ViewKeySpecifier = ('_id' | 'createdAt' | 'device' | 'guestIP' | 'productId' | 'updatedAt' | 'userId' | ViewKeySpecifier)[];
-export type ViewFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>,
-	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	device?: FieldPolicy<any> | FieldReadFunction<any>,
-	guestIP?: FieldPolicy<any> | FieldReadFunction<any>,
-	productId?: FieldPolicy<any> | FieldReadFunction<any>,
-	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	userId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ViewsKeySpecifier = ('activeFake' | 'fakeTotal' | 'originalAndFakeTotal' | 'originalTotal' | 'originalTotalViewsWithoutDuplicateIPAddresses' | ViewsKeySpecifier)[];
 export type ViewsFieldPolicy = {
@@ -2203,6 +2240,10 @@ export type StrictTypedTypePolicies = {
 	DecodedUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DecodedUserKeySpecifier | (() => undefined | DecodedUserKeySpecifier),
 		fields?: DecodedUserFieldPolicy,
+	},
+	DeliveryAdress?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeliveryAdressKeySpecifier | (() => undefined | DeliveryAdressKeySpecifier),
+		fields?: DeliveryAdressFieldPolicy,
 	},
 	Distinction?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DistinctionKeySpecifier | (() => undefined | DistinctionKeySpecifier),
@@ -2264,10 +2305,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | SizeKeySpecifier | (() => undefined | SizeKeySpecifier),
 		fields?: SizeFieldPolicy,
 	},
-	Sold?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | SoldKeySpecifier | (() => undefined | SoldKeySpecifier),
-		fields?: SoldFieldPolicy,
-	},
 	Solds?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SoldsKeySpecifier | (() => undefined | SoldsKeySpecifier),
 		fields?: SoldsFieldPolicy,
@@ -2283,10 +2320,6 @@ export type StrictTypedTypePolicies = {
 	UserBasket?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserBasketKeySpecifier | (() => undefined | UserBasketKeySpecifier),
 		fields?: UserBasketFieldPolicy,
-	},
-	View?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ViewKeySpecifier | (() => undefined | ViewKeySpecifier),
-		fields?: ViewFieldPolicy,
 	},
 	Views?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ViewsKeySpecifier | (() => undefined | ViewsKeySpecifier),

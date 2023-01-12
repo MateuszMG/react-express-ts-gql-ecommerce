@@ -1,5 +1,5 @@
 import { Product, ProductModel } from '../product/model';
-import { PurchaseHistory, User, UserModel } from '../auth/model';
+import { PurchaseHistory, User, UserModel } from '../user/model';
 import { Context } from '../../types/context';
 import { ResId, ResMessage } from '../../types/responses';
 import { calculatePercentage, isActivePromotion } from '../../helpers/product';

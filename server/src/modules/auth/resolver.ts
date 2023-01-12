@@ -1,5 +1,5 @@
 import { AccessToken, DecodedUser } from './responses';
-import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { AuthService } from './service';
 import { Context } from '../../types/context';
 import { LoginInput, RegisterInput } from './inputs';
@@ -28,9 +28,9 @@ export class AuthResolver {
 
   @Query(() => DecodedUser || null)
   async profile(@Ctx() context: Context) {
-    console.log('context', context.req.user);
+    // console.log('context', context.req?.user);
 
-    if (!context.req.user) return null;
+    if (!context.req?.user) return null;
 
     const { _id, username, email, roles } = context.req.user;
 

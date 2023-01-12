@@ -1,8 +1,15 @@
+mutation SetDeliveryAdress($input: DeliveryAdressInput!) {
+  setDeliveryAdress(input: $input) {
+    ...DeliveryAdress
+  }
+}
+
 mutation AddToBasket($input: IdInput!) {
   addToBasket(input: $input) {
     ...UserBasket
   }
 }
+
 mutation RemoveFromBasket($input: IdInput!) {
   removeFromBasket(input: $input) {
     ...UserBasket

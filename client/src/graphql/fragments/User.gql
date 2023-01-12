@@ -1,3 +1,13 @@
+fragment DeliveryAdress on DeliveryAdress {
+  firstName
+  lastName
+  address
+  postCode
+  city
+  state
+  phoneNumber
+}
+
 fragment PurchaseHistory on PurchaseHistory {
   productsIds
   soldsIds
@@ -15,6 +25,14 @@ fragment User on User {
   accessToken
   refreshToken
   roles
+
+  deliveryAdress {
+    ...DeliveryAdress
+  }
+
+  # basket {
+  #   ...UserBasket
+  # }
 
   purchaseHistory {
     ...PurchaseHistory

@@ -1,7 +1,7 @@
 import { Context } from '../../types/context';
 import { createAccessToken, createRefreshToken } from '../../utils/jwt';
 import { LoginInput, RegisterInput } from './inputs';
-import { UserContents, UserRoles, UserModel } from './model';
+import { UserContents, UserRoles, UserModel } from '../user/model';
 import * as bcrypt from 'bcrypt';
 
 export class AuthService {
@@ -33,6 +33,15 @@ export class AuthService {
       roles: [UserRoles.USER, UserRoles.MODERATOR, UserRoles.ADMINISTRATOR],
       accessToken: '',
       refreshToken: '',
+      deliveryAdress: {
+        firstName: '',
+        lastName: '',
+        address: '',
+        postCode: '',
+        city: '',
+        state: '',
+        phoneNumber: '',
+      },
       basket: [],
       purchaseHistory: [],
     }).save();

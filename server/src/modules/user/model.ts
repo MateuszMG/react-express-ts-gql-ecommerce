@@ -10,6 +10,17 @@ export enum UserRoles {
 }
 
 @ObjectType()
+export class DeliveryAdress {
+  @Prop() @Field() firstName: string;
+  @Prop() @Field() lastName: string;
+  @Prop() @Field() address: string;
+  @Prop() @Field() postCode: string;
+  @Prop() @Field() city: string;
+  @Prop() @Field() state: string;
+  @Prop() @Field() phoneNumber: string;
+}
+
+@ObjectType()
 export class Basket {
   @Prop() @Field() productId: string;
   @Prop() @Field() quantity: number;
@@ -60,6 +71,10 @@ export class User {
   })
   @Field(() => [String])
   roles: UserRoles[];
+
+  @Prop()
+  @Field(() => DeliveryAdress)
+  deliveryAdress: DeliveryAdress;
 
   @Prop()
   @Field(() => Basket)

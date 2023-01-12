@@ -1,15 +1,30 @@
-import { Basket, User, UserModel } from '../auth/model';
+import { Basket, DeliveryAdress, User, UserModel } from './model';
 import { calculatePercentage } from '../../helpers/product';
 import { Context } from '../../types/context';
 import { IdInput } from '../../types/inputs';
 import { ProductInUserBasket, UserBasket } from './responses';
 import { Product, ProductModel, Ratings, Solds, Views } from '../product/model';
+import { DeliveryAdressInput } from './inputs';
 
 export class UserService {
   async getUser(ctx: Context): Promise<User> {
     const userId = ctx.req.user!._id;
     const user = (await UserModel.findById(userId)) as User; // TODO: add validation
     return user;
+  }
+
+  async setDeliveryAdress(
+    ctx: Context,
+    input: DeliveryAdressInput,
+  ): Promise<DeliveryAdress> {
+    const userId = ctx.req.user!._id;
+    const user = (await UserModel.findByIdAndUpdate(
+      userId,
+      { deliveryAdress: input },
+      { new: true },
+    )) as User; // TODO: add validation∂
+
+    return user.deliveryAdress;
   }
 
   async getBasket(ctx: Context): Promise<UserBasket> {

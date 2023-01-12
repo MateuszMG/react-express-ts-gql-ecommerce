@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
-import { UserRoles } from './model';
+import { UserRoles } from '../user/model';
 
 @ObjectType()
 export class AccessToken {

@@ -3,6 +3,7 @@ import {
   useGetPurchaseHistoryQuery,
   useProfileQuery,
 } from '../../generated/types';
+import { DeliveryAdressForm } from './DeliveryAdressForm/DeliveryAdressForm';
 
 export const Profile = () => {
   const { data: profile, loading, error, client } = useProfileQuery();
@@ -18,8 +19,7 @@ export const Profile = () => {
   return (
     <div>
       <p> Email: {user?.email} </p>
-      <p> Profile </p>
-      <p> Profile </p>
+      <DeliveryAdressForm />
     </div>
   );
 };

@@ -39,6 +39,26 @@ type DecodedUser {
   username: String!
 }
 
+type DeliveryAdress {
+  address: String!
+  city: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  postCode: String!
+  state: String!
+}
+
+input DeliveryAdressInput {
+  address: String!
+  city: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  postCode: String!
+  state: String!
+}
+
 type Distinction {
   active: Boolean!
   endTime: DateTime!
@@ -109,6 +129,7 @@ type Mutation {
   register(input: RegisterInput!): AccessToken!
   removeFromBasket(input: IdInput!): UserBasket!
   savePayment: ResMessage!
+  setDeliveryAdress(input: DeliveryAdressInput!): DeliveryAdress!
 }
 
 type Price {
@@ -328,6 +349,7 @@ type User {
   accessToken: String!
   basket: Basket!
   createdAt: DateTime!
+  deliveryAdress: DeliveryAdress!
   email: String!
   purchaseHistory: [PurchaseHistory!]!
   refreshToken: String!
