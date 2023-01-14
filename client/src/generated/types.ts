@@ -537,7 +537,7 @@ export type DeliveryAdressFragment = { __typename?: 'DeliveryAdress', firstName:
 
 export type PurchaseHistoryFragment = { __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any };
 
-export type UserFragment = { __typename?: 'User', _id: string, email: string, username: string, accessToken: string, refreshToken: string, roles: Array<string>, createdAt: any, updatedAt: any, deliveryAdress: { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string }, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> };
+export type UserFragment = { __typename?: 'User', _id: string, email: string, createdAt: any, deliveryAdress: { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string }, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> };
 
 export type ProductInUserBasketFragment = { __typename?: 'ProductInUserBasket', productId: string, price: number, quantity: number, title: string, description: string, image: string, views: number, solds: number, quantityTotal: number, discountTotal: number, priceTotal: number, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } };
 
@@ -714,6 +714,11 @@ export type GetProductForGuestQueryVariables = Exact<{
 
 
 export type GetProductForGuestQuery = { __typename?: 'Query', getProductForGuest: { __typename?: 'ProductForGuest', _id: string, title: string, subtitle: string, description: string, model: string, category: string, quantity: number, image: string, price: number, views: number, solds: number, size: { __typename?: 'Size', weight: number, length: number, width: number, height: number }, distinction: { __typename?: 'Distinction', active: boolean, startTime: any, endTime: any }, sale: { __typename?: 'Sale', active: boolean, startTime: any, endTime: any, priceBeforeSale: number, priceAfterSale: number, percentageDiscount: number }, ratings: { __typename?: 'RatingsForGuest', total: number, amount: number } } };
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', _id: string, email: string, createdAt: any, deliveryAdress: { __typename?: 'DeliveryAdress', firstName: string, lastName: string, address: string, postCode: string, city: string, state: string, phoneNumber: string }, purchaseHistory: Array<{ __typename?: 'PurchaseHistory', productsIds: Array<string>, soldsIds: Array<string>, quantityTotal: number, priceTotal: number, discountTotal: number, percentageDiscount: number, date: any }> } };
 
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -929,10 +934,6 @@ export const UserFragmentDoc = gql`
     fragment User on User {
   _id
   email
-  username
-  accessToken
-  refreshToken
-  roles
   deliveryAdress {
     ...DeliveryAdress
   }
@@ -940,7 +941,6 @@ export const UserFragmentDoc = gql`
     ...PurchaseHistory
   }
   createdAt
-  updatedAt
 }
     ${DeliveryAdressFragmentDoc}
 ${PurchaseHistoryFragmentDoc}`;
@@ -1856,6 +1856,40 @@ export function useGetProductForGuestLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetProductForGuestQueryHookResult = ReturnType<typeof useGetProductForGuestQuery>;
 export type GetProductForGuestLazyQueryHookResult = ReturnType<typeof useGetProductForGuestLazyQuery>;
 export type GetProductForGuestQueryResult = Apollo.QueryResult<GetProductForGuestQuery, GetProductForGuestQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser {
+  getUser {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const ProfileDocument = gql`
     query Profile {
   profile {

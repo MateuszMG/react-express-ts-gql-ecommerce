@@ -1,3 +1,9 @@
+query GetUser {
+  getUser {
+    ...User
+  }
+}
+
 query Profile {
   profile {
     ...DecodedUser

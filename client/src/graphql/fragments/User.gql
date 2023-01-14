@@ -21,10 +21,10 @@ fragment PurchaseHistory on PurchaseHistory {
 fragment User on User {
   _id
   email
-  username
-  accessToken
-  refreshToken
-  roles
+  # username
+  # accessToken
+  # refreshToken
+  # roles
 
   deliveryAdress {
     ...DeliveryAdress
@@ -39,7 +39,7 @@ fragment User on User {
   }
 
   createdAt
-  updatedAt
+  # updatedAt
 }
 
 fragment ProductInUserBasket on ProductInUserBasket {

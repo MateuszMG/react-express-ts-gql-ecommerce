@@ -5,8 +5,8 @@ export const palette = {
   white: '#fff',
   lightWhite: '#ddd',
 
-  react: '#30dafb',
-  secondary: '#FF4B81',
+  primary: '#30dafb',
+  secondary: '#e10099',
 
   error: '#b00',
   success: '#00b',

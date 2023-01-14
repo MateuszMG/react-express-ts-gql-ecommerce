@@ -2,18 +2,25 @@ import { useStripe } from '@stripe/react-stripe-js';
 import { Counter } from '../../components/Counter/Counter';
 import { Button } from '../../components/Global/Button/Button';
 import {
+  GetUserDocument,
+  GetUserQuery,
   useAddToBasketMutation,
   useCreatePaymentMutation,
   useGetBasketQuery,
   useRemoveFromBasketMutation,
 } from '../../generated/types';
 
-interface BasketProps {}
-
-export const Basket = ({}: BasketProps) => {
+export const Basket = () => {
   const stripe = useStripe();
-  const { data: basket } = useGetBasketQuery();
-  // console.log('basket', basket);
+  const { data: basket, client } = useGetBasketQuery();
+
+  const user = (
+    client.cache.readQuery({
+      query: GetUserDocument,
+    }) as GetUserQuery | undefined
+  )?.getUser;
+
+  console.log('user', user);
 
   const [add] = useAddToBasketMutation();
   const [remove] = useRemoveFromBasketMutation();

@@ -14,8 +14,13 @@ export const GlobalStyle = createGlobalStyle(
     }
 
     body {
-      /* background-color: ${colors.backgroundPrimary}; */
-      /* color: ${colors.fontPrimary}; */
+      background: linear-gradient(
+        135deg,
+        ${colors.primary} 0,
+        ${colors.backgroundPrimary} 19% 81%,
+        ${colors.secondary} 100%
+      );
+      color: ${colors.fontPrimary};
       min-height: 100vh;
     }
 
