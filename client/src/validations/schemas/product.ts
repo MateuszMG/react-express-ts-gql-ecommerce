@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { dateTimeRangeValidation } from '../validationHelpers';
+import { dateTimeRangeValidation } from '../yupHeleprs/validationHelpers';
 
 export const productSchema = {
   title: yup

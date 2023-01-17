@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { errorMessages } from '../errorMessages';
+import { errorMessages } from '../yupHeleprs/errorMessages';
 
 export const deliveryAdressSchema = {
   firstName: yup.string().required().min(2),

@@ -15,7 +15,7 @@ export const GlobalStyle = createGlobalStyle(
 
     body {
       background: linear-gradient(
-        135deg,
+        148deg,
         ${colors.primary} 0,
         ${colors.backgroundPrimary} 19% 81%,
         ${colors.secondary} 100%

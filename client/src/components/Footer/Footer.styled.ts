@@ -4,7 +4,7 @@ export const Container = styled.footer(
   ({ theme: { colors } }) => css`
     align-items: center;
     background-color: ${colors.backgroundPrimary};
-    border-top: 1px solid ${colors.primary};
+    border-top: 1px solid ${colors.secondary};
     display: flex;
     justify-content: center;
   `,

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
@@ -7,6 +7,9 @@ export const Container = styled.div`
   min-height: 100%;
 `;
 
-export const PageWrapper = styled.div`
-  padding: 12px 8px;
-`;
+export const PageWrapper = styled.div(
+  ({ theme: { devices } }) => css`
+    margin: 0 auto;
+    max-width: ${devices['1600px']};
+  `,
+);
